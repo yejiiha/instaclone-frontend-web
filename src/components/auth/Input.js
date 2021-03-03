@@ -7,9 +7,7 @@ const SInput = styled.input`
   border: 0.5px solid ${(props) => props.theme.borderColor};
   border-radius: 3px;
   box-sizing: border-box;
-  &:not(:first-child) {
-    margin-top: 7px;
-  }
+  margin-top: 7px;
 `;
 
 function Input(props) {

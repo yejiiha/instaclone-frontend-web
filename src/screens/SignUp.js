@@ -8,6 +8,7 @@ import Input from "../components/auth/Input";
 import Separator from "../components/auth/Separator";
 import SubmitButton from "../components/auth/SubmitButton";
 import Title from "../components/auth/Title";
+import PageTitle from "../components/PageTitle";
 import routes from "../routes";
 
 const FacebookLogin = styled.div`
@@ -49,6 +50,7 @@ const Text2 = styled.p`
 function SignUp() {
   return (
     <AuthLayout>
+      <PageTitle title="Sign up" />
       <FormBox>
         <Title />
         <form>
