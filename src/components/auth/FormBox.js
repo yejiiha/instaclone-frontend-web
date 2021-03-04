@@ -10,7 +10,7 @@ const Container = styled(BaseBox)`
   margin-bottom: 10px;
   form {
     width: 100%;
-    margin-top: 35px;
+    margin-top: 30px;
     padding: 0 40px;
     display: flex;
     flex-direction: column;
