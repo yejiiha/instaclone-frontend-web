@@ -1,14 +1,17 @@
 import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
 import BottomBox from "../components/auth/BottomBox";
+import ErrorMessage from "../components/auth/ErrorMessage";
 import FormBox from "../components/auth/FormBox";
 import Input from "../components/auth/Input";
 import Separator from "../components/auth/Separator";
 import SubmitButton from "../components/auth/SubmitButton";
 import Title from "../components/auth/Title";
 import PageTitle from "../components/PageTitle";
+import { FatLink } from "../components/shared";
 import routes from "../routes";
 
 const FacebookLogin = styled.div`
@@ -27,11 +30,9 @@ const FacebookLogin = styled.div`
   }
 `;
 
-const Text = styled.h2`
+const Text = styled(FatLink)`
   width: 100%;
-  color: ${(props) => props.theme.darkGray};
   font-size: 17px;
-  font-weight: 600;
   line-height: 20px;
   margin: 0 40px 10px;
   text-align: center;
@@ -47,13 +48,24 @@ const Text2 = styled.p`
   text-align: center;
 `;
 
+const TextFatLink = styled(FatLink)`
+  cursor: pointer;
+`;
+
 function SignUp() {
+  const { register, handleSubmit, errors, formState } = useForm({
+    mode: "onChange",
+  });
+  const onSubmitValid = (data) => {
+    //console.log(data);
+  };
+
   return (
     <AuthLayout>
       <PageTitle title="Sign up" />
       <FormBox>
         <Title />
-        <form>
+        <form onSubmit={handleSubmit(onSubmitValid)}>
           <Text>Sign up to see photos and videos from your friends.</Text>
           <FacebookLogin>
             <FontAwesomeIcon icon={faFacebookSquare} size="lg" />
@@ -61,14 +73,63 @@ function SignUp() {
           </FacebookLogin>
 
           <Separator />
-          <Input type="text" placeholder="Email" />
-          <Input type="text" placeholder="Full Name" />
-          <Input type="text" placeholder="Username" />
-          <Input type="password" placeholder="Password" />
-          <SubmitButton type="submit" value="Sign up" />
+          <Input
+            ref={register({
+              required: "Email is required.",
+            })}
+            hasError={Boolean(errors?.email?.message)}
+            name="email"
+            type="text"
+            placeholder="Email"
+          />
+          <ErrorMessage message={errors?.email?.message} />
+
+          <Input
+            ref={register({
+              required: "Full Name is required.",
+            })}
+            hasError={Boolean(errors?.fullName?.message)}
+            name="fullName"
+            type="text"
+            placeholder="Full Name"
+          />
+          <ErrorMessage message={errors?.fullName?.message} />
+
+          <Input
+            ref={register({
+              required: "Username is required.",
+              minLength: {
+                value: 5,
+                message: "Username should be longer than 5 chars.",
+              },
+            })}
+            hasError={Boolean(errors?.username?.message)}
+            name="username"
+            type="text"
+            placeholder="Username"
+          />
+          <ErrorMessage message={errors?.username?.message} />
+
+          <Input
+            ref={register({
+              required: "Password is required.",
+            })}
+            hasError={Boolean(errors?.password?.message)}
+            name="password"
+            type="password"
+            placeholder="Password"
+          />
+          <ErrorMessage message={errors?.password?.message} />
+
+          <SubmitButton
+            type="submit"
+            value="Sign up"
+            disabled={!formState.isValid}
+          />
           <Text2>
-            By signing up, you agree to our Terms, Data Policy and Cookies
-            Policy.
+            By signing up, you agree to our <TextFatLink>Terms</TextFatLink>,{" "}
+            <TextFatLink>Data Policy</TextFatLink> and{" "}
+            <TextFatLink>Cookies Policy</TextFatLink>.
           </Text2>
         </form>
       </FormBox>

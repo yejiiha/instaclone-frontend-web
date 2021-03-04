@@ -1,8 +1,12 @@
-import PropTypes from "prop-types";
+import { PropTypes } from "prop-types";
 import { Helmet } from "react-helmet-async";
 
 function PageTitle({ title }) {
-  return <Helmet>{title} | Jistagram</Helmet>;
+  return (
+    <Helmet>
+      <title>{title} | Jistagram</title>
+    </Helmet>
+  );
 }
 
 PageTitle.propTypes = {
