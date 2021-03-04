@@ -1,6 +1,8 @@
+import { gql, useMutation } from "@apollo/client";
 import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
 import BottomBox from "../components/auth/BottomBox";
@@ -52,12 +54,53 @@ const TextFatLink = styled(FatLink)`
   cursor: pointer;
 `;
 
+const CREATE_ACCOUNT_MUTATION = gql`
+  mutation createAccount(
+    $firstName: String!
+    $lastName: String
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    createAccount(
+      firstName: $firstName
+      lastName: $lastName
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      ok
+      error
+    }
+  }
+`;
+
 function SignUp() {
   const { register, handleSubmit, errors, formState } = useForm({
     mode: "onChange",
   });
+  const history = useHistory();
+  const onCompleted = (data) => {
+    const {
+      createAccount: { ok, error },
+    } = data;
+    if (!ok) {
+      return;
+    }
+    history.push(routes.home);
+  };
+  const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
+    onCompleted,
+  });
   const onSubmitValid = (data) => {
-    //console.log(data);
+    if (loading) {
+      return;
+    }
+    createAccount({
+      variables: {
+        ...data,
+      },
+    });
   };
 
   return (
@@ -86,14 +129,23 @@ function SignUp() {
 
           <Input
             ref={register({
-              required: "Full Name is required.",
+              required: "First Name is required.",
             })}
-            hasError={Boolean(errors?.fullName?.message)}
-            name="fullName"
+            hasError={Boolean(errors?.firstName?.message)}
+            name="firstName"
             type="text"
-            placeholder="Full Name"
+            placeholder="First Name"
           />
-          <ErrorMessage message={errors?.fullName?.message} />
+          <ErrorMessage message={errors?.firstName?.message} />
+
+          <Input
+            ref={register}
+            hasError={Boolean(errors?.lastName?.message)}
+            name="lastName"
+            type="text"
+            placeholder="Last Name"
+          />
+          <ErrorMessage message={errors?.lastName?.message} />
 
           <Input
             ref={register({
@@ -123,8 +175,8 @@ function SignUp() {
 
           <SubmitButton
             type="submit"
-            value="Sign up"
-            disabled={!formState.isValid}
+            value={loading ? "Loading..." : "Sign up"}
+            disabled={!formState.isValid || loading}
           />
           <Text2>
             By signing up, you agree to our <TextFatLink>Terms</TextFatLink>,{" "}
