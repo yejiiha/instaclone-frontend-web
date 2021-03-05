@@ -9,7 +9,6 @@ import { client, darkModeVar, isLoggedInVar } from "./apollo";
 import { darkTheme, GlobalStyles, lightTheme } from "./styles";
 import SignUp from "./screens/SignUp";
 import routes from "./routes";
-import Header from "./components/Header";
 import Layout from "./components/auth/Layout";
 
 function App() {
