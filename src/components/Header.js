@@ -27,8 +27,12 @@ const Wrapper = styled.div`
 `;
 const Column = styled.div``;
 const HTitle = styled.h1`
+  cursor: pointer;
   font-size: 24px;
   font-family: "Pacifico", cursive;
+  &:active {
+    color: ${(props) => props.theme.darkGray};
+  }
 `;
 
 const IconContainer = styled.div`
