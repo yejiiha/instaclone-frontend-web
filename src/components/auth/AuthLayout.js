@@ -37,6 +37,10 @@ const DarkModeBtn = styled.button`
     color: ${(props) => props.theme.darkModeColor};
     background-color: ${(props) => props.theme.darkModeBgColor};
   }
+  &:focus {
+    border: none;
+    outline: none;
+  }
 `;
 
 function AuthLayout({ children }) {
