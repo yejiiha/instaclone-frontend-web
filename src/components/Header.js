@@ -1,19 +1,23 @@
+import { useState } from "react";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { faCompass } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { useReactiveVar } from "@apollo/client";
-import { isLoggedInVar } from "../apollo";
 import { Link } from "react-router-dom";
+import { isLoggedInVar } from "../apollo";
 import routes from "../routes";
 import useUser from "../hooks/useUser";
 import Avatar from "./Avatar";
+import ProfileModal from "./ProfileModal";
 
 const SHeader = styled.header`
+  position: fixed;
+  top: 0;
   width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
   background-color: ${(props) => props.theme.formColor};
-  padding: 17px 0;
+  padding: 13px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,6 +67,7 @@ const SButton = styled(LButton)`
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useUser();
+  const [profileModal, setProfileModal] = useState(false);
   return (
     <SHeader>
       <Wrapper>
@@ -70,6 +75,7 @@ function Header() {
           <HTitle>Jistagram</HTitle>
         </Column>
         <Column>
+          <ProfileModal profileModal={profileModal} />
           {isLoggedIn ? (
             <IconContainer>
               <Icon>
@@ -78,7 +84,7 @@ function Header() {
               <Icon>
                 <FontAwesomeIcon icon={faCompass} size="2x" />
               </Icon>
-              <Icon>
+              <Icon onClick={() => setProfileModal(!profileModal)}>
                 <Avatar url={data?.me?.avatar} />
               </Icon>
             </IconContainer>
