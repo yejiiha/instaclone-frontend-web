@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { FatText } from "../shared";
 import Comment from "./Comment";
 
 const CommentsContainer = styled.div`

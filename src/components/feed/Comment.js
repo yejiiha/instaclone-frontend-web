@@ -17,6 +17,7 @@ const CommentCaption = styled.span`
   a {
     background-color: inherit;
     color: rgb(0, 55, 107);
+    opacity: 0.9;
     cursor: pointer;
   }
 `;
@@ -27,12 +28,12 @@ function Comment({ author, caption }) {
       <CommentUsername>{author}</CommentUsername>
       <CommentCaption>
         {caption.split(" ").map((word, index) =>
-          /#[\w]+/g.test(word) ? (
+          /#[\w]+/.test(word) ? (
             <React.Fragment key={index}>
               <Link to={`/hashtags/${word}`}>{word}</Link>{" "}
             </React.Fragment>
           ) : (
-            <React.Fragment key={index}>{word}</React.Fragment>
+            <React.Fragment key={index}>{word} </React.Fragment>
           )
         )}
       </CommentCaption>

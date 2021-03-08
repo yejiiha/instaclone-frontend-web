@@ -5,10 +5,7 @@ import {
   faComment,
   faPaperPlane,
 } from "@fortawesome/free-regular-svg-icons";
-import {
-  faComments,
-  faHeart as SolidHeart,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
@@ -92,27 +89,20 @@ function Photo({
     } = result;
     if (ok) {
       const fragmentId = `Photo:${id}`;
-      const fragment = gql`
-        fragment Frag on Photo {
-          isLiked
-          likes
-        }
-      `;
-      const result = cache.readFragment({
+      cache.modify({
         id: fragmentId,
-        fragment,
-      });
-      if ("isLiked" in result && "likes" in result) {
-        const { isLiked: cacheIsLiked, likes: cacheLikes } = result;
-        cache.writeFragment({
-          id: fragmentId,
-          fragment: fragment,
-          data: {
-            isLiked: !cacheIsLiked,
-            likes: cacheIsLiked ? cacheLikes - 1 : cacheLikes + 1,
+        fields: {
+          isLiked(prev) {
+            return !prev;
           },
-        });
-      }
+          likes(prev) {
+            if (isLiked) {
+              return prev - 1;
+            }
+            return prev + 1;
+          },
+        },
+      });
     }
   };
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_MUTATION, {
