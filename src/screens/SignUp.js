@@ -110,7 +110,7 @@ function SignUp() {
 
   return (
     <AuthLayout>
-      <PageTitle title="Sign up" />
+      <PageTitle title="Sign up | Jistagram" />
       <FormBox>
         <Title />
         <form onSubmit={handleSubmit(onSubmitValid)}>

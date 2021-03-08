@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const SAvatar = styled.div`
-  width: ${(props) => (props.lg ? "35px" : "27px")};
-  height: ${(props) => (props.lg ? "35px" : "27px")};
+  width: ${(props) => (props.lg ? "35px" : "30px")};
+  height: ${(props) => (props.lg ? "35px" : "30px")};
   border-radius: 50%;
   background-color: #2c2c2c;
   overflow: hidden;

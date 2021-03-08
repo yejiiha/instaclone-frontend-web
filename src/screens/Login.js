@@ -90,7 +90,7 @@ function Login() {
 
   return (
     <AuthLayout>
-      <PageTitle title="Log in" />
+      <PageTitle title="Log in | Jistagram" />
       <FormBox>
         <Title />
         <Notification>{location?.state?.message}</Notification>

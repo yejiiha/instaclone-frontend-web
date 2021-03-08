@@ -72,7 +72,9 @@ function Header() {
     <SHeader>
       <Wrapper>
         <Column>
-          <HTitle>Jistagram</HTitle>
+          <Link href={routes.home}>
+            <HTitle>Jistagram</HTitle>
+          </Link>
         </Column>
         <Column>
           <ProfileModal
@@ -81,9 +83,11 @@ function Header() {
           />
           {isLoggedIn ? (
             <IconContainer>
-              <Icon>
-                <FontAwesomeIcon icon={faHome} size="2x" />
-              </Icon>
+              <Link href={routes.home}>
+                <Icon>
+                  <FontAwesomeIcon icon={faHome} size="2x" />
+                </Icon>
+              </Link>
               <Icon>
                 <FontAwesomeIcon icon={faCompass} size="2x" />
               </Icon>
