@@ -82,7 +82,9 @@ function Comment({ id, author, caption, isMine, photoId }) {
   return (
     <CommentContainer>
       <Column>
-        <CommentUsername>{author}</CommentUsername>
+        <Link to={`/users/${author}`}>
+          <CommentUsername>{author}</CommentUsername>
+        </Link>
         <CommentCaption>
           {caption.split(" ").map((word, index) =>
             /#[\w]+/.test(word) ? (

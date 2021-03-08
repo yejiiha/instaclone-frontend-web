@@ -1,6 +1,7 @@
 import { faBookmark, faUser } from "@fortawesome/free-regular-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { logUserOut } from "../apollo";
 
@@ -44,20 +45,22 @@ const ModalText = styled.div`
   margin-left: 10px;
 `;
 
-function ProfileModal({ profileModal }) {
+function ProfileModal({ profileModal, username }) {
   return (
     <>
       {profileModal ? (
         <Modal active={profileModal}>
           <ModalContainer>
-            <ModalRow>
-              <Column>
-                <FontAwesomeIcon icon={faUser} size="lg" />
-              </Column>
-              <Column>
-                <ModalText>Profile</ModalText>
-              </Column>
-            </ModalRow>
+            <Link to={`/users/${username}`}>
+              <ModalRow>
+                <Column>
+                  <FontAwesomeIcon icon={faUser} size="lg" />
+                </Column>
+                <Column>
+                  <ModalText>Profile</ModalText>
+                </Column>
+              </ModalRow>
+            </Link>
             <ModalRow>
               <Column>
                 <FontAwesomeIcon icon={faBookmark} size="lg" />

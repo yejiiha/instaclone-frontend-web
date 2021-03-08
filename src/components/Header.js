@@ -75,7 +75,10 @@ function Header() {
           <HTitle>Jistagram</HTitle>
         </Column>
         <Column>
-          <ProfileModal profileModal={profileModal} />
+          <ProfileModal
+            profileModal={profileModal}
+            username={data?.me?.username}
+          />
           {isLoggedIn ? (
             <IconContainer>
               <Icon>

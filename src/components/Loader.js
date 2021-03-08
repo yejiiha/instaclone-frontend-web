@@ -19,7 +19,7 @@ const SLoader = styled.div`
   width: 100%;
   text-align: center;
   display: flex;
-  align-items: center;
+  justify-content: center;
 `;
 
 function Loader() {
