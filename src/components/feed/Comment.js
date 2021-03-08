@@ -4,9 +4,12 @@ import styled from "styled-components";
 import { FatText } from "../shared";
 import { Link } from "react-router-dom";
 
-const CommentContainer = styled.div``;
+const CommentContainer = styled.div`
+  margin-bottom: 8px;
+`;
 
 const CommentUsername = styled(FatText)`
+  font-size: 13px;
   &:hover {
     text-decoration: underline;
   }
