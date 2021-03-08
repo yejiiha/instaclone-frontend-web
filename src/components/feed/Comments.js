@@ -55,7 +55,9 @@ const CommentSubmitButton = styled.input`
 
 function Comments({ photoId, author, caption, commentNumber, comments }) {
   const { data: userData } = useUser();
-  const { register, handleSubmit, setValue, getValues, formState } = useForm();
+  const { register, handleSubmit, setValue, getValues, formState } = useForm({
+    mode: "onChange",
+  });
   const createCommentUpdate = (cache, result) => {
     const { payload } = getValues();
     setValue("payload", "");
@@ -129,8 +131,11 @@ function Comments({ photoId, author, caption, commentNumber, comments }) {
       {comments?.map((comment) => (
         <Comment
           key={comment.id}
+          id={comment.id}
           author={comment.user.username}
           caption={comment.payload}
+          isMine={comment.isMine}
+          photoId={photoId}
         />
       ))}
       <PostCommentContainer>
@@ -142,11 +147,11 @@ function Comments({ photoId, author, caption, commentNumber, comments }) {
             type="text"
             placeholder="Write a comment"
           />
-          {/* <CommentSubmitButton
+          <CommentSubmitButton
             type="submit"
             value={loading ? "Loading..." : "Post"}
             disabled={!formState.isValid || loading}
-          /> */}
+          />
         </CommentForm>
       </PostCommentContainer>
     </CommentsContainer>
