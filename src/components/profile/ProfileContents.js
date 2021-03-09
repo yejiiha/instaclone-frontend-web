@@ -6,6 +6,7 @@ function ProfileContents({
   username,
   totalFollowers,
   totalFollowing,
+  totalPhotos,
   firstName,
   lastName,
   bio,
@@ -20,6 +21,7 @@ function ProfileContents({
         username={username}
         totalFollowers={totalFollowers}
         totalFollowing={totalFollowing}
+        totalPhotos={totalPhotos}
         firstName={firstName}
         lastName={lastName}
         bio={bio}

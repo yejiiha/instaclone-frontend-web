@@ -52,6 +52,7 @@ function ProfileHeader({
   username,
   totalFollowers,
   totalFollowing,
+  totalPhotos,
   firstName,
   lastName,
   bio,
@@ -67,12 +68,17 @@ function ProfileHeader({
           <List>
             <Item>
               <span>
-                <Value>{totalFollowers}</Value> followers
+                <Value>{totalPhotos}</Value> Posts
               </span>
             </Item>
             <Item>
               <span>
-                <Value>{totalFollowing}</Value> following
+                <Value>{totalFollowers}</Value> Followers
+              </span>
+            </Item>
+            <Item>
+              <span>
+                <Value>{totalFollowing}</Value> Following
               </span>
             </Item>
           </List>

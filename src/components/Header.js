@@ -72,7 +72,7 @@ function Header() {
     <SHeader>
       <Wrapper>
         <Column>
-          <Link href={routes.home}>
+          <Link to={routes.home}>
             <HTitle>Jistagram</HTitle>
           </Link>
         </Column>
@@ -83,7 +83,7 @@ function Header() {
           />
           {isLoggedIn ? (
             <IconContainer>
-              <Link href={routes.home}>
+              <Link to={routes.home}>
                 <Icon>
                   <FontAwesomeIcon icon={faHome} size="2x" />
                 </Icon>

@@ -16,6 +16,7 @@ const SEE_PROFILE_QUERY = gql`
       photos {
         ...PhotoFragment
       }
+      totalPhotos
       totalFollowing
       totalFollowers
       isMe
@@ -43,6 +44,7 @@ function Profile() {
         username={data?.seeProfile?.username}
         totalFollowers={data?.seeProfile?.totalFollowers}
         totalFollowing={data?.seeProfile?.totalFollowing}
+        totalPhotos={data?.seeProfile?.totalPhotos}
         firstName={data?.seeProfile?.firstName}
         lastName={data?.seeProfile?.lastName}
         bio={data?.seeProfile?.bio}

@@ -12,8 +12,12 @@ const Grid = styled.div`
 
 const Photo = styled.div`
   background-image: url(${(props) => props.bg});
-  background-size: cover;
+  background-size: 290px 290px;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
   position: relative;
+  cursor: pointer;
 `;
 
 const Icons = styled.div`
@@ -23,9 +27,10 @@ const Icons = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   color: white;
   opacity: 0;
+  transition: opacity 0.2s linear;
   &:hover {
     opacity: 1;
   }
@@ -35,9 +40,9 @@ const Icon = styled.span`
   font-size: 18px;
   display: flex;
   align-items: center;
-  margin: 0px 5px;
+  margin: 0px 10px;
   svg {
-    font-size: 14px;
+    font-size: 18px;
     margin-right: 5px;
   }
 `;
@@ -49,8 +54,8 @@ function ProfilePhotos({ tab, photos }) {
     <>
       {tab === "posts" && (
         <Grid>
-          {photos.map((photo) => (
-            <Photo bg={photo.file}>
+          {photos?.map((photo) => (
+            <Photo key={photo.id} bg={photo.file}>
               <Icons>
                 <Icon>
                   <FontAwesomeIcon icon={faHeart} />
