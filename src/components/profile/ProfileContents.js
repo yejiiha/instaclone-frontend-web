@@ -2,6 +2,7 @@ import ProfileHeader from "./ProfileHeader";
 import ProfileMenu from "./ProfileMenu";
 
 function ProfileContents({
+  seeProfile,
   avatar,
   username,
   totalFollowers,
@@ -13,10 +14,13 @@ function ProfileContents({
   photos,
   isMe,
   isFollowing,
+  unfollowUser,
+  followUser,
 }) {
   return (
     <div>
       <ProfileHeader
+        seeProfile={seeProfile}
         avatar={avatar}
         username={username}
         totalFollowers={totalFollowers}
@@ -25,6 +29,8 @@ function ProfileContents({
         firstName={firstName}
         lastName={lastName}
         bio={bio}
+        unfollowUser={unfollowUser}
+        followUser={followUser}
       />
       <ProfileMenu photos={photos} />
     </div>

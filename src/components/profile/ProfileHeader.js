@@ -12,6 +12,7 @@ const Avatar = styled.img`
   border-radius: 50%;
   margin-right: 150px;
   border: 1px solid ${(props) => props.theme.borderColor};
+  background-color: black;
 `;
 
 const Column = styled.div``;
@@ -19,6 +20,10 @@ const Column = styled.div``;
 const Row = styled.div`
   margin-bottom: 20px;
   font-size: 16px;
+  &:nth-child(1) {
+    display: flex;
+    align-items: center;
+  }
   &:nth-child(2) {
     margin-bottom: 30px;
   }
@@ -47,7 +52,31 @@ const Name = styled(FatText)`
   cursor: auto;
 `;
 
+const UnfollowButton = styled.span`
+  cursor: pointer;
+  margin-left: 20px;
+  margin-top: 8px;
+  width: 33%;
+  font-size: 14px;
+  padding: 9px 6px;
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.fontColor};
+  text-align: center;
+  border-radius: 5px;
+  font-weight: 600;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  box-sizing: border-box;
+  opacity: ${(props) => (props.disabled ? "0.3" : "1")};
+`;
+
+const FollowButton = styled(UnfollowButton)`
+  background-color: ${(props) => props.theme.blue};
+  color: white;
+  border: none;
+`;
+
 function ProfileHeader({
+  seeProfile,
   avatar,
   username,
   totalFollowers,
@@ -56,13 +85,27 @@ function ProfileHeader({
   firstName,
   lastName,
   bio,
+  unfollowUser,
+  followUser,
 }) {
+  const getButton = (seeProfile) => {
+    const { isMe, isFollowing } = seeProfile;
+    if (isMe) {
+      return <UnfollowButton>Edit Profile</UnfollowButton>;
+    }
+    if (isFollowing) {
+      return <UnfollowButton onClick={unfollowUser}>Unfollow</UnfollowButton>;
+    } else {
+      return <FollowButton onClick={followUser}>Follow</FollowButton>;
+    }
+  };
   return (
     <Header>
       <Avatar src={avatar} />
       <Column>
         <Row>
           <Username>{username}</Username>
+          {seeProfile ? getButton(seeProfile) : null}
         </Row>
         <Row>
           <List>
