@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const SAvatar = styled.div`
-  width: ${(props) => (props.lg ? "35px" : "30px")};
-  height: ${(props) => (props.lg ? "35px" : "30px")};
+  width: ${(props) => (props.lg ? "35px" : props.xl ? "60px" : "30px")};
+  height: ${(props) => (props.lg ? "35px" : props.xl ? "60px" : "30px")};
   border-radius: 50%;
   background-color: #2c2c2c;
   overflow: hidden;
@@ -15,8 +15,12 @@ const Img = styled.img`
   object-fit: cover;
 `;
 
-function Avatar({ url = "", lg = false }) {
-  return <SAvatar lg={lg}>{url !== "" ? <Img src={url} /> : null}</SAvatar>;
+function Avatar({ url = "", lg = false, xl = false }) {
+  return (
+    <SAvatar lg={lg} xl={xl}>
+      {url !== "" ? <Img src={url} /> : null}
+    </SAvatar>
+  );
 }
 
 export default Avatar;

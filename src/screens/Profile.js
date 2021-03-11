@@ -1,47 +1,14 @@
-import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { PHOTO_FRAGMENT } from "../components/Fragments";
 import Loader from "../components/Loader";
 import PageTitle from "../components/PageTitle";
 import ProfileContents from "../components/profile/ProfileContents";
+import {
+  FOLLOW_USER_MUTATION,
+  SEE_PROFILE_QUERY,
+  UNFOLLOW_USER_MUTATION,
+} from "../components/profile/ProfileQueries";
 import useUser from "../hooks/useUser";
-
-const SEE_PROFILE_QUERY = gql`
-  query seeProfile($username: String!) {
-    seeProfile(username: $username) {
-      firstName
-      lastName
-      username
-      bio
-      avatar
-      photos {
-        ...PhotoFragment
-      }
-      totalPhotos
-      totalFollowing
-      totalFollowers
-      isMe
-      isFollowing
-    }
-  }
-  ${PHOTO_FRAGMENT}
-`;
-
-const FOLLOW_USER_MUTATION = gql`
-  mutation followUser($username: String!) {
-    followUser(username: $username) {
-      ok
-    }
-  }
-`;
-
-const UNFOLLOW_USER_MUTATION = gql`
-  mutation unfollowUser($username: String!) {
-    unfollowUser(username: $username) {
-      ok
-    }
-  }
-`;
 
 function Profile() {
   const { username } = useParams();
