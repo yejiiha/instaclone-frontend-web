@@ -4,12 +4,13 @@ import { faCompass } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { useReactiveVar } from "@apollo/client";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { isLoggedInVar } from "../apollo";
 import routes from "../routes";
 import useUser from "../hooks/useUser";
 import Avatar from "./Avatar";
 import ProfileModal from "./ProfileModal";
+import { useForm } from "react-hook-form";
 
 const SHeader = styled.header`
   position: fixed;
@@ -21,6 +22,7 @@ const SHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 const Wrapper = styled.div`
   max-width: 930px;
@@ -34,8 +36,24 @@ const HTitle = styled.h1`
   cursor: pointer;
   font-size: 24px;
   font-family: "Pacifico", cursive;
+  margin-right: 10px;
   &:active {
     color: ${(props) => props.theme.darkGray};
+  }
+`;
+
+const HeaderInput = styled.input`
+  min-width: 125px;
+  width: 185px;
+  background-color: ${(props) => props.theme.bgColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 4px;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 14px;
+  &:focus {
+    text-align: left;
+    border-color: rgb(38, 38, 38);
   }
 `;
 
@@ -64,7 +82,14 @@ const SButton = styled(LButton)`
   font-weight: 600;
 `;
 
-function Header() {
+function Header({ history }) {
+  const { register, handleSubmit, getValues } = useForm({
+    mode: "onChange",
+  });
+  const onSubmitValid = (data) => {
+    const { search } = getValues();
+    history.push(`/search?term=${search}`);
+  };
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useUser();
   const [profileModal, setProfileModal] = useState(false);
@@ -75,6 +100,16 @@ function Header() {
           <Link to={routes.home}>
             <HTitle>Jistagram</HTitle>
           </Link>
+        </Column>
+        <Column>
+          <form onSubmit={handleSubmit(onSubmitValid)}>
+            <HeaderInput
+              ref={register}
+              name="search"
+              type="text"
+              placeholder="Search"
+            />
+          </form>
         </Column>
         <Column>
           <ProfileModal
@@ -111,4 +146,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default withRouter(Header);

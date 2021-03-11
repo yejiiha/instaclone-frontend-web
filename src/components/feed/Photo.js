@@ -5,7 +5,10 @@ import {
   faComment,
   faPaperPlane,
 } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as SolidHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsisH,
+  faHeart as SolidHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
@@ -31,13 +34,25 @@ const PhotoContainer = styled.div`
 `;
 
 const PhotoHeader = styled.div`
-  padding: 10px;
+  padding: 15px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+`;
+
+const Column = styled.div`
+  display: flex;
+  align-items: center;
+  &:last-child {
+    width: 100%;
+    right: 0;
+    justify-content: flex-end;
+  }
 `;
 
 const Username = styled(FatText)`
   margin-left: 10px;
+  font-size: 13px;
   &:hover {
     text-decoration: underline;
   }
@@ -115,12 +130,17 @@ function Photo({
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
-        <Link to={`/users/${user.username}`}>
-          <Avatar lg url={user.avatar} />
-        </Link>
-        <Link to={`/users/${user.username}`}>
-          <Username>{user.username}</Username>
-        </Link>
+        <Column>
+          <Link to={`/users/${user.username}`}>
+            <Avatar url={user.avatar} />
+          </Link>
+          <Link to={`/users/${user.username}`}>
+            <Username>{user.username}</Username>
+          </Link>
+        </Column>
+        <Column>
+          <FontAwesomeIcon icon={faEllipsisH} style={{ cursor: "pointer" }} />
+        </Column>
       </PhotoHeader>
       <PhotoFile src={file} />
       <PhotoData>

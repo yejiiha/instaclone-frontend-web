@@ -11,6 +11,7 @@ import SignUp from "./screens/SignUp";
 import routes from "./routes";
 import Layout from "./components/auth/Layout";
 import Profile from "./screens/Profile";
+import Search from "./screens/Search";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -40,6 +41,11 @@ function App() {
               <Route path={`/users/:username`}>
                 <Layout>
                   <Profile />
+                </Layout>
+              </Route>
+              <Route path={"/search"}>
+                <Layout>
+                  <Search />
                 </Layout>
               </Route>
               <Route>
