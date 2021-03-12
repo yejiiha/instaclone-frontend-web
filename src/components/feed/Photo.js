@@ -12,10 +12,12 @@ import {
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import { FatText } from "../shared";
 import Avatar from "../Avatar";
 import Comments from "./Comments";
-import { Link } from "react-router-dom";
+import PhotoUtilModal from "./PhotoUtilModal";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -47,6 +49,9 @@ const Column = styled.div`
     width: 100%;
     right: 0;
     justify-content: flex-end;
+    svg {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -127,6 +132,7 @@ function Photo({
     },
     update: updateToggleLike,
   });
+  const [photoUtilModal, setPhotoUtilModal] = useState(false);
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
@@ -139,7 +145,14 @@ function Photo({
           </Link>
         </Column>
         <Column>
-          <FontAwesomeIcon icon={faEllipsisH} style={{ cursor: "pointer" }} />
+          <FontAwesomeIcon
+            icon={faEllipsisH}
+            onClick={() => setPhotoUtilModal(!photoUtilModal)}
+          />
+          <PhotoUtilModal
+            photoUtilModal={photoUtilModal}
+            setPhotoUtilModal={setPhotoUtilModal}
+          />
         </Column>
       </PhotoHeader>
       <PhotoFile src={file} />
