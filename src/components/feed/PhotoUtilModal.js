@@ -1,5 +1,14 @@
+import { gql, useMutation } from "@apollo/client";
 import styled, { css } from "styled-components";
 import { FatText } from "../shared";
+
+const DELETE_PHOTO_MUTATION = gql`
+  mutation deletePhoto($id: Int!) {
+    deletePhoto(id: $id) {
+      ok
+    }
+  }
+`;
 
 const ModalShow = css`
   position: absolute;
@@ -54,12 +63,32 @@ const Overlay = styled.div`
   ${({ active }) => (active ? OverlayShow : "")}
 `;
 
-function PhotoUtilModal({ photoUtilModal, setPhotoUtilModal }) {
+function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal }) {
+  const updateDeletePhoto = (cache, result) => {
+    const {
+      data: {
+        deletePhoto: { ok },
+      },
+    } = result;
+
+    if (ok) {
+      cache.evict({ id: `Photo:${id}` });
+    }
+  };
+  const [deletePhotoMutation] = useMutation(DELETE_PHOTO_MUTATION, {
+    variables: {
+      id,
+    },
+    update: updateDeletePhoto,
+  });
+  const onDeleteClick = () => {
+    deletePhotoMutation();
+  };
   return (
     <>
       <UtilModal active={photoUtilModal}>
         <Container>
-          <Row>
+          <Row onClick={onDeleteClick}>
             <FatText>Delete</FatText>
           </Row>
           <Row>Edit</Row>

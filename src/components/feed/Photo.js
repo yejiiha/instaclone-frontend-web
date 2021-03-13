@@ -150,6 +150,7 @@ function Photo({
             onClick={() => setPhotoUtilModal(!photoUtilModal)}
           />
           <PhotoUtilModal
+            id={id}
             photoUtilModal={photoUtilModal}
             setPhotoUtilModal={setPhotoUtilModal}
           />

@@ -54,20 +54,22 @@ function ProfilePhotos({ tab, photos }) {
     <>
       {tab === "posts" && (
         <Grid>
-          {photos?.map((photo) => (
-            <Photo key={photo.id} bg={photo.file}>
-              <Icons>
-                <Icon>
-                  <FontAwesomeIcon icon={faHeart} />
-                  {photo.likes}
-                </Icon>
-                <Icon>
-                  <FontAwesomeIcon icon={faComment} />
-                  {photo.commentNumber}
-                </Icon>
-              </Icons>
-            </Photo>
-          ))}
+          {photos
+            ?.map((photo) => (
+              <Photo key={photo.id} bg={photo.file}>
+                <Icons>
+                  <Icon>
+                    <FontAwesomeIcon icon={faHeart} />
+                    {photo.likes}
+                  </Icon>
+                  <Icon>
+                    <FontAwesomeIcon icon={faComment} />
+                    {photo.commentNumber}
+                  </Icon>
+                </Icons>
+              </Photo>
+            ))
+            .reverse()}
         </Grid>
       )}
       {tab === "saved" && <Text>Saved</Text>}
