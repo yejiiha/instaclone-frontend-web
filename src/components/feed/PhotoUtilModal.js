@@ -10,13 +10,13 @@ const DELETE_PHOTO_MUTATION = gql`
   }
 `;
 
-const EDIT_PHOTO_MUTATION = gql`
-  mutation editPhoto($id: Int!, $caption: String!) {
-    editPhoto(id: $id, caption: $caption) {
-      ok
-    }
-  }
-`;
+// const EDIT_PHOTO_MUTATION = gql`
+//   mutation editPhoto($id: Int!, $caption: String!) {
+//     editPhoto(id: $id, caption: $caption) {
+//       ok
+//     }
+//   }
+// `;
 
 const ModalShow = css`
   position: absolute;
@@ -97,14 +97,14 @@ function PhotoUtilModal({
   const onDeleteClick = () => {
     deletePhotoMutation();
   };
-  const updateEditPhoto = (cache, result) => {};
-  const [editPhotoMutation] = useMutation(EDIT_PHOTO_MUTATION, {
-    variables: {
-      id,
-      caption,
-    },
-    update: updateEditPhoto,
-  });
+  // const updateEditPhoto = (cache, result) => {};
+  // const [editPhotoMutation] = useMutation(EDIT_PHOTO_MUTATION, {
+  //   variables: {
+  //     id,
+  //     caption,
+  //   },
+  //   update: updateEditPhoto,
+  // });
 
   return (
     <>

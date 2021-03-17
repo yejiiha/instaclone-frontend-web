@@ -48,9 +48,10 @@ const Section = styled.div`
 `;
 
 const PostSection = styled(Section)`
-  grid-template-columns: repeat(4, 200px);
-  grid-template-rows: 200px;
-  grid-auto-rows: 200px;
+  grid-auto-rows: 290px;
+  grid-template-rows: 290px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
 `;
 
 const NotFoundText = styled(FatText)`
