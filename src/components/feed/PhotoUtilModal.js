@@ -10,6 +10,14 @@ const DELETE_PHOTO_MUTATION = gql`
   }
 `;
 
+const EDIT_PHOTO_MUTATION = gql`
+  mutation editPhoto($id: Int!, $caption: String!) {
+    editPhoto(id: $id, caption: $caption) {
+      ok
+    }
+  }
+`;
+
 const ModalShow = css`
   position: absolute;
   top: 50%;
@@ -24,7 +32,6 @@ const UtilModal = styled.div`
   top: -650vh;
   background-color: #fff;
   width: 280px;
-  height: 140px;
   box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
   z-index: 10;
   cursor: auto;
@@ -63,7 +70,13 @@ const Overlay = styled.div`
   ${({ active }) => (active ? OverlayShow : "")}
 `;
 
-function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal }) {
+function PhotoUtilModal({
+  id,
+  photoUtilModal,
+  setPhotoUtilModal,
+  isMine,
+  caption,
+}) {
   const updateDeletePhoto = (cache, result) => {
     const {
       data: {
@@ -84,14 +97,27 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal }) {
   const onDeleteClick = () => {
     deletePhotoMutation();
   };
+  const updateEditPhoto = (cache, result) => {};
+  const [editPhotoMutation] = useMutation(EDIT_PHOTO_MUTATION, {
+    variables: {
+      id,
+      caption,
+    },
+    update: updateEditPhoto,
+  });
+
   return (
     <>
       <UtilModal active={photoUtilModal}>
         <Container>
-          <Row onClick={onDeleteClick}>
-            <FatText>Delete</FatText>
-          </Row>
-          <Row>Edit</Row>
+          {isMine ? (
+            <>
+              <Row onClick={onDeleteClick}>
+                <FatText>Delete</FatText>
+              </Row>
+              <Row>Edit</Row>
+            </>
+          ) : null}
           <Row>Copy Link</Row>
           <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>Cancel</Row>
         </Container>

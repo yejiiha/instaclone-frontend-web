@@ -101,6 +101,7 @@ function Photo({
   caption,
   commentNumber,
   comments,
+  isMine,
 }) {
   const updateToggleLike = (cache, result) => {
     const {
@@ -153,6 +154,8 @@ function Photo({
             id={id}
             photoUtilModal={photoUtilModal}
             setPhotoUtilModal={setPhotoUtilModal}
+            isMine={isMine}
+            caption={caption}
           />
         </Column>
       </PhotoHeader>
