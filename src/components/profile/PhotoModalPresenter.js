@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Avatar from "../Avatar";
 import { FatText } from "../shared";
+import ProfileModalComment from "./ProfileModalComment";
+import ProfileModalComments from "./ProfileModalComments";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -100,15 +102,6 @@ const PhotoData = styled.div`
   padding: 15px;
 `;
 
-const Caption = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Text = styled.p`
-  margin-left: 8px;
-`;
-
 const PhotoActions = styled.div`
   display: flex;
   align-items: center;
@@ -123,11 +116,10 @@ const PhotoActions = styled.div`
 const LikeAction = styled.div`
   position: absolute;
   width: 335px;
-  bottom: 0;
+  bottom: 55px;
   right: 0;
   padding: 13px 15px 10px 15px;
   border-top: 1px solid ${(props) => props.theme.borderColor};
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
 
 const PhotoAction = styled.div`
@@ -242,18 +234,23 @@ function PhotoModalPresenter({
             </Column>
           </PhotoHeader>
           <PhotoData>
-            <Caption>
-              <Link to={`/users/${user.username}`}>
-                <Avatar url={user.avatar} />
-              </Link>
-              <Link to={`/users/${user.username}`}>
-                <Username>{user.username}</Username>
-              </Link>
-              <Text> {caption}</Text>
-            </Caption>
-
-            {/* comments */}
-
+            <ProfileModalComment
+              id={id}
+              avatar={user.avatar}
+              author={user.username}
+              caption={caption}
+            />
+            {comments?.map((comment) => (
+              <ProfileModalComment
+                key={comment.id}
+                id={comment.id}
+                avatar={comment.user.avatar}
+                author={comment.user.username}
+                caption={comment.payload}
+                isMine={comment.isMine}
+                createdAt={comment.createAt}
+              />
+            ))}
             <LikeAction>
               <PhotoActions>
                 <div>
@@ -278,6 +275,7 @@ function PhotoModalPresenter({
               <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
               <Timestamp>{createdAt}</Timestamp>
             </LikeAction>
+            <ProfileModalComments photoId={id} />
           </PhotoData>
         </ModalColumn>
       </Modal>
