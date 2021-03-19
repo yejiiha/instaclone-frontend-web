@@ -125,7 +125,7 @@ const LikeAction = styled.div`
   width: 335px;
   bottom: 0;
   right: 0;
-  padding: 20px 15px;
+  padding: 13px 15px 10px 15px;
   border-top: 1px solid ${(props) => props.theme.borderColor};
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
