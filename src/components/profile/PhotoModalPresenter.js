@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Avatar from "../Avatar";
 import { FatText } from "../shared";
@@ -213,6 +213,11 @@ function PhotoModalPresenter({
     },
     update: updateToggleLike,
   });
+  const history = useHistory();
+  const back = (e) => {
+    e.stopPropagation();
+    history.goBack();
+  };
   return (
     <>
       <Modal active={photoModal}>
@@ -280,7 +285,7 @@ function PhotoModalPresenter({
         </ModalColumn>
       </Modal>
 
-      <Overlay active={photoModal} onClick={() => setPhotoModal(!photoModal)}>
+      <Overlay active={photoModal} onClick={back}>
         <Close>
           <FontAwesomeIcon icon={faTimes} size="2x" />
         </Close>

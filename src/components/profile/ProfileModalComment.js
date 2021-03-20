@@ -23,6 +23,12 @@ const CommentContainer = styled.div`
 const Column = styled.div`
   display: flex;
   align-items: center;
+  &:last-child {
+    opacity: 0;
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
 
 const Caption = styled.div`

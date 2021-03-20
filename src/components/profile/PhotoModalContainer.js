@@ -2,8 +2,9 @@ import { useQuery } from "@apollo/client";
 import { SEE_PHOTO_QUERY } from "./ProfileQueries";
 import PhotoModalPresenter from "./PhotoModalPresenter";
 
-function PhotoModal({ id, photoModal, setPhotoModal }) {
+function PhotoModalContainer({ id, photoModal, setPhotoModal }) {
   const { data } = useQuery(SEE_PHOTO_QUERY, { variables: { id } });
+
   return (
     <>
       {data && data?.seePhoto && (
@@ -27,4 +28,4 @@ function PhotoModal({ id, photoModal, setPhotoModal }) {
   );
 }
 
-export default PhotoModal;
+export default PhotoModalContainer;

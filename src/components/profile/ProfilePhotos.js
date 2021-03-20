@@ -1,3 +1,4 @@
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import SquarePost from "../search/SquarePost";
 
@@ -12,19 +13,28 @@ const Grid = styled.div`
 const Text = styled.span``;
 
 function ProfilePhotos({ tab, photos }) {
+  const location = useLocation();
   return (
     <>
       {tab === "posts" && (
         <Grid>
           {photos
             ?.map((photo) => (
-              <SquarePost
+              <Link
                 key={photo.id}
-                id={photo.id}
-                file={photo.file}
-                likes={photo.likes}
-                commentNumber={photo.commentNumber}
-              />
+                to={{
+                  pathname: `/posts/${photo.id}`,
+                  state: { background: location },
+                }}
+              >
+                <SquarePost
+                  key={photo.id}
+                  id={photo.id}
+                  file={photo.file}
+                  likes={photo.likes}
+                  commentNumber={photo.commentNumber}
+                />
+              </Link>
             ))
             .reverse()}
         </Grid>
