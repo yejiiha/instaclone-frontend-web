@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
 import { SEE_PHOTO_QUERY } from "./ProfileQueries";
 import PhotoModalPresenter from "./PhotoModalPresenter";
 
-function PhotoModalContainer({ id, photoModal, setPhotoModal }) {
-  const { data } = useQuery(SEE_PHOTO_QUERY, { variables: { id } });
+function PhotoModalContainer() {
+  const { id } = useParams();
+  const { data } = useQuery(SEE_PHOTO_QUERY, { variables: { id: Number(id) } });
 
   return (
     <>
@@ -16,12 +18,8 @@ function PhotoModalContainer({ id, photoModal, setPhotoModal }) {
           caption={data.seePhoto.caption}
           isLiked={data.seePhoto.isLiked}
           likes={data.seePhoto.likes}
-          commentNumber={data.seePhoto.commentNumber}
           comments={data.seePhoto.comments}
           createdAt={data.seePhoto.createdAt}
-          isMine={data.seePhoto.isMine}
-          photoModal={photoModal}
-          setPhotoModal={setPhotoModal}
         />
       )}
     </>

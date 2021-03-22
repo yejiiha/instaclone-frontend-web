@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import PhotoModalContainer from "../profile/PhotoModalContainer";
 
 const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
@@ -59,29 +57,21 @@ const Icon = styled.span`
 `;
 
 function SquarePost({ id, file, likes, commentNumber }) {
-  const [photoModal, setPhotoModal] = useState(false);
   return (
-    <>
-      <Photo key={id} bg={file} onClick={() => setPhotoModal(!photoModal)}>
-        <Overlay>
-          <Icons>
-            <Icon>
-              <FontAwesomeIcon icon={faHeart} />
-              {likes}
-            </Icon>
-            <Icon>
-              <FontAwesomeIcon icon={faComment} />
-              {commentNumber}
-            </Icon>
-          </Icons>
-        </Overlay>
-      </Photo>
-      <PhotoModalContainer
-        id={id}
-        photoModal={photoModal}
-        setPhotoModal={setPhotoModal}
-      />
-    </>
+    <Photo key={id} bg={file}>
+      <Overlay>
+        <Icons>
+          <Icon>
+            <FontAwesomeIcon icon={faHeart} />
+            {likes}
+          </Icon>
+          <Icon>
+            <FontAwesomeIcon icon={faComment} />
+            {commentNumber}
+          </Icon>
+        </Icons>
+      </Overlay>
+    </Photo>
   );
 }
 

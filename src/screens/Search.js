@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Loader from "../components/Loader";
 import { SEARCH } from "../components/search/SearchQueries";
@@ -60,6 +60,7 @@ const NotFoundText = styled(FatText)`
 `;
 
 function Search({ location: { search } }) {
+  const location = useLocation();
   const [tab, setTab] = useState(0);
   const handleClick = (e) => {
     const index = parseInt(e.target.id, 0);
@@ -114,7 +115,15 @@ function Search({ location: { search } }) {
               <NotFoundText>No results found</NotFoundText>
             ) : (
               data.searchPhotos.map((post) => (
-                <SquarePost key={post.id} {...post} />
+                <Link
+                  key={post.id}
+                  to={{
+                    pathname: `/posts/${post.id}`,
+                    state: { background: location },
+                  }}
+                >
+                  <SquarePost key={post.id} {...post} />
+                </Link>
               ))
             )}
           </PostSection>

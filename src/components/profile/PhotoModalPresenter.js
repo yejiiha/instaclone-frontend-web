@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Avatar from "../Avatar";
 import { FatText } from "../shared";
 import ProfileModalComment from "./ProfileModalComment";
@@ -28,15 +28,24 @@ const TOGGLE_LIKE_MUTATION = gql`
   }
 `;
 
-const ModalShow = css`
-  top: 18%;
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Modal = styled.div`
   display: flex;
   position: fixed;
-  top: -250vh;
-  background-color: #fff;
+  background-color: white;
   align-items: center;
   margin: auto;
   max-width: 935px;
@@ -45,7 +54,6 @@ const Modal = styled.div`
   box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
   z-index: 10;
   cursor: auto;
-  ${({ active }) => (active ? ModalShow : "")}
 `;
 
 const ModalColumn = styled.div`
@@ -144,29 +152,12 @@ const Close = styled.button`
   right: 10px;
   background-color: transparent;
   border: 0;
-  font-size: 18px;
+  font-size: 16px;
   border: none;
   outline: none;
   padding-bottom: 12px;
   padding-top: 12px;
   color: white;
-`;
-
-const OverlayShow = css`
-  display: block;
-`;
-
-const Overlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.55);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
-  display: none;
-  z-index: 5;
-  cursor: auto;
-  ${({ active }) => (active ? OverlayShow : "")}
 `;
 
 function PhotoModalPresenter({
@@ -176,12 +167,8 @@ function PhotoModalPresenter({
   caption,
   isLiked,
   likes,
-  commentNumber,
   comments,
-  isMine,
   createdAt,
-  photoModal,
-  setPhotoModal,
 }) {
   const updateToggleLike = (cache, result) => {
     const {
@@ -214,13 +201,17 @@ function PhotoModalPresenter({
     update: updateToggleLike,
   });
   const history = useHistory();
-  const back = (e) => {
+  const goBack = (e) => {
     e.stopPropagation();
     history.goBack();
   };
+
   return (
-    <>
-      <Modal active={photoModal}>
+    <Overlay>
+      <Close onClick={goBack}>
+        <FontAwesomeIcon icon={faTimes} size="2x" />
+      </Close>
+      <Modal>
         <ModalColumn>
           <PhotoFile src={file} />
         </ModalColumn>
@@ -284,13 +275,7 @@ function PhotoModalPresenter({
           </PhotoData>
         </ModalColumn>
       </Modal>
-
-      <Overlay active={photoModal} onClick={back}>
-        <Close>
-          <FontAwesomeIcon icon={faTimes} size="2x" />
-        </Close>
-      </Overlay>
-    </>
+    </Overlay>
   );
 }
 
@@ -304,7 +289,6 @@ PhotoModalPresenter.propTypes = {
   file: PropTypes.string.isRequired,
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
-  commentNumber: PropTypes.number.isRequired,
 };
 
 export default PhotoModalPresenter;
