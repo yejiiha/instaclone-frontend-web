@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import {
   faBookmark,
   faHeart,
@@ -18,15 +18,7 @@ import Avatar from "../Avatar";
 import { FatText } from "../shared";
 import ProfileModalComment from "./ProfileModalComment";
 import ProfileModalComments from "./ProfileModalComments";
-
-const TOGGLE_LIKE_MUTATION = gql`
-  mutation toggleLike($id: Int!) {
-    toggleLike(id: $id) {
-      ok
-      error
-    }
-  }
-`;
+import { TOGGLE_LIKE_MUTATION } from "../feed/FeedQueries";
 
 const Overlay = styled.div`
   position: fixed;

@@ -5,6 +5,7 @@ import routes from "./routes";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import NotFound from "./screens/NotFound";
+import Post from "./screens/Post";
 import Profile from "./screens/Profile";
 import Search from "./screens/Search";
 import SignUp from "./screens/SignUp";
@@ -37,6 +38,11 @@ function RouterSwitch({ isLoggedIn }) {
         <Route path={"/search"}>
           <Layout>
             <Search />
+          </Layout>
+        </Route>
+        <Route path={"/posts/:id"}>
+          <Layout>
+            <Post />
           </Layout>
         </Route>
         <Route>

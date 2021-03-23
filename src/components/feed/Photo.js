@@ -11,22 +11,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FatText } from "../shared";
 import Avatar from "../Avatar";
 import Comments from "./Comments";
 import PhotoUtilModal from "./PhotoUtilModal";
-
-const TOGGLE_LIKE_MUTATION = gql`
-  mutation toggleLike($id: Int!) {
-    toggleLike(id: $id) {
-      ok
-      error
-    }
-  }
-`;
+import { TOGGLE_LIKE_MUTATION } from "./FeedQueries";
 
 const PhotoContainer = styled.div`
   background-color: white;
