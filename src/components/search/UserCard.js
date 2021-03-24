@@ -15,7 +15,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 15px 20px;
   background-color: ${(props) => props.theme.formColor};
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;

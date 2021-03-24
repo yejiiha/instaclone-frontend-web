@@ -21,7 +21,7 @@ import PhotoUtilModal from "./PhotoUtilModal";
 import { TOGGLE_LIKE_MUTATION } from "./FeedQueries";
 
 const PhotoContainer = styled.div`
-  background-color: white;
+  background-color: ${(props) => props.theme.formColor};
   border: 1px solid ${(props) => props.theme.borderColor};
   margin-bottom: 60px;
   max-width: 615px;
@@ -147,7 +147,6 @@ function Photo({
             photoUtilModal={photoUtilModal}
             setPhotoUtilModal={setPhotoUtilModal}
             isMine={isMine}
-            caption={caption}
           />
         </Column>
       </PhotoHeader>

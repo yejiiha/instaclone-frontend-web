@@ -29,14 +29,15 @@ const UtilModal = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: -650vh;
-  background-color: #fff;
+  top: 40%;
+  left: 45%;
+  background-color: ${(props) => props.theme.formColor};
   width: 280px;
   box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
   z-index: 10;
   cursor: auto;
   border-radius: 12px;
-  ${({ active }) => (active ? ModalShow : "")}
+  /* ${({ active }) => (active ? ModalShow : "")} */
 `;
 
 const Container = styled.ul``;
@@ -48,9 +49,21 @@ const Row = styled.li`
   &:not(:last-child) {
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
   }
-  &:first-child {
-    color: tomato;
+  &:hover {
+    background-color: ${(props) => props.theme.bgColor};
+    &:first-child {
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    &:last-child {
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
   }
+`;
+
+const SFatText = styled(FatText)`
+  color: tomato;
 `;
 
 const OverlayShow = css`
@@ -70,13 +83,7 @@ const Overlay = styled.div`
   ${({ active }) => (active ? OverlayShow : "")}
 `;
 
-function PhotoUtilModal({
-  id,
-  photoUtilModal,
-  setPhotoUtilModal,
-  isMine,
-  caption,
-}) {
+function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
   const updateDeletePhoto = (cache, result) => {
     const {
       data: {
@@ -107,13 +114,13 @@ function PhotoUtilModal({
   // });
 
   return (
-    <>
-      <UtilModal active={photoUtilModal}>
+    <Overlay active={photoUtilModal}>
+      <UtilModal>
         <Container>
           {isMine ? (
             <>
               <Row onClick={onDeleteClick}>
-                <FatText>Delete</FatText>
+                <SFatText>Delete</SFatText>
               </Row>
               <Row>Edit</Row>
             </>
@@ -122,11 +129,7 @@ function PhotoUtilModal({
           <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>Cancel</Row>
         </Container>
       </UtilModal>
-      <Overlay
-        active={photoUtilModal}
-        onClick={() => setPhotoUtilModal(!photoUtilModal)}
-      />
-    </>
+    </Overlay>
   );
 }
 

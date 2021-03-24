@@ -26,7 +26,7 @@ const Overlay = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: ${(props) => props.theme.overlayColor};
   z-index: 1;
   overflow-y: auto;
   display: flex;
@@ -37,7 +37,7 @@ const Overlay = styled.div`
 const Modal = styled.div`
   display: flex;
   position: fixed;
-  background-color: white;
+  background-color: ${(props) => props.theme.formColor};
   align-items: center;
   margin: auto;
   max-width: 935px;

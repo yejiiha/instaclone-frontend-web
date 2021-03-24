@@ -4,96 +4,72 @@ import { faTag, faTh, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProfilePhotos from "./ProfilePhotos";
 
-const Menus = styled.div`
+const Tabs = styled.div`
+  overflow: hidden;
+  height: 3em;
+  width: 100%;
   display: flex;
   justify-content: center;
-  font-weight: 600;
-  color: #828282;
-  text-align: center;
-  border-top: 1px solid ${(props) => props.theme.borderColor};
+  margin-bottom: 20px;
   margin-top: 45px;
+  background-color: yellowgreen;
 `;
 
-const MenuColumn = styled.div`
-  margin-top: -1px;
-  padding-top: 20px;
+const Tab = styled.button`
+  width: 100%;
+  position: relative;
+  border: none;
+  outline: none;
   cursor: pointer;
-  &:not(:last-child) {
-    margin-right: 60px;
+  text-align: center;
+  border-top: 1.5px solid ${(props) => props.theme.borderColor};
+  border-top: ${(props) =>
+    props.active ? `1.5px solid ${props.theme.fontColor}` : ""};
+  color: ${(props) => (props.active ? "inherit" : `${props.theme.darkGray}`)};
+  background-color: ${(props) => props.theme.bgColor};
+  font-weight: 600;
+  svg {
+    margin-right: 6px;
   }
 `;
 
-const Text = styled.span`
-  margin-left: 8px;
+const Content = styled.div`
+  ${(props) => (props.active ? "" : "display:none")}
 `;
 
 function ProfileMenu({ photos }) {
-  const [tab, setTab] = useState("posts");
+  const [tab, setTab] = useState(0);
+  const handleClick = (e) => {
+    const index = parseInt(e.target.id, 0);
+    if (index !== tab) {
+      setTab(index);
+    }
+  };
   return (
     <div>
-      <Menus
-        style={
-          tab === "posts"
-            ? { color: "inherit" }
-            : tab === "saved"
-            ? { color: "inherit" }
-            : tab === "tagged"
-            ? { color: "inherit" }
-            : { color: "#828282" }
-        }
-      >
-        <MenuColumn
-          onClick={() => setTab("posts")}
-          style={
-            tab === "posts"
-              ? { color: "inherit", borderTop: "1px solid black" }
-              : { color: "#828282" }
-          }
-        >
-          <FontAwesomeIcon
-            icon={faTh}
-            size="lg"
-            style={
-              tab === "posts" ? { color: "inherit" } : { color: "#828282" }
-            }
-          />
-          <Text>Posts</Text>
-        </MenuColumn>
-        <MenuColumn
-          onClick={() => setTab("saved")}
-          style={
-            tab === "saved"
-              ? { color: "inherit", borderTop: "1px solid black" }
-              : { color: "#828282" }
-          }
-        >
-          <FontAwesomeIcon
-            icon={faBookmark}
-            size="lg"
-            style={
-              tab === "saved" ? { color: "inherit" } : { color: "#828282" }
-            }
-          />
-          <Text>Saved</Text>
-        </MenuColumn>
-        <MenuColumn
-          onClick={() => setTab("tagged")}
-          style={
-            tab === "tagged"
-              ? { color: "inherit", borderTop: "1px solid black" }
-              : { color: "#828282" }
-          }
-        >
-          <FontAwesomeIcon
-            icon={faTag}
-            size="lg"
-            style={tab === "posts" ? { fill: "inherit" } : { fill: "#828282" }}
-          />
-          <Text>Tagged</Text>
-        </MenuColumn>
-      </Menus>
-
-      <ProfilePhotos photos={photos} tab={tab} />
+      <Tabs>
+        <Tab onClick={handleClick} active={tab === 0} id={0}>
+          <FontAwesomeIcon icon={faTh} size="lg" />
+          Posts
+        </Tab>
+        <Tab onClick={handleClick} active={tab === 1} id={1}>
+          <FontAwesomeIcon icon={faBookmark} size="lg" />
+          Saved
+        </Tab>
+        <Tab onClick={handleClick} active={tab === 2} id={2}>
+          <FontAwesomeIcon icon={faTag} size="lg" />
+          Tagged
+        </Tab>
+      </Tabs>
+      <Content active={tab === 0}>
+        <ProfilePhotos photos={photos} tab={tab} />
+      </Content>
+      <Content active={tab === 1}>
+        <ProfilePhotos photos={photos} tab={tab} />
+      </Content>
+      <Content active={tab === 2}>
+        <ProfilePhotos photos={photos} tab={tab} />
+      </Content>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import { logUserOut } from "../apollo";
 
 const ModalShow = css`
-  top: 55px;
+  top: 57px;
 `;
 
 const Modal = styled.div`
@@ -16,6 +16,7 @@ const Modal = styled.div`
   position: absolute;
   margin: auto;
   background-color: ${(props) => props.theme.formColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 6px;
   --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -36,6 +37,14 @@ const ModalRow = styled.div`
   }
   &:hover {
     background-color: ${(props) => props.theme.bgColor};
+    &:first-child {
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+    }
+    &:last-child {
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
   }
 `;
 
@@ -43,6 +52,11 @@ const Column = styled.div``;
 
 const ModalText = styled.div`
   margin-left: 10px;
+`;
+
+const Text = styled.span`
+  color: tomato;
+  font-weight: 600;
 `;
 
 function ProfileModal({ profileModal, username }) {
@@ -82,7 +96,7 @@ function ProfileModal({ profileModal, username }) {
               </Column>
             </ModalRow>
             <ModalRow onClick={() => logUserOut()}>
-              <Column>Log out</Column>
+              <Text>Log out</Text>
             </ModalRow>
           </ModalContainer>
         </Modal>

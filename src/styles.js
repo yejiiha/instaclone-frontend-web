@@ -11,16 +11,23 @@ export const lightTheme = {
   darkModeBgColor: "#374045",
   borderColor: "rgb(219, 219, 219)",
   darkGray: "#8e8e8e",
+  hashtagColor: "rgb(0, 55, 107)",
+  menuColor: "black",
+  overlayColor: "rgba(0, 0, 0, 0.45)",
 };
 
 export const darkTheme = {
   blue: "#0095f6",
   fontColor: "white",
-  bgColor: "#2c2c2c",
+  bgColor: "#272121",
   formColor: "#2c2c2c",
   inputColor: "rgb(38, 38, 38)",
   darkModeColor: "#ffe227",
   darkModeBgColor: "#686d76",
+  borderColor: "#525252",
+  darkGray: "#8e8e8e",
+  hashtagColor: "#3282b8",
+  menuColor: "white",
 };
 
 export const GlobalStyles = createGlobalStyle`

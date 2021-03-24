@@ -48,7 +48,7 @@ const CommentCaption = styled.span`
   margin-left: 5px;
   a {
     background-color: inherit;
-    color: rgb(0, 55, 107);
+    color: ${(props) => props.theme.hashtagColor};
     opacity: 0.9;
     cursor: pointer;
   }
