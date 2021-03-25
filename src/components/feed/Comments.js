@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
-import { dateConverter } from "../shared";
+import { dateConverter, feedDateConverter } from "../shared";
 import Comment from "./Comment";
 
 const CREATE_COMMENT_MUTATION = gql`
@@ -158,7 +158,7 @@ function Comments({
           photoId={photoId}
         />
       ))}
-      <Timestamp>{dateConverter(createdAt)}</Timestamp>
+      <Timestamp>{feedDateConverter(createdAt)}</Timestamp>
       <PostCommentContainer>
         <CommentForm onSubmit={handleSubmit(onValid)}>
           <FontAwesomeIcon icon={faSmile} size="2x" />
