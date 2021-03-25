@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../Avatar";
-import { FatText } from "../shared";
+import { dateConverter, FatText } from "../shared";
 import ProfileModalComment from "./ProfileModalComment";
 import ProfileModalComments from "./ProfileModalComments";
 import { TOGGLE_LIKE_MUTATION } from "../feed/FeedQueries";
@@ -132,8 +132,8 @@ const Likes = styled(FatText)`
   display: block;
 `;
 
-const Timestamp = styled.time`
-  font-size: 12px;
+const Timestamp = styled.span`
+  font-size: 10px;
   color: ${(props) => props.theme.darkGray};
 `;
 
@@ -261,7 +261,7 @@ function PhotoModalPresenter({
                 </div>
               </PhotoActions>
               <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
-              <Timestamp>{createdAt}</Timestamp>
+              <Timestamp>{dateConverter(createdAt)}</Timestamp>
             </LikeAction>
             <ProfileModalComments photoId={id} />
           </PhotoData>

@@ -61,10 +61,11 @@ const PhotoFile = styled.img`
 `;
 
 const PhotoData = styled.div`
-  padding: 15px;
+  padding: 15px 0;
 `;
 
 const PhotoActions = styled.div`
+  padding: 0 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -91,6 +92,7 @@ const PhotoAction = styled.div`
 `;
 
 const Likes = styled(FatText)`
+  padding: 0 15px;
   margin-top: 10px;
   display: block;
 `;
@@ -105,6 +107,7 @@ function Photo({
   commentNumber,
   comments,
   isMine,
+  createdAt,
 }) {
   const updateToggleLike = (cache, result) => {
     const {
@@ -191,6 +194,7 @@ function Photo({
           caption={caption}
           commentNumber={commentNumber}
           comments={comments}
+          createdAt={createdAt}
         />
       </PhotoData>
     </PhotoContainer>

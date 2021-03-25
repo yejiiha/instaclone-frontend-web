@@ -16,3 +16,30 @@ export const FatText = styled.span`
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
 `;
+
+export const dateConverter = (t) => {
+  const timestamp = Number(t);
+  const date = new Date(timestamp);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return (
+    monthNames[date.getMonth()].toUpperCase() +
+    " " +
+    date.getDate() +
+    ", " +
+    date.getFullYear()
+  );
+};

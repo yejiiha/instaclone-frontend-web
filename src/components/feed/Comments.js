@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
+import { dateConverter } from "../shared";
 import Comment from "./Comment";
 
 const CREATE_COMMENT_MUTATION = gql`
@@ -22,19 +23,27 @@ const CommentsContainer = styled.div`
 `;
 
 const CommentCount = styled.span`
+  padding: 0 15px;
   display: block;
   margin: 10px 0 7px 0;
   opacity: 0.7;
   font-size: 12px;
 `;
 
+const Timestamp = styled.span`
+  padding: 0 15px;
+  font-size: 10px;
+  color: ${(props) => props.theme.darkGray};
+`;
+
 const PostCommentContainer = styled.div`
   border-top: 1px solid ${(props) => props.theme.borderColor};
   padding: 10px 0 0;
-  margin-top: 4px;
+  margin-top: 10px;
 `;
 
 const CommentForm = styled.form`
+  padding: 0 15px;
   display: flex;
   align-items: center;
 `;
@@ -53,7 +62,14 @@ const CommentSubmitButton = styled.input`
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
-function Comments({ photoId, author, caption, commentNumber, comments }) {
+function Comments({
+  photoId,
+  author,
+  caption,
+  commentNumber,
+  comments,
+  createdAt,
+}) {
   const { data: userData } = useUser();
   const { register, handleSubmit, setValue, getValues, formState } = useForm({
     mode: "onChange",
@@ -126,7 +142,11 @@ function Comments({ photoId, author, caption, commentNumber, comments }) {
     <CommentsContainer>
       <Comment author={author} caption={caption} />
       <CommentCount>
-        {commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}
+        {commentNumber === 0
+          ? ""
+          : commentNumber === 1
+          ? "1 comment"
+          : `${commentNumber} comments`}
       </CommentCount>
       {comments?.map((comment) => (
         <Comment
@@ -138,6 +158,7 @@ function Comments({ photoId, author, caption, commentNumber, comments }) {
           photoId={photoId}
         />
       ))}
+      <Timestamp>{dateConverter(createdAt)}</Timestamp>
       <PostCommentContainer>
         <CommentForm onSubmit={handleSubmit(onValid)}>
           <FontAwesomeIcon icon={faSmile} size="2x" />
