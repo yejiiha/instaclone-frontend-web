@@ -28,7 +28,7 @@ const PhotoContainer = styled.div`
 `;
 
 const PhotoHeader = styled.div`
-  padding: 15px;
+  padding: 10px 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,6 +57,7 @@ const Username = styled(FatText)`
 
 const PhotoFile = styled.img`
   max-width: 100%;
+  min-height: 600px;
 `;
 
 const PhotoData = styled.div`
@@ -74,9 +75,19 @@ const PhotoActions = styled.div`
   }
 `;
 
+const PhotoActionsColumn = styled.div`
+  svg {
+    font-size: 25px;
+    cursor: pointer;
+  }
+`;
+
 const PhotoAction = styled.div`
   margin-right: 15px;
   cursor: pointer;
+  svg {
+    font-size: 25px;
+  }
 `;
 
 const Likes = styled(FatText)`
@@ -153,7 +164,7 @@ function Photo({
       <PhotoFile src={file} />
       <PhotoData>
         <PhotoActions>
-          <div>
+          <PhotoActionsColumn>
             <PhotoAction onClick={toggleLikeMutation}>
               <FontAwesomeIcon
                 size="2x"
@@ -167,10 +178,10 @@ function Photo({
             <PhotoAction>
               <FontAwesomeIcon size="2x" icon={faPaperPlane} />
             </PhotoAction>
-          </div>
-          <div>
+          </PhotoActionsColumn>
+          <PhotoActionsColumn>
             <FontAwesomeIcon size="2x" icon={faBookmark} />
-          </div>
+          </PhotoActionsColumn>
         </PhotoActions>
         <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
         <Comments

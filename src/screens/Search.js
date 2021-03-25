@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Loader from "../components/Loader";
+import PageTitle from "../components/PageTitle";
 import { SEARCH } from "../components/search/SearchQueries";
 import SquarePost from "../components/search/SquarePost";
 import UserCard from "../components/search/UserCard";
@@ -89,46 +90,49 @@ function Search({ location: { search } }) {
     );
   } else if (data && data.searchUsers && data.searchPhotos) {
     return (
-      <Wrapper>
-        <Tabs>
-          <Tab onClick={handleClick} active={tab === 0} id={0}>
-            Accounts
-          </Tab>
-          <Tab onClick={handleClick} active={tab === 1} id={1}>
-            Posts
-          </Tab>
-        </Tabs>
-        <Content active={tab === 0}>
-          <Section>
-            {data.searchUsers.length === 0 ? (
-              <NotFoundText>No results found</NotFoundText>
-            ) : (
-              data.searchUsers.map((user) => (
-                <UserCard key={user.id} {...user} />
-              ))
-            )}
-          </Section>
-        </Content>
-        <Content active={tab === 1}>
-          <PostSection>
-            {data.searchPhotos.length === 0 ? (
-              <NotFoundText>No results found</NotFoundText>
-            ) : (
-              data.searchPhotos.map((post) => (
-                <Link
-                  key={post.id}
-                  to={{
-                    pathname: `/posts/${post.id}`,
-                    state: { background: location },
-                  }}
-                >
-                  <SquarePost key={post.id} {...post} />
-                </Link>
-              ))
-            )}
-          </PostSection>
-        </Content>
-      </Wrapper>
+      <>
+        <PageTitle title={`${keyword} on Jistagram`} />
+        <Wrapper>
+          <Tabs>
+            <Tab onClick={handleClick} active={tab === 0} id={0}>
+              Accounts
+            </Tab>
+            <Tab onClick={handleClick} active={tab === 1} id={1}>
+              Posts
+            </Tab>
+          </Tabs>
+          <Content active={tab === 0}>
+            <Section>
+              {data.searchUsers.length === 0 ? (
+                <NotFoundText>No results found</NotFoundText>
+              ) : (
+                data.searchUsers.map((user) => (
+                  <UserCard key={user.id} {...user} />
+                ))
+              )}
+            </Section>
+          </Content>
+          <Content active={tab === 1}>
+            <PostSection>
+              {data.searchPhotos.length === 0 ? (
+                <NotFoundText>No results found</NotFoundText>
+              ) : (
+                data.searchPhotos.map((post) => (
+                  <Link
+                    key={post.id}
+                    to={{
+                      pathname: `/posts/${post.id}`,
+                      state: { background: location },
+                    }}
+                  >
+                    <SquarePost key={post.id} {...post} />
+                  </Link>
+                ))
+              )}
+            </PostSection>
+          </Content>
+        </Wrapper>
+      </>
     );
   }
   return null;

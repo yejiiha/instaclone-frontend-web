@@ -20,13 +20,6 @@ const DELETE_PHOTO_MUTATION = gql`
 //   }
 // `;
 
-const ModalShow = css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -70px 0 0 -70px;
-`;
-
 const UtilModal = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,7 +32,6 @@ const UtilModal = styled.div`
   z-index: 10;
   cursor: auto;
   border-radius: 12px;
-  /* ${({ active }) => (active ? ModalShow : "")} */
 `;
 
 const Container = styled.ul``;

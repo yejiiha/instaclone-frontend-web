@@ -14,6 +14,7 @@ export const lightTheme = {
   hashtagColor: "rgb(0, 55, 107)",
   menuColor: "black",
   overlayColor: "rgba(0, 0, 0, 0.45)",
+  shadowColor: "rgba(0, 0, 0, 0.07)",
 };
 
 export const darkTheme = {
@@ -29,6 +30,7 @@ export const darkTheme = {
   hashtagColor: "#3282b8",
   menuColor: "white",
   overlayColor: "rgba(66, 70, 66, 0.5)",
+  shadowColor: "rgba(187,187, 187, 0.07)",
 };
 
 export const GlobalStyles = createGlobalStyle`

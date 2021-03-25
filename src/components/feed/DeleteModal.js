@@ -21,6 +21,7 @@ const CloseBtn = styled.button`
   border: none;
   height: 15px;
   background-color: ${(props) => props.theme.formColor};
+  color: ${(props) => props.theme.fontColor};
   cursor: pointer;
 `;
 
@@ -42,6 +43,7 @@ const Buttons = styled.div`
 
 const CancelBtn = styled.button`
   background-color: ${(props) => props.theme.formColor};
+  color: ${(props) => props.theme.fontColor};
   outline: none;
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;

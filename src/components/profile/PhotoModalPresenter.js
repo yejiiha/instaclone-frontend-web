@@ -132,7 +132,7 @@ const Likes = styled(FatText)`
   display: block;
 `;
 
-const Timestamp = styled.span`
+const Timestamp = styled.time`
   font-size: 12px;
   color: ${(props) => props.theme.darkGray};
 `;

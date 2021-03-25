@@ -10,7 +10,7 @@ const ModalShow = css`
 `;
 
 const Modal = styled.div`
-  width: 170px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -48,7 +48,11 @@ const ModalRow = styled.div`
   }
 `;
 
-const Column = styled.div``;
+const Column = styled.div`
+  svg {
+    font-size: 25px;
+  }
+`;
 
 const ModalText = styled.div`
   margin-left: 10px;
@@ -59,47 +63,69 @@ const Text = styled.span`
   font-weight: 600;
 `;
 
-function ProfileModal({ profileModal, username }) {
+const OverlayShow = css`
+  display: block;
+`;
+
+const Overlay = styled.div`
+  /* background-color: ${(props) => props.theme.overlayColor}; */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  display: none;
+  /* z-index: 1; */
+  ${({ active }) => (active ? OverlayShow : "")}
+`;
+
+function ProfileModal({ profileModal, setProfileModal, username }) {
   return (
     <>
       {profileModal ? (
-        <Modal active={profileModal}>
-          <ModalContainer>
-            <Link to={`/users/${username}`}>
+        <>
+          <Modal active={profileModal}>
+            <ModalContainer>
+              <Link to={`/users/${username}`}>
+                <ModalRow>
+                  <Column>
+                    <FontAwesomeIcon icon={faUser} size="lg" />
+                  </Column>
+                  <Column>
+                    <ModalText>Profile</ModalText>
+                  </Column>
+                </ModalRow>
+              </Link>
               <ModalRow>
                 <Column>
-                  <FontAwesomeIcon icon={faUser} size="lg" />
+                  <FontAwesomeIcon icon={faBookmark} size="lg" />
                 </Column>
                 <Column>
-                  <ModalText>Profile</ModalText>
+                  <ModalText style={{ marginLeft: "12px" }}>Saved</ModalText>
                 </Column>
               </ModalRow>
-            </Link>
-            <ModalRow>
-              <Column>
-                <FontAwesomeIcon icon={faBookmark} size="lg" />
-              </Column>
-              <Column>
-                <ModalText style={{ marginLeft: "12px" }}>Saved</ModalText>
-              </Column>
-            </ModalRow>
-            <ModalRow>
-              <Column>
-                <FontAwesomeIcon
-                  icon={faCog}
-                  size="lg"
-                  style={{ paddingRight: "1px" }}
-                />
-              </Column>
-              <Column>
-                <ModalText style={{ marginLeft: "8px" }}>Setting</ModalText>
-              </Column>
-            </ModalRow>
-            <ModalRow onClick={() => logUserOut()}>
-              <Text>Log out</Text>
-            </ModalRow>
-          </ModalContainer>
-        </Modal>
+              <ModalRow>
+                <Column>
+                  <FontAwesomeIcon
+                    icon={faCog}
+                    size="lg"
+                    style={{ paddingRight: "1px" }}
+                  />
+                </Column>
+                <Column>
+                  <ModalText style={{ marginLeft: "8px" }}>Setting</ModalText>
+                </Column>
+              </ModalRow>
+              <ModalRow onClick={() => logUserOut()}>
+                <Text>Log out</Text>
+              </ModalRow>
+            </ModalContainer>
+          </Modal>
+          <Overlay
+            active={profileModal}
+            onClick={() => setProfileModal(!profileModal)}
+          />
+        </>
       ) : null}
     </>
   );

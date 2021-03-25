@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { darkModeVar, disableDarkMode, enableDarkMode } from "../../apollo";
@@ -13,6 +13,22 @@ const Content = styled.main`
   width: 100%;
 `;
 
+const Float = keyframes`
+  0% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+    
+  }
+  50% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+  100% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+  }
+`;
+
 const DarkModeBtn = styled.button`
   position: fixed;
   right: 30px;
@@ -24,14 +40,19 @@ const DarkModeBtn = styled.button`
   border: none;
   --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  box-shadow: ${(props) => props.theme.shadowColor} 0px 1px 1px,
+    ${(props) => props.theme.shadowColor} 0px 2px 2px,
+    ${(props) => props.theme.shadowColor} 0px 4px 4px,
+    ${(props) => props.theme.shadowColor} 0px 8px 8px,
+    ${(props) => props.theme.shadowColor} 0px 16px 16px;
   color: ${(props) => props.theme.darkModeColor};
   background-color: ${(props) => props.theme.darkModeBgColor};
-
   &:focus {
     border: none;
     outline: none;
+  }
+  &:hover {
+    animation: ${Float} 1s infinite linear;
   }
 `;
 

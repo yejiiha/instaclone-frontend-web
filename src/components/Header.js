@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { faCompass } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart,
+  faPaperPlane,
+  faPlusSquare,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { useReactiveVar } from "@apollo/client";
@@ -65,6 +69,9 @@ const IconContainer = styled.div`
 const Icon = styled.span`
   margin-left: 18px;
   cursor: pointer;
+  svg {
+    font-size: 25px;
+  }
 `;
 
 const LButton = styled.span`
@@ -112,23 +119,35 @@ function Header({ history }) {
           </form>
         </Column>
         <Column>
-          <ProfileModal
+          {/* <ProfileModal
             profileModal={profileModal}
+            setProfileModal={setProfileModal}
             username={data?.me?.username}
-          />
+          /> */}
           {isLoggedIn ? (
             <IconContainer>
               <Link to={routes.home}>
                 <Icon>
-                  <FontAwesomeIcon icon={faHome} size="2x" />
+                  <FontAwesomeIcon icon={faHome} />
                 </Icon>
               </Link>
               <Icon>
-                <FontAwesomeIcon icon={faCompass} size="2x" />
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </Icon>
+              <Icon>
+                <FontAwesomeIcon icon={faPlusSquare} />
+              </Icon>
+              <Icon>
+                <FontAwesomeIcon icon={faHeart} />
               </Icon>
               <Icon onClick={() => setProfileModal(!profileModal)}>
                 <Avatar url={data?.me?.avatar} />
               </Icon>
+              <ProfileModal
+                profileModal={profileModal}
+                setProfileModal={setProfileModal}
+                username={data?.me?.username}
+              />
             </IconContainer>
           ) : (
             <>

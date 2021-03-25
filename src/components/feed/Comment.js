@@ -89,7 +89,7 @@ function Comment({ id, author, caption, isMine, photoId }) {
           {caption.split(" ").map((word, index) =>
             /#[\w]+/.test(word) ? (
               <React.Fragment key={index}>
-                <Link to={`/hashtags/${word}`}>{word}</Link>{" "}
+                <Link to={`/search?term=${word}`}>{word}</Link>{" "}
               </React.Fragment>
             ) : (
               <React.Fragment key={index}>{word} </React.Fragment>
