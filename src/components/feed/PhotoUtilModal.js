@@ -1,6 +1,8 @@
 import { gql, useMutation } from "@apollo/client";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { FatText } from "../shared";
+import DeleteModal from "./DeleteModal";
 
 const DELETE_PHOTO_MUTATION = gql`
   mutation deletePhoto($id: Int!) {
@@ -71,7 +73,7 @@ const OverlayShow = css`
 `;
 
 const Overlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: ${(props) => props.theme.overlayColor};
   top: 0;
   bottom: 0;
   left: 0;
@@ -84,6 +86,7 @@ const Overlay = styled.div`
 `;
 
 function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
+  const [deleteModal, setDeleteModal] = useState(false);
   const updateDeletePhoto = (cache, result) => {
     const {
       data: {
@@ -119,9 +122,14 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
         <Container>
           {isMine ? (
             <>
-              <Row onClick={onDeleteClick}>
+              <Row onClick={() => setDeleteModal(!deleteModal)}>
                 <SFatText>Delete</SFatText>
               </Row>
+              <DeleteModal
+                deleteModal={deleteModal}
+                setDeleteModal={setDeleteModal}
+                onDeleteClick={onDeleteClick}
+              />
               <Row>Edit</Row>
             </>
           ) : null}

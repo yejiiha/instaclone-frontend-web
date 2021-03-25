@@ -65,10 +65,10 @@ function ProfileMenu({ photos }) {
         <ProfilePhotos photos={photos} tab={tab} />
       </Content>
       <Content active={tab === 1}>
-        <ProfilePhotos photos={photos} tab={tab} />
+        <ProfilePhotos tab={tab} />
       </Content>
       <Content active={tab === 2}>
-        <ProfilePhotos photos={photos} tab={tab} />
+        <ProfilePhotos tab={tab} />
       </Content>
     </div>
   );
