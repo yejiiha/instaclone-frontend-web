@@ -17,6 +17,7 @@ import ProfileModalComments from "./profile/ProfileModalComments";
 import ProfileModalComment from "./profile/ProfileModalComment";
 import Avatar from "./Avatar";
 import { TOGGLE_LIKE_MUTATION } from "./feed/FeedQueries";
+import { dateConverter } from "./shared";
 
 const Modal = styled.div`
   display: flex;
@@ -116,7 +117,7 @@ const Likes = styled(FatText)`
 `;
 
 const Timestamp = styled.span`
-  font-size: 12px;
+  font-size: 10px;
   color: ${(props) => props.theme.darkGray};
 `;
 
@@ -220,7 +221,7 @@ function PostPresenter({
               </div>
             </PhotoActions>
             <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
-            <Timestamp>{createdAt}</Timestamp>
+            <Timestamp>{dateConverter(createdAt)}</Timestamp>
           </LikeAction>
           <ProfileModalComments photoId={id} />
         </PhotoData>

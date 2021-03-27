@@ -7,6 +7,7 @@ import { logUserOut } from "../apollo";
 
 const ModalShow = css`
   top: 57px;
+  opacity: 1;
 `;
 
 const Modal = styled.div`
@@ -22,6 +23,8 @@ const Modal = styled.div`
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  z-index: 1;
+  opacity: 0;
   ${({ active }) => (active ? ModalShow : "")};
 `;
 
@@ -68,67 +71,61 @@ const OverlayShow = css`
 `;
 
 const Overlay = styled.div`
-  /* background-color: ${(props) => props.theme.overlayColor}; */
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   position: fixed;
   display: none;
-  /* z-index: 1; */
   ${({ active }) => (active ? OverlayShow : "")}
 `;
 
-function ProfileModal({ profileModal, setProfileModal, username }) {
+function HeaderModal({ profileModal, setProfileModal, username }) {
   return (
     <>
-      {profileModal ? (
-        <>
-          <Modal active={profileModal}>
-            <ModalContainer>
-              <Link to={`/users/${username}`}>
-                <ModalRow>
-                  <Column>
-                    <FontAwesomeIcon icon={faUser} size="lg" />
-                  </Column>
-                  <Column>
-                    <ModalText>Profile</ModalText>
-                  </Column>
-                </ModalRow>
-              </Link>
-              <ModalRow>
-                <Column>
-                  <FontAwesomeIcon icon={faBookmark} size="lg" />
-                </Column>
-                <Column>
-                  <ModalText style={{ marginLeft: "12px" }}>Saved</ModalText>
-                </Column>
-              </ModalRow>
-              <ModalRow>
-                <Column>
-                  <FontAwesomeIcon
-                    icon={faCog}
-                    size="lg"
-                    style={{ paddingRight: "1px" }}
-                  />
-                </Column>
-                <Column>
-                  <ModalText style={{ marginLeft: "8px" }}>Setting</ModalText>
-                </Column>
-              </ModalRow>
-              <ModalRow onClick={() => logUserOut()}>
-                <Text>Log out</Text>
-              </ModalRow>
-            </ModalContainer>
-          </Modal>
-          <Overlay
-            active={profileModal}
-            onClick={() => setProfileModal(!profileModal)}
-          />
-        </>
-      ) : null}
+      <Modal active={profileModal}>
+        <ModalContainer>
+          <Link to={`/users/${username}`}>
+            <ModalRow onClick={() => setProfileModal(!profileModal)}>
+              <Column>
+                <FontAwesomeIcon icon={faUser} size="lg" />
+              </Column>
+              <Column>
+                <ModalText>Profile</ModalText>
+              </Column>
+            </ModalRow>
+          </Link>
+          <ModalRow>
+            <Column>
+              <FontAwesomeIcon icon={faBookmark} size="lg" />
+            </Column>
+            <Column>
+              <ModalText style={{ marginLeft: "12px" }}>Saved</ModalText>
+            </Column>
+          </ModalRow>
+          <ModalRow>
+            <Column>
+              <FontAwesomeIcon
+                icon={faCog}
+                size="lg"
+                style={{ paddingRight: "1px" }}
+              />
+            </Column>
+            <Column>
+              <ModalText style={{ marginLeft: "8px" }}>Setting</ModalText>
+            </Column>
+          </ModalRow>
+          <ModalRow onClick={() => logUserOut()}>
+            <Text>Log out</Text>
+          </ModalRow>
+        </ModalContainer>
+      </Modal>
+      <Overlay
+        active={profileModal}
+        onClick={() => setProfileModal(!profileModal)}
+      />
     </>
   );
 }
 
-export default ProfileModal;
+export default HeaderModal;

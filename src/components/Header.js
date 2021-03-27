@@ -13,7 +13,7 @@ import { isLoggedInVar } from "../apollo";
 import routes from "../routes";
 import useUser from "../hooks/useUser";
 import Avatar from "./Avatar";
-import ProfileModal from "./ProfileModal";
+import HeaderModal from "./HeaderModal";
 import { useForm } from "react-hook-form";
 
 const SHeader = styled.header`
@@ -119,11 +119,6 @@ function Header({ history }) {
           </form>
         </Column>
         <Column>
-          {/* <ProfileModal
-            profileModal={profileModal}
-            setProfileModal={setProfileModal}
-            username={data?.me?.username}
-          /> */}
           {isLoggedIn ? (
             <IconContainer>
               <Link to={routes.home}>
@@ -143,7 +138,7 @@ function Header({ history }) {
               <Icon onClick={() => setProfileModal(!profileModal)}>
                 <Avatar url={data?.me?.avatar} />
               </Icon>
-              <ProfileModal
+              <HeaderModal
                 profileModal={profileModal}
                 setProfileModal={setProfileModal}
                 username={data?.me?.username}
