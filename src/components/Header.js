@@ -22,7 +22,7 @@ const SHeader = styled.header`
   width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
   background-color: ${(props) => props.theme.formColor};
-  padding: 13px 0;
+  padding: 9px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,6 +86,7 @@ const LButton = styled.span`
 const SButton = styled(LButton)`
   background-color: ${(props) => props.theme.formColor};
   color: ${(props) => props.theme.blue};
+  border: 1px solid ${(props) => props.theme.borderColor};
   font-weight: 600;
 `;
 

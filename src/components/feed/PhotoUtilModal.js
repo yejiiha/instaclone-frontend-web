@@ -1,5 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { FatText } from "../shared";
 import DeleteModal from "./DeleteModal";
@@ -125,6 +126,9 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
               <Row>Edit</Row>
             </>
           ) : null}
+          <Row>
+            <Link to={`/posts/${id}`}>Go to post</Link>
+          </Row>
           <Row>Copy Link</Row>
           <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>Cancel</Row>
         </Container>

@@ -11,6 +11,7 @@ const Content = styled.main`
   margin-top: 95px;
   max-width: 930px;
   width: 100%;
+  min-height: 76vh;
 `;
 
 const Float = keyframes`

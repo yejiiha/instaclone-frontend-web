@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import { logUserOut } from "../apollo";
 
 const ModalShow = css`
-  top: 57px;
+  top: 49px;
   opacity: 1;
 `;
 

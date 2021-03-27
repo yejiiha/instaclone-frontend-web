@@ -19,6 +19,8 @@ import { dateConverter, FatText } from "../shared";
 import ProfileModalComment from "./ProfileModalComment";
 import ProfileModalComments from "./ProfileModalComments";
 import { TOGGLE_LIKE_MUTATION } from "../feed/FeedQueries";
+import { useState } from "react";
+import PhotoUtilModal from "../feed/PhotoUtilModal";
 
 const Overlay = styled.div`
   position: fixed;
@@ -161,6 +163,7 @@ function PhotoModalPresenter({
   likes,
   comments,
   createdAt,
+  isMine,
 }) {
   const updateToggleLike = (cache, result) => {
     const {
@@ -192,6 +195,7 @@ function PhotoModalPresenter({
     },
     update: updateToggleLike,
   });
+  const [photoUtilModal, setPhotoUtilModal] = useState(false);
   const history = useHistory();
   const goBack = (e) => {
     e.stopPropagation();
@@ -218,7 +222,16 @@ function PhotoModalPresenter({
               </Link>
             </Column>
             <Column>
-              <FontAwesomeIcon icon={faEllipsisH} />
+              <FontAwesomeIcon
+                icon={faEllipsisH}
+                onClick={() => setPhotoUtilModal(!photoUtilModal)}
+              />
+              <PhotoUtilModal
+                id={id}
+                photoUtilModal={photoUtilModal}
+                setPhotoUtilModal={setPhotoUtilModal}
+                isMine={isMine}
+              />
             </Column>
           </PhotoHeader>
           <PhotoData>

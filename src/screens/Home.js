@@ -28,7 +28,7 @@ function Home() {
   const { data, loading } = useQuery(FEED_QUERY);
   return (
     <div>
-      <PageTitle title="Home | Jistagram" />
+      <PageTitle title="Jistagram" />
       {loading && <Loader />}
       {data?.seeFeed?.map((photo) => (
         <Photo key={photo.id} {...photo} />
