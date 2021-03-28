@@ -122,11 +122,11 @@ function Header({ history }) {
         <Column>
           {isLoggedIn ? (
             <IconContainer>
-              <Link to={routes.home}>
-                <Icon>
+              <Icon>
+                <Link to={routes.home}>
                   <FontAwesomeIcon icon={faHome} />
-                </Icon>
-              </Link>
+                </Link>
+              </Icon>
               <Icon>
                 <FontAwesomeIcon icon={faPaperPlane} />
               </Icon>

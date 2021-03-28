@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FatText } from "../shared";
 import DeleteModal from "./DeleteModal";
 
@@ -12,14 +13,6 @@ const DELETE_PHOTO_MUTATION = gql`
     }
   }
 `;
-
-// const EDIT_PHOTO_MUTATION = gql`
-//   mutation editPhoto($id: Int!, $caption: String!) {
-//     editPhoto(id: $id, caption: $caption) {
-//       ok
-//     }
-//   }
-// `;
 
 const UtilModal = styled.div`
   display: flex;
@@ -35,7 +28,7 @@ const UtilModal = styled.div`
   border-radius: 12px;
 `;
 
-const Container = styled.ul``;
+const Container = styled.ul;
 
 const Row = styled.li`
   text-align: center;
@@ -78,6 +71,21 @@ const Overlay = styled.div`
   ${({ active }) => (active ? OverlayShow : "")}
 `;
 
+const CopyAlarmShow = css`
+  opacity: 1;
+`;
+
+const CopyAlarm = styled.div`
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  background-color: ${(props) => props.theme.menuColor};
+  color: ${(props) => props.theme.fontColor};
+  opacity: 0;
+  ${({ active }) => (active ? CopyAlarmShow : "")}
+`;
+
 function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
   const [deleteModal, setDeleteModal] = useState(false);
   const updateDeletePhoto = (cache, result) => {
@@ -100,14 +108,15 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
   const onDeleteClick = () => {
     deletePhotoMutation();
   };
-  // const updateEditPhoto = (cache, result) => {};
-  // const [editPhotoMutation] = useMutation(EDIT_PHOTO_MUTATION, {
-  //   variables: {
-  //     id,
-  //     caption,
-  //   },
-  //   update: updateEditPhoto,
-  // });
+
+  const url = `http://localhost:3000/posts/${id}?utm_source=ig_web_copy_link`;
+  const [isCopied, setIsCopied] = useState(false);
+  const onCopyText = () => {
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+  };
 
   return (
     <Overlay active={photoUtilModal}>
@@ -129,7 +138,12 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
           <Row>
             <Link to={`/posts/${id}`}>Go to post</Link>
           </Row>
-          <Row>Copy Link</Row>
+          <CopyToClipboard text={url}>
+            <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>
+              Copy Link
+            </Row>
+            <CopyAlarm active={isCopied}>Link copied to clipboard.</CopyAlarm>
+          </CopyToClipboard>
           <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>Cancel</Row>
         </Container>
       </UtilModal>
