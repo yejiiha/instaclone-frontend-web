@@ -14,6 +14,10 @@ const DELETE_PHOTO_MUTATION = gql`
   }
 `;
 
+const ModalShow = css`
+  opacity: 1;
+`;
+
 const UtilModal = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,9 +30,11 @@ const UtilModal = styled.div`
   z-index: 10;
   cursor: auto;
   border-radius: 12px;
+  opacity: 1;
+  /* ${({ active }) => (active ? ModalShow : "")} */
 `;
 
-const Container = styled.ul;
+const Container = styled.ul``;
 
 const Row = styled.li`
   text-align: center;
@@ -72,18 +78,22 @@ const Overlay = styled.div`
 `;
 
 const CopyAlarmShow = css`
+  display: block;
+  bottom: 0;
   opacity: 1;
 `;
 
 const CopyAlarm = styled.div`
-  position: absolute;
-  bottom: 0;
-  height: 50px;
   width: 100%;
-  background-color: ${(props) => props.theme.menuColor};
-  color: ${(props) => props.theme.fontColor};
-  opacity: 0;
-  ${({ active }) => (active ? CopyAlarmShow : "")}
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background-color: black;
+  color: white;
+  opacity: 1;
+  transition: all 0.3s ease-out;
+  ${({ active }) => (active ? CopyAlarmShow : "")};
 `;
 
 function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
@@ -109,8 +119,9 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
     deletePhotoMutation();
   };
 
-  const url = `http://localhost:3000/posts/${id}?utm_source=ig_web_copy_link`;
+  const text = `http://localhost:3000/posts/${id}?utm_source=ig_web_copy_link`;
   const [isCopied, setIsCopied] = useState(false);
+
   const onCopyText = () => {
     setIsCopied(true);
     setTimeout(() => {
@@ -138,11 +149,13 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
           <Row>
             <Link to={`/posts/${id}`}>Go to post</Link>
           </Row>
-          <CopyToClipboard text={url}>
-            <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>
-              Copy Link
-            </Row>
-            <CopyAlarm active={isCopied}>Link copied to clipboard.</CopyAlarm>
+          <CopyToClipboard text={text} onCopy={onCopyText}>
+            <div>
+              <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>
+                Copy Link
+              </Row>
+              <CopyAlarm active={isCopied}>Link copied to clipboard.</CopyAlarm>
+            </div>
           </CopyToClipboard>
           <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>Cancel</Row>
         </Container>
