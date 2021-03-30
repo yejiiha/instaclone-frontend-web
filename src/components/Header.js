@@ -131,7 +131,9 @@ function Header({ history }) {
                 <FontAwesomeIcon icon={faPaperPlane} />
               </Icon>
               <Icon>
-                <FontAwesomeIcon icon={faPlusSquare} />
+                <Link to={"/create"}>
+                  <FontAwesomeIcon icon={faPlusSquare} />
+                </Link>
               </Icon>
               <Icon>
                 <FontAwesomeIcon icon={faHeart} />

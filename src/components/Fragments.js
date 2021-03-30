@@ -22,3 +22,17 @@ export const COMMENT_FRAGMENT = gql`
     createdAt
   }
 `;
+
+export const FEED_FRAGMENT = gql`
+  fragment FeedFragment on Photo {
+    ...PhotoFragment
+    user {
+      username
+      avatar
+    }
+    caption
+    isMine
+    createdAt
+  }
+  ${PHOTO_FRAGMENT}
+`;
