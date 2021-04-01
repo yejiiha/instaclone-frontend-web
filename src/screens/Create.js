@@ -1,5 +1,8 @@
 import { gql, useMutation } from "@apollo/client";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../components/Avatar";
@@ -31,10 +34,13 @@ const CreateColumn = styled.div`
     left: 0;
     width: 600px;
     height: 600px;
-    background-color: ${(props) => props.theme.borderColor};
+    justify-content: center;
     align-items: center;
+    text-align: center;
+    background-color: grey;
   }
   &:last-child {
+    position: relative;
     left: 0;
     width: 335px;
     height: 600px;
@@ -59,12 +65,30 @@ const Username = styled(FatText)`
 `;
 
 const PreviewImg = styled.img`
-  height: 545px;
+  position: relative;
+  height: 600px;
   width: 600px;
 `;
 
+const Label = styled.label`
+  position: absolute;
+
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  svg {
+    font-size: 200px;
+    opacity: 0;
+  }
+  &:hover {
+    svg {
+      opacity: 0.7;
+    }
+  }
+`;
+
 const ChooseImg = styled.input`
-  width: 100%;
+  display: none;
 `;
 
 const CaptionContainer = styled.div`
@@ -78,12 +102,14 @@ const Caption = styled.input`
 `;
 
 const SubmitContainer = styled.div`
-  background-color: yellowgreen;
+  position: absolute;
+  background-color: grey;
   text-align: center;
-  margin-top: 405px;
+  width: 100%;
+  bottom: -1px;
 `;
 
-const Submit = styled.button`
+const Submit = styled.input`
   width: 100%;
   padding: 20px 15px;
   background-color: ${(props) => props.theme.blue};
@@ -93,42 +119,45 @@ const Submit = styled.button`
 `;
 
 function Create() {
+  const { register, handleSubmit, formState } = useForm({
+    mode: "onChange",
+  });
   const [uploadPhotoMutation, { loading }] = useMutation(UPLOAD_PHOTO_MUTATION);
   const { data } = useUser();
-  const [previewUrl, setPreviewUrl] = useState("");
-  const [caption, setCaption] = useState("");
+  const defaultImg = "https://www.gamudacove.com.my/media/img/default-img.jpg";
+  const [previewUrl, setPreviewUrl] = useState(defaultImg);
 
-  const onChange = ({
-    target: {
-      validity,
-      files: [file],
-    },
-  }) => {
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
     const reader = new FileReader();
     reader.addEventListener("load", () => {
       setPreviewUrl(reader.result);
     });
     reader.readAsDataURL(file);
-
-    if (validity.valid) uploadPhotoMutation({ variables: { file } });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onValid = (data) => {
+    const { file, caption } = data;
+    uploadPhotoMutation({ variables: { file: file[0], caption } });
   };
 
   return (
     <Container>
       <PageTitle title="Create post" />
-      <CreateForm onSubmit={handleSubmit}>
+      <CreateForm onSubmit={handleSubmit(onValid)}>
         <CreateColumn>
           <PreviewImg src={previewUrl} />
+          <Label htmlFor="file">
+            <FontAwesomeIcon icon={faPlusCircle} />
+          </Label>
           <ChooseImg
             type="file"
             name="file"
+            id="file"
             accept="image/jpg, image/png, image/jpeg"
             required
-            onChange={onChange}
+            onChange={onFileChange}
+            ref={register({ required: true })}
           />
         </CreateColumn>
         <CreateColumn>
@@ -146,16 +175,17 @@ function Create() {
             <Caption
               type="text"
               name="caption"
-              value={caption}
-              onChange={(e) => {
-                setCaption(e.target.value);
-              }}
+              ref={register}
               placeholder="Write a caption..."
             />
           </CaptionContainer>
 
           <SubmitContainer>
-            <Submit>Submit</Submit>
+            <Submit
+              type="submit"
+              value={loading ? "Loading..." : "Submit"}
+              disabled={!formState.isValid || loading}
+            />
           </SubmitContainer>
         </CreateColumn>
       </CreateForm>
