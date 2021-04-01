@@ -1,6 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../components/Avatar";
@@ -65,7 +64,7 @@ const PreviewImg = styled.img`
 `;
 
 const ChooseImg = styled.input`
-  background-color: yellowgreen;
+  width: 100%;
 `;
 
 const CaptionContainer = styled.div`
@@ -84,7 +83,7 @@ const SubmitContainer = styled.div`
   margin-top: 405px;
 `;
 
-const Submit = styled.input`
+const Submit = styled.button`
   width: 100%;
   padding: 20px 15px;
   background-color: ${(props) => props.theme.blue};
@@ -93,59 +92,43 @@ const Submit = styled.input`
   cursor: pointer;
 `;
 
-function Create({ props }) {
+function Create() {
   const [uploadPhotoMutation, { loading }] = useMutation(UPLOAD_PHOTO_MUTATION);
   const { data } = useUser();
-  const { register, handleSubmit, setValue, getValues, formState } = useForm({
-    mode: "onChange",
-  });
   const [previewUrl, setPreviewUrl] = useState("");
+  const [caption, setCaption] = useState("");
 
-  useEffect(() => {
-    register("caption");
-  }, [register]);
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  const onChange = (e) => {
-    let reader = new FileReader();
-    let targetFile = e.target.files[0];
-    reader.readAsDataURL(targetFile);
-    reader.onload = (evt) => {
-      setPreviewUrl(evt.target.result);
-    };
-  };
-
-  const onValid = ({
+  const onChange = ({
     target: {
       validity,
       files: [file],
-      caption,
     },
   }) => {
-    if (validity.valid) uploadPhotoMutation({ variables: { file, caption } });
-
-    uploadPhotoMutation({
-      variables: {
-        caption,
-        file,
-      },
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setPreviewUrl(reader.result);
     });
+    reader.readAsDataURL(file);
+
+    if (validity.valid) uploadPhotoMutation({ variables: { file } });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   return (
     <Container>
       <PageTitle title="Create post" />
-      <CreateForm onSubmit={handleSubmit(onValid)}>
+      <CreateForm onSubmit={handleSubmit}>
         <CreateColumn>
           <PreviewImg src={previewUrl} />
           <ChooseImg
             type="file"
             name="file"
-            onChange={onChange}
             accept="image/jpg, image/png, image/jpeg"
+            required
+            onChange={onChange}
           />
         </CreateColumn>
         <CreateColumn>
@@ -163,17 +146,16 @@ function Create({ props }) {
             <Caption
               type="text"
               name="caption"
-              ref={register}
+              value={caption}
+              onChange={(e) => {
+                setCaption(e.target.value);
+              }}
               placeholder="Write a caption..."
             />
           </CaptionContainer>
 
           <SubmitContainer>
-            <Submit
-              type="submit"
-              value={loading ? "Loading..." : "Share"}
-              disabled={!formState.isValid || loading}
-            />
+            <Submit>Submit</Submit>
           </SubmitContainer>
         </CreateColumn>
       </CreateForm>

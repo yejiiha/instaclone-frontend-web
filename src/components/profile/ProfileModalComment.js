@@ -114,15 +114,16 @@ function ProfileModalComment({
           </Link>
         </Caption>
         <CommentCaption>
-          {caption.split(" ").map((word, index) =>
-            /#[\w]+/.test(word) ? (
-              <React.Fragment key={index}>
-                <Link to={`/hashtags/${word}`}>{word}</Link>{" "}
-              </React.Fragment>
-            ) : (
-              <React.Fragment key={index}>{word} </React.Fragment>
-            )
-          )}
+          {caption !== null &&
+            caption.split(" ").map((word, index) =>
+              /#[\w]+/.test(word) ? (
+                <React.Fragment key={index}>
+                  <Link to={`/hashtags/${word}`}>{word}</Link>{" "}
+                </React.Fragment>
+              ) : (
+                <React.Fragment key={index}>{word} </React.Fragment>
+              )
+            )}
         </CommentCaption>
       </Column>
       <Column>
