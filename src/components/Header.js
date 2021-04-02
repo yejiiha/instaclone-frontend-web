@@ -149,10 +149,10 @@ function Header({ history }) {
             </IconContainer>
           ) : (
             <>
-              <Link href={routes.home}>
+              <Link to={routes.home}>
                 <LButton>Log in</LButton>
               </Link>
-              <Link href={routes.signup}>
+              <Link to={routes.signup}>
                 <SButton>Sign up</SButton>
               </Link>
             </>

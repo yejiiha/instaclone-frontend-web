@@ -1,15 +1,16 @@
 import { gql, useMutation } from "@apollo/client";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../components/Avatar";
 import { FEED_FRAGMENT } from "../components/Fragments";
 import PageTitle from "../components/PageTitle";
 import { FatText } from "../components/shared";
 import useUser from "../hooks/useUser";
+import routes from "../routes";
 
 const UPLOAD_PHOTO_MUTATION = gql`
   mutation uploadPhoto($file: Upload!, $caption: String) {
@@ -37,7 +38,6 @@ const CreateColumn = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: grey;
   }
   &:last-child {
     position: relative;
@@ -103,7 +103,6 @@ const Caption = styled.input`
 
 const SubmitContainer = styled.div`
   position: absolute;
-  background-color: grey;
   text-align: center;
   width: 100%;
   bottom: -1px;
@@ -115,17 +114,43 @@ const Submit = styled.input`
   background-color: ${(props) => props.theme.blue};
   color: white;
   box-sizing: border-box;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "auto" : "pointer")};
+  opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
 function Create() {
-  const { register, handleSubmit, formState } = useForm({
-    mode: "onChange",
-  });
-  const [uploadPhotoMutation, { loading }] = useMutation(UPLOAD_PHOTO_MUTATION);
+  const history = useHistory();
   const { data } = useUser();
   const defaultImg = "https://www.gamudacove.com.my/media/img/default-img.jpg";
   const [previewUrl, setPreviewUrl] = useState(defaultImg);
+  const { register, handleSubmit, formState } = useForm({
+    mode: "onChange",
+  });
+
+  const uploadPhotoUpdate = (cache, result) => {
+    const {
+      data: { uploadPhoto },
+    } = result;
+
+    if (uploadPhoto.id) {
+      cache.modify({
+        id: "ROOT_QUERY",
+        fields: {
+          seeFeed(prev) {
+            return [uploadPhoto, ...prev];
+          },
+        },
+      });
+      history.push(routes.home);
+    }
+  };
+
+  const [uploadPhotoMutation, { loading }] = useMutation(
+    UPLOAD_PHOTO_MUTATION,
+    {
+      update: uploadPhotoUpdate,
+    }
+  );
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
@@ -140,6 +165,10 @@ function Create() {
     const { file, caption } = data;
     uploadPhotoMutation({ variables: { file: file[0], caption } });
   };
+
+  useEffect(() => {
+    register("caption");
+  }, [register]);
 
   return (
     <Container>
