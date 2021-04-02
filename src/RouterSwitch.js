@@ -2,6 +2,7 @@ import { Route, Switch, useLocation } from "react-router";
 import Layout from "./components/auth/Layout";
 import PhotoModalContainer from "./components/profile/PhotoModalContainer";
 import routes from "./routes";
+import AccountEdit from "./screens/AccountEdit";
 import Create from "./screens/Create";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
@@ -49,6 +50,11 @@ function RouterSwitch({ isLoggedIn }) {
         <Route path={"/create"}>
           <Layout>
             <Create />
+          </Layout>
+        </Route>
+        <Route path={"/accounts/edit"}>
+          <Layout>
+            <AccountEdit />
           </Layout>
         </Route>
         <Route>

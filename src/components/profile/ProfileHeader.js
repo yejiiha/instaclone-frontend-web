@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FatText } from "../shared";
 
@@ -91,7 +92,11 @@ function ProfileHeader({
   const getButton = (seeProfile) => {
     const { isMe, isFollowing } = seeProfile;
     if (isMe) {
-      return <UnfollowButton>Edit Profile</UnfollowButton>;
+      return (
+        <Link to="/accounts/edit">
+          <UnfollowButton>Edit Profile</UnfollowButton>
+        </Link>
+      );
     }
     if (isFollowing) {
       return <UnfollowButton onClick={unfollowUser}>Unfollow</UnfollowButton>;
