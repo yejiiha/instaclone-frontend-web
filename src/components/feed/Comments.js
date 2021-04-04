@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
@@ -138,6 +139,11 @@ function Comments({
       },
     });
   };
+
+  useEffect(() => {
+    register("payload");
+  }, [register]);
+
   return (
     <CommentsContainer>
       <Comment author={author} caption={caption} />

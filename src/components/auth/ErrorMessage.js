@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const SErrorMessage = styled.span`
+const SErrorMessage = styled.div`
   color: tomato;
   font-weight: 600;
   font-size: 12px;
-  margin: 5px 0 5px 0;
+  margin: 10px 0 0 0;
 `;
 
 function ErrorMessage({ message }) {

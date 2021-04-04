@@ -32,6 +32,9 @@ const InfoUsername = styled.span`
 const Row = styled.div`
   display: flex;
   margin-bottom: 16px;
+  &:nth-child(3) {
+    margin-bottom: 56px;
+  }
 `;
 
 const Title = styled.aside`

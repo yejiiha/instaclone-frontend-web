@@ -1,6 +1,10 @@
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
-import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import styled, { css } from "styled-components";
 import useUser from "../../hooks/useUser";
+import { EDIT_PROFILE_MUTATION } from "./accountEditQueries";
+import ErrorMessage from "../auth/ErrorMessage";
 
 const Wrapper = styled.div`
   margin-top: 40px;
@@ -34,7 +38,6 @@ const PreviewImg = styled.img`
   height: 35px;
   width: 35px;
   border-radius: 50%;
-  background-color: black;
 `;
 
 const InfoUsername = styled.span`
@@ -56,6 +59,9 @@ const ChooseAvatar = styled.input`
 const Row = styled.div`
   display: flex;
   margin-bottom: 16px;
+  &:nth-child(5) {
+    margin-bottom: 56px;
+  }
 `;
 
 const Title = styled.aside`
@@ -74,6 +80,10 @@ const Content = styled.div`
   &:not(:last-child) {
     flex-basis: 355px;
     justify-content: flex-start;
+  }
+  &:nth-child(3) {
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -112,9 +122,107 @@ const SubmitBtn = styled.input`
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
+const CopyAlarmShow = css`
+  display: block;
+  bottom: 0;
+  opacity: 1;
+`;
+
+const CopyAlarm = styled.div`
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background-color: black;
+  color: white;
+  opacity: 1;
+  transition: all 0.3s ease-out;
+  ${({ active }) => (active ? CopyAlarmShow : "")};
+`;
+
 function EditProfile() {
-  const { data } = useUser();
-  const [previewUrl, setPreviewUrl] = useState(data?.me?.avatar);
+  const { data: userData } = useUser();
+  const [previewUrl, setPreviewUrl] = useState(userData?.me?.avatar);
+  const { register, handleSubmit, getValues, errors } = useForm({
+    defaultValues: {
+      firstName: userData?.me?.firstName,
+      lastName: userData?.me?.lastName,
+      username: userData?.me?.username,
+      bio: userData?.me?.bio,
+      email: userData?.me?.email,
+    },
+    mode: "onChange",
+  });
+
+  const editProfileUpdate = (cache, result) => {
+    const { avatar, firstName, lastName, username, bio, email } = getValues();
+    const {
+      data: {
+        editProfile: { ok },
+      },
+    } = result;
+
+    if (!ok) {
+      return;
+    }
+
+    if (ok && userData.me) {
+      cache.modify({
+        id: `User:${username}`,
+        fields: {
+          avatar() {
+            return avatar;
+          },
+          username() {
+            return username;
+          },
+          firstName() {
+            return firstName;
+          },
+          lastName() {
+            return lastName;
+          },
+          bio() {
+            return bio;
+          },
+          email() {
+            return email;
+          },
+        },
+      });
+    }
+  };
+
+  const [editProfileMutation, { loading }] = useMutation(
+    EDIT_PROFILE_MUTATION,
+    {
+      update: editProfileUpdate,
+    }
+  );
+
+  const onChange = (e) => {
+    const avatar = e.target.files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setPreviewUrl(reader.result);
+    });
+    reader.readAsDataURL(avatar);
+  };
+
+  const onValid = (data) => {
+    const { avatar, firstName, lastName, username, bio, email } = data;
+    editProfileMutation({
+      variables: {
+        avatar: avatar[0],
+        firstName,
+        lastName,
+        username,
+        bio,
+        email,
+      },
+    });
+  };
   return (
     <Wrapper>
       <Info>
@@ -122,46 +230,67 @@ function EditProfile() {
           <PreviewImg src={previewUrl} />
         </InfoColumn>
         <InfoColumn>
-          <InfoUsername>{data?.me?.username}</InfoUsername>
+          <InfoUsername>{userData?.me?.username}</InfoUsername>
           <Label htmlFor="avatar">Change Profile Photo</Label>
-          <ChooseAvatar type="file" name="avatar" id="avatar" />
+          <ChooseAvatar
+            type="file"
+            name="avatar"
+            id="avatar"
+            accept="image/jpg, image/png, image/jpeg"
+            onChange={onChange}
+            ref={register}
+          />
         </InfoColumn>
       </Info>
-      <EditProfileForm>
+      <EditProfileForm onSubmit={handleSubmit(onValid)}>
         <Row>
           <Title>First Name</Title>
           <Content>
-            <FirstName type="text" name="firstName" />
+            <FirstName type="text" name="firstName" ref={register} />
           </Content>
         </Row>
         <Row>
           <Title>Last Name</Title>
           <Content>
-            <LastName type="text" name="lastName" />
+            <LastName type="text" name="lastName" ref={register} />
           </Content>
         </Row>
         <Row>
           <Title>Username</Title>
           <Content>
-            <Username type="text" name="username" />
+            <Username
+              type="text"
+              name="username"
+              ref={register({
+                minLength: {
+                  value: 5,
+                  message: "Username should be longer than 5 chars.",
+                },
+              })}
+            />
+            <ErrorMessage message={errors?.username?.message} />
           </Content>
         </Row>
+
         <Row>
           <Title>Bio</Title>
           <Content>
-            <Bio type="text" name="bio" />
+            <Bio type="text" name="bio" ref={register} />
           </Content>
         </Row>
         <Row>
           <Title>Email</Title>
           <Content>
-            <Email type="text" name="email" />
+            <Email type="text" name="email" ref={register} />
           </Content>
         </Row>
         <Row>
           <Title></Title>
           <Content>
-            <SubmitBtn type="submit" value={"Submit"} />
+            <SubmitBtn
+              type="submit"
+              value={loading ? "Loading..." : "Submit"}
+            />
           </Content>
         </Row>
       </EditProfileForm>

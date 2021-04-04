@@ -18,7 +18,6 @@ const MenuList = styled.ul`
   display: flex;
   list-style: none;
   width: 100%;
-  /* background-color: yellowgreen; */
 `;
 
 const Menu = styled.li`
