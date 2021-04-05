@@ -171,22 +171,22 @@ function EditProfile() {
       cache.modify({
         id: `User:${username}`,
         fields: {
-          avatar() {
+          avatar(prev) {
             return avatar;
           },
-          username() {
+          username(prev) {
             return username;
           },
-          firstName() {
+          firstName(prev) {
             return firstName;
           },
-          lastName() {
+          lastName(prev) {
             return lastName;
           },
-          bio() {
+          bio(prev) {
             return bio;
           },
-          email() {
+          email(prev) {
             return email;
           },
         },

@@ -22,7 +22,7 @@ import { dateConverter } from "./shared";
 const Modal = styled.div`
   display: flex;
   position: fixed;
-  background-color: white;
+  background-color: ${(props) => props.theme.formColor};
   align-items: center;
   margin: auto;
   max-width: 935px;
