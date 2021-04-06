@@ -19,7 +19,7 @@ const CommentsContainer = styled.div`
   position: absolute;
   bottom: 0px;
   right: 0;
-  width: 335px;
+  width: 100%;
   margin-top: 16px;
 `;
 

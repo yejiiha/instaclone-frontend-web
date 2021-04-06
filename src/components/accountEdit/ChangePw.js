@@ -1,6 +1,11 @@
-import styled from "styled-components";
+import { useMutation } from "@apollo/client";
+import { useState, useRef, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import styled, { css, keyframes } from "styled-components";
 import useUser from "../../hooks/useUser";
+import ErrorMessage from "../auth/ErrorMessage";
 import Avatar from "../Avatar";
+import { EDIT_PROFILE_MUTATION } from "./accountEditQueries";
 
 const Wrapper = styled.div`
   margin-top: 40px;
@@ -81,45 +86,150 @@ const SubmitBtn = styled.input`
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
+const CopyAlarmShow = css`
+  display: block;
+  bottom: 0;
+`;
+
+const CopyAlarm = styled.div`
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background-color: black;
+  color: white;
+  display: none;
+  transition: all 0.3s ease-out;
+  ${({ active }) => (active ? CopyAlarmShow : "")};
+`;
+
 function ChangePw() {
-  const { data } = useUser();
+  const [message, setMessage] = useState("");
+  const [display, setDisplay] = useState(false);
+  const { data: userData } = useUser();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    errors,
+    watch,
+    formState,
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const password = useRef({});
+  password.current = watch("password", "");
+
+  const editProfileUpdate = (cache, result) => {
+    const { password } = getValues();
+    const {
+      data: {
+        editProfile: { ok },
+      },
+    } = result;
+
+    if (!ok) {
+      return;
+    }
+
+    if (ok && userData.me) {
+      cache.modify({
+        id: `User:${userData?.me?.username}`,
+        fields: {
+          password(prev) {
+            return password;
+          },
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    register("password");
+  }, [register]);
+
+  const [editProfileMutation, { loading }] = useMutation(
+    EDIT_PROFILE_MUTATION,
+    {
+      update: editProfileUpdate,
+    }
+  );
+
+  const onValid = (data) => {
+    if (loading) {
+      return;
+    }
+    const { password } = data;
+    editProfileMutation({
+      variables: {
+        password,
+      },
+    });
+    setDisplay(true);
+    setMessage("Passsword is changed.");
+    setTimeout(() => {
+      setDisplay(false);
+    }, 2000);
+  };
   return (
-    <Wrapper>
-      <Info>
-        <InfoColumn>
-          <Avatar lg src={data?.me?.avatar} />
-        </InfoColumn>
-        <InfoColumn>
-          <InfoUsername>{data?.me?.username}</InfoUsername>
-        </InfoColumn>
-      </Info>
-      <ChangePwForm>
-        <Row>
-          <Title>Old Password</Title>
-          <Content>
-            <FirstName type="text" name="firstName" />
-          </Content>
-        </Row>
-        <Row>
-          <Title>New Password</Title>
-          <Content>
-            <FirstName type="text" name="firstName" />
-          </Content>
-        </Row>
-        <Row>
-          <Title>Confirm New Password</Title>
-          <Content>
-            <FirstName type="text" name="firstName" />
-          </Content>
-        </Row>
-        <Row>
-          <Title></Title>
-          <Content>
-            <SubmitBtn type="submit" value={"Change Password"} />
-          </Content>
-        </Row>
-      </ChangePwForm>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Info>
+          <InfoColumn>
+            <Avatar lg src={userData?.me?.avatar} />
+          </InfoColumn>
+          <InfoColumn>
+            <InfoUsername>{userData?.me?.username}</InfoUsername>
+          </InfoColumn>
+        </Info>
+
+        <ChangePwForm onSubmit={handleSubmit(onValid)}>
+          <Row>
+            <Title>New Password</Title>
+            <Content>
+              <FirstName
+                type="password"
+                name="password"
+                ref={register({
+                  minLength: {
+                    value: 5,
+                    message: "Password must have at least 5 characters.",
+                  },
+                })}
+              />
+            </Content>
+          </Row>
+          <Row>
+            <Title>Confirm New Password</Title>
+            <Content>
+              <FirstName
+                type="password"
+                name="confirmPassword"
+                ref={register({
+                  validate: (value) =>
+                    value === password.current ||
+                    "Please make sure both passwords match.",
+                })}
+              />
+              <ErrorMessage message={errors?.confirmPassword?.message} />
+            </Content>
+          </Row>
+          <Row>
+            <Title></Title>
+            <Content>
+              <SubmitBtn
+                type="submit"
+                value={loading ? "Loading..." : "Change Password"}
+                disabled={loading || !formState.isValid}
+              />
+            </Content>
+          </Row>
+        </ChangePwForm>
+      </Wrapper>
+      <CopyAlarm active={display}>{message}</CopyAlarm>
+    </>
   );
 }
 

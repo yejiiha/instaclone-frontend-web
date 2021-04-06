@@ -60,6 +60,7 @@ const ModalColumn = styled.div`
     height: 600px;
   }
   &:last-child {
+    position: relative;
     left: 0;
     width: 335px;
     height: 600px;
@@ -117,7 +118,7 @@ const PhotoActions = styled.div`
 
 const LikeAction = styled.div`
   position: absolute;
-  width: 335px;
+  width: 100%;
   bottom: 55px;
   right: 0;
   padding: 13px 15px 10px 15px;
@@ -276,6 +277,7 @@ function PhotoModalPresenter({
               <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
               <Timestamp>{dateConverter(createdAt)}</Timestamp>
             </LikeAction>
+
             <ProfileModalComments photoId={id} />
           </PhotoData>
         </ModalColumn>

@@ -146,11 +146,11 @@ function EditProfile() {
   const [previewUrl, setPreviewUrl] = useState(userData?.me?.avatar);
   const { register, handleSubmit, getValues, errors } = useForm({
     defaultValues: {
-      firstName: userData?.me?.firstName,
-      lastName: userData?.me?.lastName,
-      username: userData?.me?.username,
-      bio: userData?.me?.bio,
-      email: userData?.me?.email,
+      firstName: userData?.me?.firstName || "",
+      lastName: userData?.me?.lastName || "",
+      username: userData?.me?.username || "",
+      bio: userData?.me?.bio || "",
+      email: userData?.me?.email || "",
     },
     mode: "onChange",
   });

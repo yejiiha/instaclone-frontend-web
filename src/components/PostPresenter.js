@@ -42,6 +42,7 @@ const ModalColumn = styled.div`
     height: 600px;
   }
   &:last-child {
+    position: relative;
     left: 0;
     width: 335px;
     height: 600px;
@@ -99,7 +100,7 @@ const PhotoActions = styled.div`
 
 const LikeAction = styled.div`
   position: absolute;
-  width: 335px;
+  width: 100%;
   bottom: 55px;
   right: 0;
   padding: 13px 15px 10px 15px;

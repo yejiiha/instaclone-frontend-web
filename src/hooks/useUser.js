@@ -12,6 +12,7 @@ const ME_QUERY = gql`
       lastName
       bio
       email
+      password
     }
   }
 `;
