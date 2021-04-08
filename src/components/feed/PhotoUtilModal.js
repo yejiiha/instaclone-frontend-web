@@ -80,7 +80,6 @@ const Overlay = styled.div`
 const CopyAlarmShow = css`
   display: block;
   bottom: 0;
-  opacity: 1;
 `;
 
 const CopyAlarm = styled.div`
@@ -91,7 +90,7 @@ const CopyAlarm = styled.div`
   padding: 20px;
   background-color: black;
   color: white;
-  opacity: 1;
+  display: none;
   transition: all 0.3s ease-out;
   ${({ active }) => (active ? CopyAlarmShow : "")};
 `;
@@ -120,12 +119,12 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
   };
 
   const text = `http://localhost:3000/posts/${id}?utm_source=ig_web_copy_link`;
-  const [isCopied, setIsCopied] = useState(false);
+  const [display, setDisplay] = useState(false);
 
-  const onCopyText = () => {
-    setIsCopied(true);
+  const setCopyAlarm = () => {
+    setDisplay(true);
     setTimeout(() => {
-      setIsCopied(false);
+      setDisplay(false);
     }, 2000);
   };
 
@@ -149,12 +148,10 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
           <Row>
             <Link to={`/posts/${id}`}>Go to post</Link>
           </Row>
-          <CopyToClipboard text={text} onCopy={onCopyText}>
+          <CopyToClipboard text={text}>
             <div>
-              <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>
-                Copy Link
-              </Row>
-              <CopyAlarm active={isCopied}>Link copied to clipboard.</CopyAlarm>
+              <Row onClick={setCopyAlarm}>Copy Link</Row>
+              <CopyAlarm active={display}>Link copied to clipboard.</CopyAlarm>
             </div>
           </CopyToClipboard>
           <Row onClick={() => setPhotoUtilModal(!photoUtilModal)}>Cancel</Row>

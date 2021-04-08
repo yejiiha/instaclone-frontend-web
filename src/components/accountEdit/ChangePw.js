@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 import useUser from "../../hooks/useUser";
 import ErrorMessage from "../auth/ErrorMessage";
 import Avatar from "../Avatar";

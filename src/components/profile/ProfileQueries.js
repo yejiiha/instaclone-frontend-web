@@ -57,3 +57,34 @@ export const SEE_PHOTO_QUERY = gql`
   ${PHOTO_FRAGMENT}
   ${COMMENT_FRAGMENT}
 `;
+
+export const SEE_FOLLOWERS = gql`
+  query seeFollowers($page: Int, $username: String!) {
+    seeFollowers(page: $page, username: $username) {
+      ok
+      totalPages
+      followers {
+        id
+        username
+        avatar
+        isMe
+        isFollowing
+      }
+    }
+  }
+`;
+
+export const SEE_FOLLOWING = gql`
+  query seeFollowing($username: String!) {
+    seeFollowing(username: $username) {
+      ok
+      following {
+        id
+        username
+        avatar
+        isMe
+        isFollowing
+      }
+    }
+  }
+`;

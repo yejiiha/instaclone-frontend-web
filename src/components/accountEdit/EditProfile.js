@@ -125,7 +125,6 @@ const SubmitBtn = styled.input`
 const CopyAlarmShow = css`
   display: block;
   bottom: 0;
-  opacity: 1;
 `;
 
 const CopyAlarm = styled.div`
@@ -136,12 +135,14 @@ const CopyAlarm = styled.div`
   padding: 20px;
   background-color: black;
   color: white;
-  opacity: 1;
+  display: none;
   transition: all 0.3s ease-out;
   ${({ active }) => (active ? CopyAlarmShow : "")};
 `;
 
 function EditProfile() {
+  const [message, setMessage] = useState("");
+  const [display, setDisplay] = useState(false);
   const { data: userData } = useUser();
   const [previewUrl, setPreviewUrl] = useState(userData?.me?.avatar);
   const { register, handleSubmit, getValues, errors } = useForm({
@@ -222,79 +223,87 @@ function EditProfile() {
         email,
       },
     });
+    setDisplay(true);
+    setMessage("Profile is changed.");
+    setTimeout(() => {
+      setDisplay(false);
+    }, 2000);
   };
   return (
-    <Wrapper>
-      <Info>
-        <InfoColumn>
-          <PreviewImg src={previewUrl} />
-        </InfoColumn>
-        <InfoColumn>
-          <InfoUsername>{userData?.me?.username}</InfoUsername>
-          <Label htmlFor="avatar">Change Profile Photo</Label>
-          <ChooseAvatar
-            type="file"
-            name="avatar"
-            id="avatar"
-            accept="image/jpg, image/png, image/jpeg"
-            onChange={onChange}
-            ref={register}
-          />
-        </InfoColumn>
-      </Info>
-      <EditProfileForm onSubmit={handleSubmit(onValid)}>
-        <Row>
-          <Title>First Name</Title>
-          <Content>
-            <FirstName type="text" name="firstName" ref={register} />
-          </Content>
-        </Row>
-        <Row>
-          <Title>Last Name</Title>
-          <Content>
-            <LastName type="text" name="lastName" ref={register} />
-          </Content>
-        </Row>
-        <Row>
-          <Title>Username</Title>
-          <Content>
-            <Username
-              type="text"
-              name="username"
-              ref={register({
-                minLength: {
-                  value: 5,
-                  message: "Username should be longer than 5 chars.",
-                },
-              })}
+    <>
+      <Wrapper>
+        <Info>
+          <InfoColumn>
+            <PreviewImg src={previewUrl} />
+          </InfoColumn>
+          <InfoColumn>
+            <InfoUsername>{userData?.me?.username}</InfoUsername>
+            <Label htmlFor="avatar">Change Profile Photo</Label>
+            <ChooseAvatar
+              type="file"
+              name="avatar"
+              id="avatar"
+              accept="image/jpg, image/png, image/jpeg"
+              onChange={onChange}
+              ref={register}
             />
-            <ErrorMessage message={errors?.username?.message} />
-          </Content>
-        </Row>
+          </InfoColumn>
+        </Info>
+        <EditProfileForm onSubmit={handleSubmit(onValid)}>
+          <Row>
+            <Title>First Name</Title>
+            <Content>
+              <FirstName type="text" name="firstName" ref={register} />
+            </Content>
+          </Row>
+          <Row>
+            <Title>Last Name</Title>
+            <Content>
+              <LastName type="text" name="lastName" ref={register} />
+            </Content>
+          </Row>
+          <Row>
+            <Title>Username</Title>
+            <Content>
+              <Username
+                type="text"
+                name="username"
+                ref={register({
+                  minLength: {
+                    value: 5,
+                    message: "Username should be longer than 5 chars.",
+                  },
+                })}
+              />
+              <ErrorMessage message={errors?.username?.message} />
+            </Content>
+          </Row>
 
-        <Row>
-          <Title>Bio</Title>
-          <Content>
-            <Bio type="text" name="bio" ref={register} />
-          </Content>
-        </Row>
-        <Row>
-          <Title>Email</Title>
-          <Content>
-            <Email type="text" name="email" ref={register} />
-          </Content>
-        </Row>
-        <Row>
-          <Title></Title>
-          <Content>
-            <SubmitBtn
-              type="submit"
-              value={loading ? "Loading..." : "Submit"}
-            />
-          </Content>
-        </Row>
-      </EditProfileForm>
-    </Wrapper>
+          <Row>
+            <Title>Bio</Title>
+            <Content>
+              <Bio type="text" name="bio" ref={register} />
+            </Content>
+          </Row>
+          <Row>
+            <Title>Email</Title>
+            <Content>
+              <Email type="text" name="email" ref={register} />
+            </Content>
+          </Row>
+          <Row>
+            <Title></Title>
+            <Content>
+              <SubmitBtn
+                type="submit"
+                value={loading ? "Loading..." : "Submit"}
+              />
+            </Content>
+          </Row>
+        </EditProfileForm>
+        <CopyAlarm active={display}>{message}</CopyAlarm>
+      </Wrapper>
+    </>
   );
 }
 

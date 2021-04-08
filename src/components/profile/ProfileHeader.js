@@ -1,6 +1,11 @@
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FatText } from "../shared";
+import FollowersModal from "./FollowersModal";
+import FollowingModal from "./FollowingModal";
+import { SEE_FOLLOWERS, SEE_FOLLOWING } from "./ProfileQueries";
 
 const Header = styled.div`
   display: flex;
@@ -42,6 +47,10 @@ const List = styled.ul`
 `;
 const Item = styled.li`
   margin-right: 20px;
+`;
+
+const ItemText = styled.span`
+  cursor: pointer;
 `;
 
 const Value = styled(FatText)`
@@ -104,44 +113,84 @@ function ProfileHeader({
       return <FollowButton onClick={followUser}>Follow</FollowButton>;
     }
   };
-  return (
-    <Header>
-      <Avatar src={avatar} />
-      <Column>
-        <Row>
-          <Username>{username}</Username>
-          {seeProfile ? getButton(seeProfile) : null}
-        </Row>
-        <Row>
-          <List>
-            <Item>
-              <span>
-                <Value>{totalPhotos}</Value> Posts
-              </span>
-            </Item>
-            <Item>
-              <span>
-                <Value>{totalFollowers}</Value> Followers
-              </span>
-            </Item>
-            <Item>
-              <span>
-                <Value>{totalFollowing}</Value> Following
-              </span>
-            </Item>
-          </List>
-        </Row>
-        <Row>
-          <Name>
-            {firstName}
-            {"  "}
-            {lastName}
-          </Name>
-        </Row>
-        <Row>{bio}</Row>
-      </Column>
-    </Header>
-  );
+  const [followersModal, setFollowersModal] = useState(false);
+  const { data, loading } = useQuery(SEE_FOLLOWERS, {
+    variables: { username: String(username), page: 1 },
+  });
+  const [followingModal, setFollowingModal] = useState(false);
+  const { data: whoFollowing } = useQuery(SEE_FOLLOWING, {
+    variables: { username: String(username) },
+  });
+
+  if (!loading && data && data.seeFollowers) {
+    return (
+      <Header>
+        <Avatar src={avatar} />
+        <Column>
+          <Row>
+            <Username>{username}</Username>
+            {seeProfile ? getButton(seeProfile) : null}
+          </Row>
+          <Row>
+            <List>
+              <Item>
+                <ItemText>
+                  <Value>{totalPhotos}</Value> Posts
+                </ItemText>
+              </Item>
+              <Item>
+                <ItemText
+                  onClick={
+                    totalFollowers === 0
+                      ? null
+                      : () => setFollowersModal(!followersModal)
+                  }
+                >
+                  <Value>{totalFollowers}</Value> Followers
+                  <FollowersModal
+                    followersModal={followersModal}
+                    setFollowersModal={setFollowersModal}
+                    username={username}
+                    followers={data?.seeFollowers?.followers}
+                    unfollowUser={unfollowUser}
+                    followUser={followUser}
+                  />
+                </ItemText>
+              </Item>
+              <Item>
+                <ItemText
+                  onClick={
+                    totalFollowing === 0
+                      ? null
+                      : () => setFollowingModal(!followingModal)
+                  }
+                >
+                  <Value>{totalFollowing}</Value> Following
+                  <FollowingModal
+                    followingModal={followingModal}
+                    setFollowingModal={setFollowingModal}
+                    username={username}
+                    following={whoFollowing?.seeFollowing?.following}
+                    unfollowUser={unfollowUser}
+                    followUser={followUser}
+                  />
+                </ItemText>
+              </Item>
+            </List>
+          </Row>
+          <Row>
+            <Name>
+              {firstName}
+              {"  "}
+              {lastName}
+            </Name>
+          </Row>
+          <Row>{bio}</Row>
+        </Column>
+      </Header>
+    );
+  }
+  return null;
 }
 
 export default ProfileHeader;
