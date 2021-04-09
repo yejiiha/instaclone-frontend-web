@@ -1,13 +1,6 @@
 import styled, { css } from "styled-components";
 import FollowModalList from "./FollowModalList";
 
-const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Modal = styled.div`
   width: 400px;
   height: 400px;
@@ -40,6 +33,10 @@ const HeaderColumn = styled.div`
     display: flex;
     justify-content: flex-end;
   }
+`;
+
+const HeaderTitle = styled.h1`
+  font-weight: 600;
 `;
 
 const CloseBtn = styled.button``;
@@ -76,7 +73,7 @@ function FollowingModal({
           <ModalHeader>
             <HeaderColumn></HeaderColumn>
             <HeaderColumn>
-              <h1>Following</h1>
+              <HeaderTitle>Following</HeaderTitle>
             </HeaderColumn>
             <HeaderColumn>
               <CloseBtn onClick={() => setFollowingModal(!followingModal)}>

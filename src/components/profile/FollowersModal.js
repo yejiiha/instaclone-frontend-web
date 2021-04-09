@@ -1,13 +1,6 @@
 import styled, { css } from "styled-components";
 import FollowModalList from "./FollowModalList";
 
-const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Modal = styled.div`
   width: 400px;
   height: 400px;
@@ -19,7 +12,7 @@ const Modal = styled.div`
   background-color: ${(props) => props.theme.formColor};
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 12px;
-  z-index: 10;
+  z-index: 5;
 `;
 
 const ModalContainer = styled.div``;
@@ -40,6 +33,10 @@ const HeaderColumn = styled.div`
     display: flex;
     justify-content: flex-end;
   }
+`;
+
+const HeaderTitle = styled.h1`
+  font-weight: 600;
 `;
 
 const CloseBtn = styled.button``;
@@ -76,7 +73,7 @@ function FollowersModal({
           <ModalHeader>
             <HeaderColumn></HeaderColumn>
             <HeaderColumn>
-              <h1>Followers</h1>
+              <HeaderTitle>Followers</HeaderTitle>
             </HeaderColumn>
             <HeaderColumn>
               <CloseBtn onClick={() => setFollowersModal(!followersModal)}>
@@ -85,7 +82,7 @@ function FollowersModal({
             </HeaderColumn>
           </ModalHeader>
           <ModalContents>
-            <div>
+            <ul>
               {followers &&
                 followers.map((f) => (
                   <FollowModalList
@@ -97,7 +94,7 @@ function FollowersModal({
                   />
                 ))}
               {followers && followers.username}
-            </div>
+            </ul>
           </ModalContents>
         </ModalContainer>
       </Modal>

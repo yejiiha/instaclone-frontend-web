@@ -50,10 +50,20 @@ const Item = styled.li`
 `;
 
 const ItemText = styled.span`
-  cursor: pointer;
+  &:not(:last-child) {
+    cursor: pointer;
+    &:active {
+      color: ${(props) => props.theme.darkGray};
+      span {
+        color: ${(props) => props.theme.darkGray};
+      }
+    }
+  }
 `;
 
-const Value = styled(FatText)`
+const Value = styled.span`
+  font-weight: 600;
+  color: ${(props) => props.theme.fontColor};
   font-size: 16px;
 `;
 
@@ -147,15 +157,15 @@ function ProfileHeader({
                   }
                 >
                   <Value>{totalFollowers}</Value> Followers
-                  <FollowersModal
-                    followersModal={followersModal}
-                    setFollowersModal={setFollowersModal}
-                    username={username}
-                    followers={data?.seeFollowers?.followers}
-                    unfollowUser={unfollowUser}
-                    followUser={followUser}
-                  />
                 </ItemText>
+                <FollowersModal
+                  followersModal={followersModal}
+                  setFollowersModal={setFollowersModal}
+                  username={username}
+                  followers={data?.seeFollowers?.followers}
+                  unfollowUser={unfollowUser}
+                  followUser={followUser}
+                />
               </Item>
               <Item>
                 <ItemText
@@ -166,15 +176,15 @@ function ProfileHeader({
                   }
                 >
                   <Value>{totalFollowing}</Value> Following
-                  <FollowingModal
-                    followingModal={followingModal}
-                    setFollowingModal={setFollowingModal}
-                    username={username}
-                    following={whoFollowing?.seeFollowing?.following}
-                    unfollowUser={unfollowUser}
-                    followUser={followUser}
-                  />
                 </ItemText>
+                <FollowingModal
+                  followingModal={followingModal}
+                  setFollowingModal={setFollowingModal}
+                  username={username}
+                  following={whoFollowing?.seeFollowing?.following}
+                  unfollowUser={unfollowUser}
+                  followUser={followUser}
+                />
               </Item>
             </List>
           </Row>

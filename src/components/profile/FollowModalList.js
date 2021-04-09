@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../Avatar";
 
-const Lists = styled.ul`
+const Lists = styled.div`
   width: 100%;
 `;
 
@@ -10,6 +10,12 @@ const List = styled.li`
   display: flex;
   justify-content: space-between;
   padding: 8px 16px;
+`;
+
+const Username = styled.span`
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const ListColumn = styled.div`
@@ -66,11 +72,7 @@ function FollowModalList({
 }) {
   const getButton = (isMe, isFollowing) => {
     if (isMe) {
-      return (
-        <Link to="/accounts/edit">
-          <UnfollowButton>Edit Profile</UnfollowButton>
-        </Link>
-      );
+      return null;
     }
     if (isFollowing) {
       return <UnfollowButton onClick={unfollowUser}>Unfollow</UnfollowButton>;
@@ -84,11 +86,13 @@ function FollowModalList({
         <ListColumn>
           <Column>
             <Link to={`/users/${username}`}>
-              <Avatar src={avatar} />
+              <Avatar url={avatar} />
             </Link>
           </Column>
           <Column>
-            <Link to={`/users/${username}`}>{username}</Link>
+            <Link to={`/users/${username}`}>
+              <Username>{username}</Username>
+            </Link>
           </Column>
         </ListColumn>
         <ListColumn>
