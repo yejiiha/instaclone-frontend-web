@@ -64,7 +64,7 @@ const OverlayShow = css`
   display: block;
 `;
 
-const Overlay = styled.div`
+export const Overlay = styled.div`
   background-color: ${(props) => props.theme.overlayColor};
   top: 0;
   bottom: 0;

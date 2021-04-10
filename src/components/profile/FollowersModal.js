@@ -1,4 +1,5 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import { Overlay } from "../feed/PhotoUtilModal";
 import FollowModalList from "./FollowModalList";
 
 const Modal = styled.div`
@@ -39,25 +40,29 @@ const HeaderTitle = styled.h1`
   font-weight: 600;
 `;
 
-const CloseBtn = styled.button``;
+export const CloseBtn = styled.button`
+  cursor: pointer;
+  font-size: 18px;
+  padding: 3px 7px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+  color: ${(props) => props.theme.fontColor};
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &:hover {
+    background-color: rgba(219, 219, 219, 0.5);
+  }
+`;
 
 const ModalContents = styled.div``;
 
-const OverlayShow = css`
-  display: block;
-`;
-
-const Overlay = styled.div`
-  background-color: ${(props) => props.theme.overlayColor};
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
-  z-index: 1;
-  display: none;
-  ${({ active }) => (active ? OverlayShow : "")}
-`;
+const ModalOverlay = styled(Overlay)``;
 
 function FollowersModal({
   followersModal,
@@ -67,7 +72,7 @@ function FollowersModal({
   followUser,
 }) {
   return (
-    <Overlay active={followersModal}>
+    <ModalOverlay active={followersModal}>
       <Modal>
         <ModalContainer>
           <ModalHeader>
@@ -98,7 +103,7 @@ function FollowersModal({
           </ModalContents>
         </ModalContainer>
       </Modal>
-    </Overlay>
+    </ModalOverlay>
   );
 }
 

@@ -7,7 +7,7 @@ import { logUserOut } from "../apollo";
 
 const ModalShow = css`
   top: 49px;
-  visibility: visible;
+  display: block;
 `;
 
 const Modal = styled.div`
@@ -24,7 +24,7 @@ const Modal = styled.div`
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   z-index: 1;
-  visibility: hidden;
+  display: none;
   ${({ active }) => (active ? ModalShow : "")};
 `;
 

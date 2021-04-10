@@ -6,7 +6,7 @@ const Lists = styled.div`
   width: 100%;
 `;
 
-const List = styled.li`
+const List = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 8px 16px;
@@ -38,9 +38,10 @@ const Column = styled.div`
   }
 `;
 
-const UnfollowButton = styled.span`
+const UnfollowBtn = styled.span`
   cursor: pointer;
   margin-left: 20px;
+  margin-top: 0;
   width: 40%;
   font-size: 14px;
   padding: 9px 6px;
@@ -54,7 +55,7 @@ const UnfollowButton = styled.span`
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
-const FollowButton = styled(UnfollowButton)`
+const FollowBtn = styled(UnfollowBtn)`
   background-color: ${(props) => props.theme.blue};
   color: white;
   border: none;
@@ -75,9 +76,9 @@ function FollowModalList({
       return null;
     }
     if (isFollowing) {
-      return <UnfollowButton onClick={unfollowUser}>Unfollow</UnfollowButton>;
+      return <UnfollowBtn onClick={unfollowUser}>Unfollow</UnfollowBtn>;
     } else {
-      return <FollowButton onClick={followUser}>Follow</FollowButton>;
+      return <FollowBtn onClick={followUser}>Follow</FollowBtn>;
     }
   };
   return (

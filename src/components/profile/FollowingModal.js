@@ -1,5 +1,7 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import FollowModalList from "./FollowModalList";
+import { CloseBtn } from "./FollowersModal";
+import { Overlay } from "../feed/PhotoUtilModal";
 
 const Modal = styled.div`
   width: 400px;
@@ -39,25 +41,11 @@ const HeaderTitle = styled.h1`
   font-weight: 600;
 `;
 
-const CloseBtn = styled.button``;
+const Close = styled(CloseBtn)``;
 
 const ModalContents = styled.div``;
 
-const OverlayShow = css`
-  display: block;
-`;
-
-const Overlay = styled.div`
-  background-color: ${(props) => props.theme.overlayColor};
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
-  z-index: 1;
-  display: none;
-  ${({ active }) => (active ? OverlayShow : "")}
-`;
+const ModalOverlay = styled(Overlay)``;
 
 function FollowingModal({
   followingModal,
@@ -67,7 +55,7 @@ function FollowingModal({
   followUser,
 }) {
   return (
-    <Overlay active={followingModal}>
+    <ModalOverlay active={followingModal}>
       <Modal>
         <ModalContainer>
           <ModalHeader>
@@ -76,9 +64,9 @@ function FollowingModal({
               <HeaderTitle>Following</HeaderTitle>
             </HeaderColumn>
             <HeaderColumn>
-              <CloseBtn onClick={() => setFollowingModal(!followingModal)}>
+              <Close onClick={() => setFollowingModal(!followingModal)}>
                 X
-              </CloseBtn>
+              </Close>
             </HeaderColumn>
           </ModalHeader>
           <ModalContents>
@@ -98,7 +86,7 @@ function FollowingModal({
           </ModalContents>
         </ModalContainer>
       </Modal>
-    </Overlay>
+    </ModalOverlay>
   );
 }
 

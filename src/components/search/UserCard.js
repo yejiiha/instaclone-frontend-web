@@ -10,6 +10,7 @@ import {
   SEE_PROFILE_QUERY,
   UNFOLLOW_USER_MUTATION,
 } from "../profile/ProfileQueries";
+import { UnfollowButton } from "../profile/ProfileHeader";
 
 const Card = styled.div`
   display: flex;
@@ -25,22 +26,13 @@ const CLink = styled(Link)`
   margin: 10px 0;
 `;
 
-const UnfollowButton = styled.span`
-  cursor: pointer;
+const UnfollowBtn = styled(UnfollowButton)`
   width: 100px;
-  font-size: 14px;
+  margin: 0;
   padding: 8px 5px;
-  background-color: ${(props) => props.theme.bgColor};
-  color: ${(props) => props.theme.fontColor};
-  text-align: center;
-  border-radius: 5px;
-  font-weight: 600;
-  border: 1px solid ${(props) => props.theme.borderColor};
-  box-sizing: border-box;
-  opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
-const FollowButton = styled(UnfollowButton)`
+const FollowBtn = styled(UnfollowBtn)`
   background-color: ${(props) => props.theme.blue};
   color: white;
   border: none;
@@ -131,12 +123,16 @@ function UserCard({ avatar, username }) {
   const getButton = (seeProfile) => {
     const { isMe, isFollowing } = seeProfile;
     if (isMe) {
-      return <UnfollowButton>Edit Profile</UnfollowButton>;
+      return (
+        <Link to="/accounts/edit">
+          <UnfollowBtn>Edit Profile</UnfollowBtn>
+        </Link>
+      );
     }
     if (isFollowing) {
-      return <UnfollowButton onClick={unfollowUser}>Unfollow</UnfollowButton>;
+      return <UnfollowBtn onClick={unfollowUser}>Unfollow</UnfollowBtn>;
     } else {
-      return <FollowButton onClick={followUser}>Follow</FollowButton>;
+      return <FollowBtn onClick={followUser}>Follow</FollowBtn>;
     }
   };
 

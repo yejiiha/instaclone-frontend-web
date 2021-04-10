@@ -72,7 +72,7 @@ const Name = styled(FatText)`
   cursor: auto;
 `;
 
-const UnfollowButton = styled.span`
+export const UnfollowButton = styled.span`
   cursor: pointer;
   margin-left: 20px;
   margin-top: 8px;
@@ -89,7 +89,7 @@ const UnfollowButton = styled.span`
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
-const FollowButton = styled(UnfollowButton)`
+export const FollowButton = styled(UnfollowButton)`
   background-color: ${(props) => props.theme.blue};
   color: white;
   border: none;
