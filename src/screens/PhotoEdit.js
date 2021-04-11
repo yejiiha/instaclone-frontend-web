@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import styled from "styled-components";
 import { SEE_PHOTO_QUERY } from "../components/profile/ProfileQueries";
 import {
@@ -9,12 +9,12 @@ import {
   PhotoHeader,
   Username,
 } from "../components/PostPresenter";
-import { CaptionContainer, Caption, SubmitContainer, Submit } from "./Create";
 import { Link } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { CopyAlarm } from "../components/feed/PhotoUtilModal";
+import { CaptionContainer, Caption, SubmitContainer, Submit } from "./Create";
 
 const EDIT_PHOTO_MUTATION = gql`
   mutation editPhoto($id: Int!, $caption: String!) {
@@ -37,6 +37,7 @@ const EditForm = styled.form`
 `;
 
 function PhotoEdit() {
+  const history = useHistory();
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState(false);
   const { id } = useParams();
@@ -50,7 +51,6 @@ function PhotoEdit() {
 
   const editPhotoUpdate = (cache, result) => {
     const { caption } = getValues();
-    console.log(caption);
     const {
       data: {
         editPhoto: { ok },
@@ -61,23 +61,12 @@ function PhotoEdit() {
       return;
     }
 
-    if (ok && photoData.seePhoto) {
-      const newCaption = {
-        caption,
-      };
-      const newCacheCaption = cache.writeFragment({
-        data: newCaption,
-        fragment: gql`
-          fragment BSName on Photo {
-            caption
-          }
-        `,
-      });
+    if (ok && photoData?.seePhoto) {
       cache.modify({
-        id: `Photo:${id}`,
+        id: `Photo:${photoData.seePhoto.id}`,
         fields: {
           caption(prev) {
-            return [...prev, newCacheCaption];
+            return caption;
           },
         },
       });
@@ -88,7 +77,7 @@ function PhotoEdit() {
     update: editPhotoUpdate,
   });
 
-  const onValid = (data) => {
+  const onPhotoEditValid = (data) => {
     const { caption } = data;
     editPhotoMutation({ variables: { id: Number(id), caption } });
 
@@ -96,6 +85,7 @@ function PhotoEdit() {
     setMessage("Post is changed.");
     setTimeout(() => {
       setDisplay(false);
+      history.push(`/posts/${id}`);
     }, 2000);
   };
 
@@ -118,21 +108,20 @@ function PhotoEdit() {
               <Username>{photoData?.seePhoto.user.username}</Username>
             </Link>
           </PostHeader>
-
-          <CaptionContainer>
-            <EditForm onSubmit={handleSubmit(onValid)}>
+          <EditForm onSubmit={handleSubmit(onPhotoEditValid)}>
+            <CaptionContainer>
               <Avatar url={photoData?.seePhoto.user.avatar} />
               <Caption type="text" name="caption" ref={register} />
-            </EditForm>
-          </CaptionContainer>
+            </CaptionContainer>
 
-          <SubmitContainer>
-            <Submit
-              type="submit"
-              value={loading ? "Loading..." : "Submit"}
-              disabled={!formState.isValid || loading}
-            />
-          </SubmitContainer>
+            <SubmitContainer>
+              <Submit
+                type="submit"
+                value={loading ? "Loading..." : "Submit"}
+                disabled={!formState.isValid || loading}
+              />
+            </SubmitContainer>
+          </EditForm>
         </ContainerColumn>
       </Container>
       <CopyAlarm active={display}>{message}</CopyAlarm>
