@@ -35,7 +35,7 @@ const ModalRow = styled.div`
   display: flex;
   padding: 10px 15px;
   align-items: center;
-  &:last-child {
+  &:nth-child(4) {
     border-top: 1px solid ${(props) => props.theme.borderColor};
   }
   &:hover {
@@ -103,18 +103,20 @@ function HeaderModal({ profileModal, setProfileModal, username }) {
               <ModalText style={{ marginLeft: "12px" }}>Saved</ModalText>
             </Column>
           </ModalRow>
-          <ModalRow>
-            <Column>
-              <FontAwesomeIcon
-                icon={faCog}
-                size="lg"
-                style={{ paddingRight: "1px" }}
-              />
-            </Column>
-            <Column>
-              <ModalText style={{ marginLeft: "8px" }}>Setting</ModalText>
-            </Column>
-          </ModalRow>
+          <Link to={"/accounts/edit"}>
+            <ModalRow>
+              <Column>
+                <FontAwesomeIcon
+                  icon={faCog}
+                  size="lg"
+                  style={{ paddingRight: "1px" }}
+                />
+              </Column>
+              <Column>
+                <ModalText style={{ marginLeft: "8px" }}>Setting</ModalText>
+              </Column>
+            </ModalRow>
+          </Link>
           <ModalRow onClick={() => logUserOut()}>
             <Text>Log out</Text>
           </ModalRow>

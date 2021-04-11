@@ -3,6 +3,7 @@ import styled from "styled-components";
 import EditProfile from "../components/accountEdit/EditProfile";
 import ChangePw from "../components/accountEdit/ChangePw";
 import AppsandWebsites from "../components/accountEdit/AppsandWebsites";
+import PageTitle from "../components/PageTitle";
 
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.formColor};
@@ -49,28 +50,31 @@ function AccountEdit() {
     }
   };
   return (
-    <Wrapper>
-      <MenuList>
-        <Menu onClick={handleClick} active={tab === 0} id={0}>
-          Edit Profile
-        </Menu>
-        <Menu onClick={handleClick} active={tab === 1} id={1}>
-          Change Password
-        </Menu>
-        <Menu onClick={handleClick} active={tab === 2} id={2}>
-          Apps and Websites
-        </Menu>
-      </MenuList>
-      <Contents active={tab === 0}>
-        <EditProfile />
-      </Contents>
-      <Contents active={tab === 1}>
-        <ChangePw />
-      </Contents>
-      <Contents active={tab === 2}>
-        <AppsandWebsites />
-      </Contents>
-    </Wrapper>
+    <>
+      <PageTitle title="Edit Profile | Jistagram" />
+      <Wrapper>
+        <MenuList>
+          <Menu onClick={handleClick} active={tab === 0} id={0}>
+            Edit Profile
+          </Menu>
+          <Menu onClick={handleClick} active={tab === 1} id={1}>
+            Change Password
+          </Menu>
+          <Menu onClick={handleClick} active={tab === 2} id={2}>
+            Apps and Websites
+          </Menu>
+        </MenuList>
+        <Contents active={tab === 0}>
+          <EditProfile />
+        </Contents>
+        <Contents active={tab === 1}>
+          <ChangePw />
+        </Contents>
+        <Contents active={tab === 2}>
+          <AppsandWebsites />
+        </Contents>
+      </Wrapper>
+    </>
   );
 }
 

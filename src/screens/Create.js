@@ -172,7 +172,7 @@ function Create() {
 
   return (
     <Container>
-      <PageTitle title="Create post" />
+      <PageTitle title="Create post | Jistagram" />
       <CreateForm onSubmit={handleSubmit(onValid)}>
         <CreateColumn>
           <PreviewImg src={previewUrl} />

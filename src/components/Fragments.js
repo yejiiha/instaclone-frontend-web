@@ -36,3 +36,14 @@ export const FEED_FRAGMENT = gql`
   }
   ${PHOTO_FRAGMENT}
 `;
+
+export const ROOM_FRAGMENT = gql`
+  fragment RoomFragment on Room {
+    id
+    unreadTotal
+    users {
+      username
+      avatar
+    }
+  }
+`;

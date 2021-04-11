@@ -128,7 +128,9 @@ function Header({ history }) {
                 </Link>
               </Icon>
               <Icon>
-                <FontAwesomeIcon icon={faPaperPlane} />
+                <Link to={"/direct/inbox"}>
+                  <FontAwesomeIcon icon={faPaperPlane} />
+                </Link>
               </Icon>
               <Icon>
                 <Link to={"/create"}>

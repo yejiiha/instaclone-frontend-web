@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { CopyAlarm } from "../components/feed/PhotoUtilModal";
 import { CaptionContainer, Caption, SubmitContainer, Submit } from "./Create";
+import PageTitle from "../components/PageTitle";
 
 const EDIT_PHOTO_MUTATION = gql`
   mutation editPhoto($id: Int!, $caption: String!) {
@@ -95,6 +96,7 @@ function PhotoEdit() {
 
   return (
     <>
+      <PageTitle title="Edit Post | Jistagram" />
       <Container>
         <ContainerColumn>
           <PhotoFile src={photoData?.seePhoto?.file} />
