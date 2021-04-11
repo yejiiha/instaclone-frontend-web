@@ -7,6 +7,7 @@ import Create from "./screens/Create";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import NotFound from "./screens/NotFound";
+import PhotoEdit from "./screens/PhotoEdit";
 import Post from "./screens/Post";
 import Profile from "./screens/Profile";
 import Search from "./screens/Search";
@@ -42,7 +43,7 @@ function RouterSwitch({ isLoggedIn }) {
             <Search />
           </Layout>
         </Route>
-        <Route path={"/posts/:id"}>
+        <Route exact path={"/posts/:id"}>
           <Layout>
             <Post />
           </Layout>
@@ -55,6 +56,11 @@ function RouterSwitch({ isLoggedIn }) {
         <Route path={"/accounts/edit"}>
           <Layout>
             <AccountEdit />
+          </Layout>
+        </Route>
+        <Route path={"/posts/:id/edit"}>
+          <Layout>
+            <PhotoEdit />
           </Layout>
         </Route>
         <Route>

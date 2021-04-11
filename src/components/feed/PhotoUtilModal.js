@@ -77,12 +77,12 @@ export const Overlay = styled.div`
   ${({ active }) => (active ? OverlayShow : "")}
 `;
 
-const CopyAlarmShow = css`
+export const CopyAlarmShow = css`
   display: block;
   bottom: 0;
 `;
 
-const CopyAlarm = styled.div`
+export const CopyAlarm = styled.div`
   width: 100%;
   position: fixed;
   left: 0;
@@ -142,7 +142,9 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
                 setDeleteModal={setDeleteModal}
                 onDeleteClick={onDeleteClick}
               />
-              <Row>Edit</Row>
+              <Row>
+                <Link to={`/posts/${id}/edit`}>Edit</Link>
+              </Row>
             </>
           ) : null}
           <Row>

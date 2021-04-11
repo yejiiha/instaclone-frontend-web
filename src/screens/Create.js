@@ -91,24 +91,24 @@ const ChooseImg = styled.input`
   display: none;
 `;
 
-const CaptionContainer = styled.div`
+export const CaptionContainer = styled.div`
   padding: 20px 15px;
   display: flex;
 `;
 
-const Caption = styled.input`
+export const Caption = styled.input`
   margin-left: 10px;
   width: 85%;
 `;
 
-const SubmitContainer = styled.div`
+export const SubmitContainer = styled.div`
   position: absolute;
   text-align: center;
   width: 100%;
   bottom: -1px;
 `;
 
-const Submit = styled.input`
+export const Submit = styled.input`
   width: 100%;
   padding: 20px 15px;
   background-color: ${(props) => props.theme.blue};

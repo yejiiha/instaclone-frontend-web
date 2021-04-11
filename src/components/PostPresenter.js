@@ -19,7 +19,7 @@ import Avatar from "./Avatar";
 import { TOGGLE_LIKE_MUTATION } from "./feed/FeedQueries";
 import { dateConverter } from "./shared";
 
-const Modal = styled.div`
+export const Modal = styled.div`
   display: flex;
   position: fixed;
   background-color: ${(props) => props.theme.formColor};
@@ -32,7 +32,7 @@ const Modal = styled.div`
   cursor: auto;
 `;
 
-const ModalColumn = styled.div`
+export const ModalColumn = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -49,12 +49,12 @@ const ModalColumn = styled.div`
   }
 `;
 
-const PhotoFile = styled.img`
+export const PhotoFile = styled.img`
   max-width: 100%;
   height: 600px;
 `;
 
-const PhotoHeader = styled.div`
+export const PhotoHeader = styled.div`
   padding: 20px 15px;
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@ const PhotoHeader = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
 
-const Column = styled.div`
+export const Column = styled.div`
   display: flex;
   align-items: center;
   &:last-child {
@@ -75,7 +75,7 @@ const Column = styled.div`
   }
 `;
 
-const Username = styled(FatText)`
+export const Username = styled(FatText)`
   margin-left: 10px;
   font-size: 13px;
   &:hover {
@@ -83,11 +83,11 @@ const Username = styled(FatText)`
   }
 `;
 
-const PhotoData = styled.div`
+export const PhotoData = styled.div`
   padding: 15px;
 `;
 
-const PhotoActions = styled.div`
+export const PhotoActions = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;

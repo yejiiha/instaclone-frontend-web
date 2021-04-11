@@ -1,10 +1,11 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import { EDIT_PROFILE_MUTATION } from "./accountEditQueries";
 import ErrorMessage from "../auth/ErrorMessage";
+import { CopyAlarm } from "../feed/PhotoUtilModal";
 
 const Wrapper = styled.div`
   margin-top: 40px;
@@ -120,24 +121,6 @@ const SubmitBtn = styled.input`
   box-sizing: border-box;
   cursor: ${(props) => (props.disabled ? "auto" : "pointer")};
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
-`;
-
-const CopyAlarmShow = css`
-  display: block;
-  bottom: 0;
-`;
-
-const CopyAlarm = styled.div`
-  width: 100%;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  padding: 20px;
-  background-color: black;
-  color: white;
-  display: none;
-  transition: all 0.3s ease-out;
-  ${({ active }) => (active ? CopyAlarmShow : "")};
 `;
 
 function EditProfile() {
