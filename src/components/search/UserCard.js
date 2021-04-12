@@ -138,7 +138,7 @@ function UserCard({ avatar, username }) {
 
   return (
     <Card>
-      <Avatar xl url={avatar} />
+      <Avatar xxl url={avatar} />
       <CLink to={`/users/${username}`}>
         <FatText>{username}</FatText>
       </CLink>

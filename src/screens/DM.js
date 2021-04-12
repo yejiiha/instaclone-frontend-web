@@ -1,11 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
-import { faEdit, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { ROOM_FRAGMENT } from "../components/Fragments";
-import PageTitle from "../components/PageTitle";
-import Room from "../components/room/Room";
+import RoomList from "../components/dm/RoomList";
 import useUser from "../hooks/useUser";
+import Loader from "../components/Loader";
 
 const SEE_ROOMS_QUERY = gql`
   query seeRooms {
@@ -23,7 +24,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin: auto;
   max-width: 935px;
-  height: 650px;
+  height: 800px;
   width: 100%;
   border: 1px solid ${(props) => props.theme.borderColor};
   cursor: auto;
@@ -36,14 +37,14 @@ const Column = styled.div`
   &:first-child {
     left: 0;
     width: 350px;
-    height: 650px;
+    height: 800px;
     border-right: 1px solid ${(props) => props.theme.borderColor};
   }
   &:last-child {
     position: relative;
     left: 0;
     width: 585px;
-    height: 650px;
+    height: 800px;
     align-items: center;
     justify-content: center;
   }
@@ -84,78 +85,37 @@ const ListHeaderColumn = styled.div`
   }
 `;
 
-const RoomList = styled.ul``;
-
-const PlaneContainer = styled.div`
-  border: 3px solid;
-  padding: 15px;
-  border-radius: 50%;
-  svg {
-    font-size: 40px;
-  }
+const RoomLists = styled.ul`
+  margin-top: 8px;
 `;
 
-const TitleText = styled.span`
-  text-align: center;
-  margin-top: 16px;
-  font-size: 20px;
-`;
-
-const Text = styled.span`
-  margin-top: 12px;
-  font-weight: 600;
-  font-size: 12px;
-`;
-
-const SendBtn = styled.button`
-  padding: 5px 9px;
-  margin-top: 24px;
-  background-color: ${(props) => props.theme.blue};
-  color: white;
-  text-align: center;
-  border-radius: 4px;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  &:focus {
-    border: none;
-    outline: none;
-  }
-`;
-
-function DM() {
+function DM({ children }) {
   const { data: userData } = useUser();
   const { data, loading } = useQuery(SEE_ROOMS_QUERY);
-  console.log(data);
   return (
-    <>
-      <PageTitle title="Inbox | Direct" />
-      <Wrapper>
-        <Column>
-          <ListHeader>
-            <ListHeaderColumn></ListHeaderColumn>
-            <ListHeaderColumn>{userData?.me?.username}</ListHeaderColumn>
-            <ListHeaderColumn>
-              <FontAwesomeIcon icon={faEdit} />
-            </ListHeaderColumn>
-          </ListHeader>
-          <RoomList>
+    <Wrapper>
+      <Column>
+        <ListHeader>
+          <ListHeaderColumn></ListHeaderColumn>
+          <ListHeaderColumn>{userData?.me?.username}</ListHeaderColumn>
+          <ListHeaderColumn>
+            <FontAwesomeIcon icon={faEdit} />
+          </ListHeaderColumn>
+        </ListHeader>
+        {loading ? (
+          <Loader />
+        ) : (
+          <RoomLists>
             {data?.seeRooms.map((room) => (
-              <Room key={room.id} {...room} />
+              <Link to={`/direct/t/${room.id}`}>
+                <RoomList key={room.id} {...room} />
+              </Link>
             ))}
-          </RoomList>
-        </Column>
-        <Column>
-          <PlaneContainer>
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </PlaneContainer>
-          <TitleText>Your Messages</TitleText>
-          <Text>Send private photos and messages to a friend or group.</Text>
-          <SendBtn>Send Message</SendBtn>
-        </Column>
-      </Wrapper>
-    </>
+          </RoomLists>
+        )}
+      </Column>
+      <Column>{children}</Column>
+    </Wrapper>
   );
 }
 

@@ -1,5 +1,8 @@
 import { Route, Switch, useLocation } from "react-router";
 import Layout from "./components/auth/Layout";
+import DefaultRoom from "./components/dm/DefaultRoom";
+import DmLayout from "./components/dm/DmLayout";
+import Room from "./components/dm/Room";
 import PhotoModalContainer from "./components/profile/PhotoModalContainer";
 import routes from "./routes";
 import AccountEdit from "./screens/AccountEdit";
@@ -65,9 +68,14 @@ function RouterSwitch({ isLoggedIn }) {
           </Layout>
         </Route>
         <Route path={"/direct/inbox"}>
-          <Layout>
-            <DM />
-          </Layout>
+          <DmLayout>
+            <DefaultRoom />
+          </DmLayout>
+        </Route>
+        <Route path={"/direct/t/:id"}>
+          <DmLayout>
+            <Room />
+          </DmLayout>
         </Route>
         <Route>
           <NotFound />

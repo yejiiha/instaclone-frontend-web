@@ -6,7 +6,7 @@ import { darkModeVar, disableDarkMode, enableDarkMode } from "../../apollo";
 import Footer from "../Footer";
 import Header from "../Header";
 
-const Content = styled.main`
+export const Content = styled.main`
   margin: 0 auto;
   margin-top: 95px;
   max-width: 930px;
@@ -30,7 +30,7 @@ const Float = keyframes`
   }
 `;
 
-const DarkModeBtn = styled.button`
+export const DarkModeBtn = styled.button`
   position: fixed;
   right: 30px;
   bottom: 30px;
