@@ -1,8 +1,6 @@
-import { Route } from "react-router";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import Avatar from "../Avatar";
-import Room from "./Room";
 
 const RoomContainer = styled.div`
   display: flex;

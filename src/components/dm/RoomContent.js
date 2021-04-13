@@ -4,28 +4,31 @@ import Avatar from "../Avatar";
 const MessageContainer = styled.div`
   padding: 0 20px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: ${(props) => (props.outGoing ? "row-reverse" : "row")};
   align-items: flex-end;
   margin-bottom: 8px;
 `;
-const Author = styled.div`
-  margin-left: 10px;
-`;
+const Author = styled.div``;
 const Message = styled.span`
-  background-color: ${(props) => props.theme.lightGray};
+  background-color: ${(props) =>
+    props.outGoing ? `${props.theme.lightGray}` : "null"};
   padding: 16px;
+  border: ${(props) =>
+    props.outGoing ? "" : `1px solid ${props.theme.lightGray}`};
   border-radius: 25px;
   overflow: hidden;
-  color: rgb(38, 38, 38);
+  margin: 0 10px;
+  color: ${(props) =>
+    props.outGoing ? "rgb(38, 38, 38)" : `${props.theme.fontColor}`};
 `;
 
-function RoomContent({ user, payload }) {
+function RoomContent({ user, payload, notMe }) {
   return (
-    <MessageContainer outGoing={user.username}>
+    <MessageContainer outGoing={user.username !== notMe.username}>
       <Author>
         <Avatar sm url={user.avatar} />
       </Author>
-      <Message>{payload}</Message>
+      <Message outGoing={user.username !== notMe.username}>{payload}</Message>
     </MessageContainer>
   );
 }

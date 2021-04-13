@@ -7,7 +7,6 @@ import { ROOM_FRAGMENT } from "../components/Fragments";
 import RoomList from "../components/dm/RoomList";
 import useUser from "../hooks/useUser";
 import Loader from "../components/Loader";
-import Room from "../components/dm/Room";
 
 const SEE_ROOMS_QUERY = gql`
   query seeRooms {

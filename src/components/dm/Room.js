@@ -1,18 +1,20 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { gql } from "@apollo/client";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import Avatar from "../Avatar";
 import Loader from "../Loader";
 import RoomContent from "./RoomContent";
-import { NotMeUsername } from "./RoomList";
 
 const SEE_ROOM_QUERY = gql`
   query seeRoom($id: Int!) {
     seeRoom(id: $id) {
+      id
       users {
         username
         avatar
@@ -30,12 +32,20 @@ const SEE_ROOM_QUERY = gql`
   }
 `;
 
+const SEND_MESSAGE_MUTATION = gql`
+  mutation sendMessage($payload: String!, $roomId: Int, $userId: Int) {
+    sendMessage(payload: $payload, roomId: $roomId, userId: $userId) {
+      id
+      ok
+    }
+  }
+`;
+
 const RoomHeader = styled.div`
-  position: relative;
-  top: 0;
+  position: absolute;
   display: flex;
   align-items: center;
-  height: 75px;
+  height: 60px;
   width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
   padding-left: 36px;
@@ -51,8 +61,15 @@ const RoomContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: column-reverse;
+`;
+
+const ChatContainer = styled.div`
+  height: 643px;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const RoomFooter = styled.div`
@@ -79,15 +96,82 @@ const MessageInput = styled.input`
 `;
 
 function Room() {
-  const { id } = useParams();
+  const { register, setValue, handleSubmit, getValues } = useForm();
+  const { id: roomId } = useParams();
   const { data, loading } = useQuery(SEE_ROOM_QUERY, {
-    variables: { id: Number(id) },
+    variables: { id: Number(roomId) },
   });
   const { data: userData } = useUser();
   const notMe = data?.seeRoom?.users.find(
     (user) => user.username !== userData?.me?.username
   );
-  console.log(data);
+
+  const updateSendMessage = (cache, result) => {
+    const { payload } = getValues();
+    setValue("payload", "");
+    const {
+      data: {
+        sendMessage: { ok, id },
+      },
+    } = result;
+
+    if (ok && userData) {
+      const messageObj = {
+        id: id,
+        payload,
+        user: {
+          username: userData?.me?.username,
+          avatar: userData?.me?.avatar,
+        },
+        read: true,
+        __typename: "Message",
+      };
+      const messageFragment = cache.writeFragment({
+        data: messageObj,
+        fragment: gql`
+          fragment NewMessage on Message {
+            id
+            payload
+            user {
+              username
+              avatar
+            }
+            read
+          }
+        `,
+      });
+      cache.modify({
+        id: `Room:${Number(roomId)}`,
+        fields: {
+          messages(prev) {
+            return [...prev, messageFragment];
+          },
+        },
+      });
+    }
+  };
+
+  const [
+    sendMessageMutation,
+    { loading: sendingMessage },
+  ] = useMutation(SEND_MESSAGE_MUTATION, { update: updateSendMessage });
+
+  const onValid = (data) => {
+    const { payload } = data;
+    if (!sendingMessage) {
+      sendMessageMutation({
+        variables: { payload, roomId: Number(roomId) },
+      });
+    }
+  };
+
+  useEffect(() => {
+    register("payload", { required: true });
+  }, [register]);
+
+  const messagesArray = [...(data?.seeRoom?.messages ?? [])];
+  messagesArray.reverse();
+
   return (
     <>
       <RoomHeader>
@@ -95,17 +179,26 @@ function Room() {
         <Username>{notMe?.username}</Username>
       </RoomHeader>
       <RoomContainer>
-        {loading ? (
-          <Loader />
-        ) : (
-          data?.seeRoom?.messages.map((m) => <RoomContent key={m.id} {...m} />)
-        )}
+        <ChatContainer>
+          {loading ? (
+            <Loader />
+          ) : (
+            messagesArray.map((m) => (
+              <RoomContent key={m.id} notMe={notMe} {...m} />
+            ))
+          )}
+        </ChatContainer>
       </RoomContainer>
       <RoomFooter>
         <InputContainer>
           <FontAwesomeIcon icon={faSmile} size="2x" />
-          <MessageForm>
-            <MessageInput type="text" placeholder="Write a message" />
+          <MessageForm onSubmit={handleSubmit(onValid)}>
+            <MessageInput
+              type="text"
+              name="payload"
+              placeholder="Write a message"
+              ref={register({ required: true })}
+            />
           </MessageForm>
         </InputContainer>
       </RoomFooter>
