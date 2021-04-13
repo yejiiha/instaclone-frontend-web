@@ -7,6 +7,7 @@ import { ROOM_FRAGMENT } from "../components/Fragments";
 import RoomList from "../components/dm/RoomList";
 import useUser from "../hooks/useUser";
 import Loader from "../components/Loader";
+import Room from "../components/dm/Room";
 
 const SEE_ROOMS_QUERY = gql`
   query seeRooms {
@@ -45,8 +46,6 @@ const Column = styled.div`
     left: 0;
     width: 585px;
     height: 800px;
-    align-items: center;
-    justify-content: center;
   }
 `;
 
@@ -107,7 +106,7 @@ function DM({ children }) {
         ) : (
           <RoomLists>
             {data?.seeRooms.map((room) => (
-              <Link to={`/direct/t/${room.id}`}>
+              <Link to={`/direct/t/${room.id}`} key={room.id}>
                 <RoomList key={room.id} {...room} />
               </Link>
             ))}

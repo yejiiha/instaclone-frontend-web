@@ -7,7 +7,6 @@ import PhotoModalContainer from "./components/profile/PhotoModalContainer";
 import routes from "./routes";
 import AccountEdit from "./screens/AccountEdit";
 import Create from "./screens/Create";
-import DM from "./screens/DM";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import NotFound from "./screens/NotFound";

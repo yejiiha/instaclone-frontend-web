@@ -1,6 +1,8 @@
+import { Route } from "react-router";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import Avatar from "../Avatar";
+import Room from "./Room";
 
 const RoomContainer = styled.div`
   display: flex;
@@ -39,22 +41,30 @@ const UnreadDot = styled.div`
   border-radius: 50%;
 `;
 
+export const NotMeUsername = ({ users }) => {
+  const { data: userData } = useUser();
+  const notMe = users.find((user) => user.username !== userData?.me?.username);
+  return notMe.username;
+};
+
 function RoomList({ unreadTotal, users }) {
   const { data: userData } = useUser();
   const notMe = users.find((user) => user.username !== userData?.me?.username);
   return (
-    <RoomContainer>
-      <Column>
-        <Avatar xl url={notMe.avatar} />
-        <Data>
-          <Username>{notMe.username}</Username>
-          <UnreadText>
-            {unreadTotal} unread {unreadTotal === 1 ? "message" : "messages"}
-          </UnreadText>
-        </Data>
-      </Column>
-      <Column>{unreadTotal !== 0 ? <UnreadDot /> : null}</Column>
-    </RoomContainer>
+    <>
+      <RoomContainer>
+        <Column>
+          <Avatar xl url={notMe.avatar} />
+          <Data>
+            <Username>{notMe.username}</Username>
+            <UnreadText>
+              {unreadTotal} unread {unreadTotal === 1 ? "message" : "messages"}
+            </UnreadText>
+          </Data>
+        </Column>
+        <Column>{unreadTotal !== 0 ? <UnreadDot /> : null}</Column>
+      </RoomContainer>
+    </>
   );
 }
 

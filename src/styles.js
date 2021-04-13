@@ -15,6 +15,7 @@ export const lightTheme = {
   menuColor: "black",
   overlayColor: "rgba(0, 0, 0, 0.45)",
   shadowColor: "rgba(0, 0, 0, 0.07)",
+  lightGray: "#EFEFEF",
 };
 
 export const darkTheme = {
@@ -31,6 +32,7 @@ export const darkTheme = {
   menuColor: "white",
   overlayColor: "rgba(66, 70, 66, 0.5)",
   shadowColor: "rgba(187,187, 187, 0.07)",
+  lightGray: "#EFEFEF",
 };
 
 export const GlobalStyles = createGlobalStyle`
