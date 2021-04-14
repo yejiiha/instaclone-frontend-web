@@ -1,21 +1,12 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { ROOM_FRAGMENT } from "../components/Fragments";
 import RoomList from "../components/dm/RoomList";
 import useUser from "../hooks/useUser";
 import Loader from "../components/Loader";
-
-const SEE_ROOMS_QUERY = gql`
-  query seeRooms {
-    seeRooms {
-      ...RoomFragment
-    }
-  }
-  ${ROOM_FRAGMENT}
-`;
+import { SEE_ROOMS_QUERY } from "../components/dm/DMQueries";
 
 const Wrapper = styled.div`
   display: flex;

@@ -5,41 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import Avatar from "../Avatar";
 import Loader from "../Loader";
+import { SEE_ROOM_QUERY, SEND_MESSAGE_MUTATION } from "./DMQueries";
 import RoomContent from "./RoomContent";
-
-const SEE_ROOM_QUERY = gql`
-  query seeRoom($id: Int!) {
-    seeRoom(id: $id) {
-      id
-      users {
-        username
-        avatar
-      }
-      messages {
-        id
-        payload
-        user {
-          username
-          avatar
-        }
-        read
-      }
-    }
-  }
-`;
-
-const SEND_MESSAGE_MUTATION = gql`
-  mutation sendMessage($payload: String!, $roomId: Int, $userId: Int) {
-    sendMessage(payload: $payload, roomId: $roomId, userId: $userId) {
-      id
-      ok
-    }
-  }
-`;
 
 const RoomHeader = styled.div`
   position: absolute;
@@ -47,13 +19,14 @@ const RoomHeader = styled.div`
   align-items: center;
   height: 60px;
   width: 100%;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
   padding-left: 36px;
+  z-index: 1;
 `;
 
 const Username = styled.span`
   font-weight: 600;
   margin-left: 12px;
+  cursor: pointer;
 `;
 
 const RoomContainer = styled.div`
@@ -65,15 +38,16 @@ const RoomContainer = styled.div`
 `;
 
 const ChatContainer = styled.div`
-  height: 643px;
+  padding-top: 10px;
+  height: 653px;
   display: flex;
   flex-direction: column-reverse;
   overflow-x: hidden;
   overflow-y: auto;
+  border-top: 1px solid ${(props) => props.theme.borderColor};
 `;
 
 const RoomFooter = styled.div`
-  margin-top: 10px;
   padding: 20px;
 `;
 
@@ -175,8 +149,12 @@ function Room() {
   return (
     <>
       <RoomHeader>
-        <Avatar url={notMe?.avatar} />
-        <Username>{notMe?.username}</Username>
+        <Link to={`/users/${notMe?.username}`}>
+          <Avatar url={notMe?.avatar} />
+        </Link>
+        <Link to={`/users/${notMe?.username}`}>
+          <Username>{notMe?.username}</Username>
+        </Link>
       </RoomHeader>
       <RoomContainer>
         <ChatContainer>

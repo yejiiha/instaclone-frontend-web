@@ -23,7 +23,7 @@ const Modal = styled.div`
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  z-index: 1;
+  z-index: 5;
   display: none;
   ${({ active }) => (active ? ModalShow : "")};
 `;

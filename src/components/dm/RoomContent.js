@@ -6,7 +6,7 @@ const MessageContainer = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.outGoing ? "row-reverse" : "row")};
   align-items: flex-end;
-  margin-bottom: 8px;
+  margin: 4px 0;
 `;
 const Author = styled.div``;
 const Message = styled.span`
