@@ -10,7 +10,11 @@ import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import Avatar from "../Avatar";
 import Loader from "../Loader";
-import { SEE_ROOM_QUERY, SEND_MESSAGE_MUTATION } from "./DMQueries";
+import {
+  ROOM_UPDATES,
+  SEE_ROOM_QUERY,
+  SEND_MESSAGE_MUTATION,
+} from "./DMQueries";
 import RoomContent from "./RoomContent";
 
 const RoomHeader = styled.div`
@@ -72,9 +76,28 @@ const MessageInput = styled.input`
 function Room() {
   const { register, setValue, handleSubmit, getValues } = useForm();
   const { id: roomId } = useParams();
-  const { data, loading } = useQuery(SEE_ROOM_QUERY, {
+  const { data, loading, subscribeToMore } = useQuery(SEE_ROOM_QUERY, {
     variables: { id: Number(roomId) },
   });
+
+  const updateQuery = (prevQuery, options) => {
+    console.log(prevQuery);
+    console.log("+++++++++++++++++++++++");
+    console.log(options);
+  };
+
+  useEffect(() => {
+    if (data?.seeRoom) {
+      subscribeToMore({
+        document: ROOM_UPDATES,
+        variables: {
+          id: Number(roomId),
+        },
+        updateQuery,
+      });
+    }
+  }, [data]);
+
   const { data: userData } = useUser();
   const notMe = data?.seeRoom?.users.find(
     (user) => user.username !== userData?.me?.username

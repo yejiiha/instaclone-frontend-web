@@ -39,3 +39,17 @@ export const SEND_MESSAGE_MUTATION = gql`
     }
   }
 `;
+
+export const ROOM_UPDATES = gql`
+  subscription roomUpdates($id: Int!) {
+    roomUpdates(id: $id) {
+      id
+      payload
+      user {
+        username
+        avatar
+      }
+      read
+    }
+  }
+`;
