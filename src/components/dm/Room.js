@@ -1,4 +1,5 @@
-import { useMutation, useQuery } from "@apollo/client";
+import React from "react";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { gql } from "@apollo/client";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -79,11 +80,45 @@ function Room() {
   const { data, loading, subscribeToMore } = useQuery(SEE_ROOM_QUERY, {
     variables: { id: Number(roomId) },
   });
+  const client = useApolloClient();
 
   const updateQuery = (prevQuery, options) => {
-    console.log(prevQuery);
-    console.log("+++++++++++++++++++++++");
-    console.log(options);
+    const {
+      subscriptionData: {
+        data: { roomUpdates: message },
+      },
+    } = options;
+
+    if (message.id) {
+      const incomingMessage = client.cache.writeFragment({
+        data: message,
+        fragment: gql`
+          fragment NewMessage on Message {
+            id
+            payload
+            user {
+              username
+              avatar
+            }
+            read
+          }
+        `,
+      });
+      client.cache.modify({
+        id: `Room:${Number(roomId)}`,
+        fields: {
+          messages(prev) {
+            const existingMessage = prev.find(
+              (aMessage) => aMessage.__ref === incomingMessage.__ref
+            );
+            if (existingMessage) {
+              return prev;
+            }
+            return [...prev, incomingMessage];
+          },
+        },
+      });
+    }
   };
 
   useEffect(() => {
