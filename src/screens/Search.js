@@ -22,7 +22,7 @@ const Tab = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  width: 30%;
+  width: 100%;
   border-bottom: 1.5px solid ${(props) => props.theme.borderColor};
   border-bottom: ${(props) =>
     props.active ? `1.5px solid ${props.theme.fontColor}` : ""};

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { gql } from "@apollo/client";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
@@ -32,6 +32,9 @@ const Username = styled.span`
   font-weight: 600;
   margin-left: 12px;
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const RoomContainer = styled.div`
@@ -121,7 +124,7 @@ function Room() {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (data?.seeRoom) {
       subscribeToMore({
         document: ROOM_UPDATES,

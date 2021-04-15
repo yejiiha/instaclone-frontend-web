@@ -19,6 +19,7 @@ import Avatar from "../Avatar";
 import Comments from "./Comments";
 import PhotoUtilModal from "./PhotoUtilModal";
 import { TOGGLE_LIKE_MUTATION } from "./FeedQueries";
+import PhotoLikesModal from "./PhotoLikesModal";
 
 const PhotoContainer = styled.div`
   background-color: ${(props) => props.theme.formColor};
@@ -95,6 +96,9 @@ const Likes = styled(FatText)`
   padding: 0 15px;
   margin-top: 10px;
   display: block;
+  &:active {
+    color: ${(props) => props.theme.darkGray};
+  }
 `;
 
 function Photo({
@@ -140,6 +144,7 @@ function Photo({
     update: updateToggleLike,
   });
   const [photoUtilModal, setPhotoUtilModal] = useState(false);
+  const [photoLikesModal, setPhotoLikesModal] = useState(false);
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
@@ -186,7 +191,14 @@ function Photo({
             <FontAwesomeIcon size="2x" icon={faBookmark} />
           </PhotoActionsColumn>
         </PhotoActions>
-        <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
+        <Likes onClick={() => setPhotoLikesModal(!photoLikesModal)}>
+          {likes === 1 ? "1 like" : likes === 0 ? null : `${likes} likes`}
+          <PhotoLikesModal
+            id={id}
+            photoLikesModal={photoLikesModal}
+            setPhotoLikesModal={setPhotoLikesModal}
+          />
+        </Likes>
         <Comments
           photoId={id}
           avatar={user.avatar}

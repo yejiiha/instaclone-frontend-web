@@ -2,23 +2,23 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../Avatar";
 
-const Lists = styled.div`
+export const Lists = styled.div`
   width: 100%;
 `;
 
-const List = styled.div`
+export const List = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 8px 16px;
 `;
 
-const Username = styled.span`
+export const Username = styled.span`
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const ListColumn = styled.div`
+export const ListColumn = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -27,7 +27,7 @@ const ListColumn = styled.div`
   }
 `;
 
-const Column = styled.div`
+export const Column = styled.div`
   display: flex;
   flex-direction: column;
   &:first-child {
@@ -38,7 +38,7 @@ const Column = styled.div`
   }
 `;
 
-const UnfollowBtn = styled.span`
+export const UnfollowBtn = styled.span`
   cursor: pointer;
   margin-left: 20px;
   margin-top: 0;
@@ -55,7 +55,7 @@ const UnfollowBtn = styled.span`
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 `;
 
-const FollowBtn = styled(UnfollowBtn)`
+export const FollowBtn = styled(UnfollowBtn)`
   background-color: ${(props) => props.theme.blue};
   color: white;
   border: none;

@@ -21,6 +21,7 @@ import ProfileModalComments from "./ProfileModalComments";
 import { TOGGLE_LIKE_MUTATION } from "../feed/FeedQueries";
 import { useState } from "react";
 import PhotoUtilModal from "../feed/PhotoUtilModal";
+import PhotoLikesModal from "../feed/PhotoLikesModal";
 
 const Overlay = styled.div`
   position: fixed;
@@ -197,6 +198,7 @@ function PhotoModalPresenter({
     update: updateToggleLike,
   });
   const [photoUtilModal, setPhotoUtilModal] = useState(false);
+  const [photoLikesModal, setPhotoLikesModal] = useState(false);
   const history = useHistory();
   const goBack = (e) => {
     e.stopPropagation();
@@ -274,7 +276,14 @@ function PhotoModalPresenter({
                   <FontAwesomeIcon size="2x" icon={faBookmark} />
                 </div>
               </PhotoActions>
-              <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
+              <Likes onClick={() => setPhotoLikesModal(!photoLikesModal)}>
+                {likes === 1 ? "1 like" : likes === 0 ? null : `${likes} likes`}
+                <PhotoLikesModal
+                  id={id}
+                  photoLikesModal={photoLikesModal}
+                  setPhotoLikesModal={setPhotoLikesModal}
+                />
+              </Likes>
               <Timestamp>{dateConverter(createdAt)}</Timestamp>
             </LikeAction>
 

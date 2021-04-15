@@ -18,6 +18,9 @@ import ProfileModalComment from "./profile/ProfileModalComment";
 import Avatar from "./Avatar";
 import { TOGGLE_LIKE_MUTATION } from "./feed/FeedQueries";
 import { dateConverter } from "./shared";
+import PhotoLikesModal from "./feed/PhotoLikesModal";
+import { useState } from "react";
+import PhotoUtilModal from "./feed/PhotoUtilModal";
 
 export const Modal = styled.div`
   display: flex;
@@ -131,6 +134,7 @@ function PostPresenter({
   likes,
   comments,
   createdAt,
+  isMine,
 }) {
   const updateToggleLike = (cache, result) => {
     const {
@@ -163,6 +167,9 @@ function PostPresenter({
     update: updateToggleLike,
   });
 
+  const [photoUtilModal, setPhotoUtilModal] = useState(false);
+  const [photoLikesModal, setPhotoLikesModal] = useState(false);
+
   return (
     <Modal>
       <ModalColumn>
@@ -179,7 +186,16 @@ function PostPresenter({
             </Link>
           </Column>
           <Column>
-            <FontAwesomeIcon icon={faEllipsisH} />
+            <FontAwesomeIcon
+              icon={faEllipsisH}
+              onClick={() => setPhotoUtilModal(!photoUtilModal)}
+            />
+            <PhotoUtilModal
+              id={id}
+              photoUtilModal={photoUtilModal}
+              setPhotoUtilModal={setPhotoUtilModal}
+              isMine={isMine}
+            />
           </Column>
         </PhotoHeader>
         <PhotoData>
@@ -221,7 +237,14 @@ function PostPresenter({
                 <FontAwesomeIcon size="2x" icon={faBookmark} />
               </div>
             </PhotoActions>
-            <Likes>{likes === 1 ? "1 like" : `${likes} likes`} </Likes>
+            <Likes onClick={() => setPhotoLikesModal(!photoLikesModal)}>
+              {likes === 1 ? "1 like" : likes === 0 ? null : `${likes} likes`}
+              <PhotoLikesModal
+                id={id}
+                photoLikesModal={photoLikesModal}
+                setPhotoLikesModal={setPhotoLikesModal}
+              />
+            </Likes>
             <Timestamp>{dateConverter(createdAt)}</Timestamp>
           </LikeAction>
           <ProfileModalComments photoId={id} />
