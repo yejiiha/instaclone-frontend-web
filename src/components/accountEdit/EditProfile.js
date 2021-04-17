@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
@@ -15,12 +15,12 @@ const Info = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 `;
 
 const EditProfileForm = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
   width: 100%;
 `;
 
@@ -60,7 +60,7 @@ const ChooseAvatar = styled.input`
 const Row = styled.div`
   display: flex;
   margin-bottom: 16px;
-  &:nth-child(5) {
+  &:nth-child(6) {
     margin-bottom: 56px;
   }
 `;
@@ -141,6 +141,8 @@ function EditProfile() {
 
   const editProfileUpdate = (cache, result) => {
     const { avatar, firstName, lastName, username, bio, email } = getValues();
+    const newAvatar = `${avatar[0]}`;
+    console.log(newAvatar);
     const {
       data: {
         editProfile: { ok },
@@ -153,10 +155,10 @@ function EditProfile() {
 
     if (ok && userData.me) {
       cache.modify({
-        id: `User:${username}`,
+        id: `User:${userData?.me?.username}`,
         fields: {
           avatar(prev) {
-            return avatar;
+            return newAvatar;
           },
           username(prev) {
             return username;
@@ -212,27 +214,33 @@ function EditProfile() {
       setDisplay(false);
     }, 2000);
   };
+
+  useEffect(() => {
+    register("avatar", "firstName", "lastName", "username", "bio", "email");
+  }, []);
+
   return (
     <>
       <Wrapper>
-        <Info>
-          <InfoColumn>
-            <PreviewImg src={previewUrl} />
-          </InfoColumn>
-          <InfoColumn>
-            <InfoUsername>{userData?.me?.username}</InfoUsername>
-            <Label htmlFor="avatar">Change Profile Photo</Label>
-            <ChooseAvatar
-              type="file"
-              name="avatar"
-              id="avatar"
-              accept="image/jpg, image/png, image/jpeg"
-              onChange={onChange}
-              ref={register}
-            />
-          </InfoColumn>
-        </Info>
         <EditProfileForm onSubmit={handleSubmit(onValid)}>
+          <Info>
+            <InfoColumn>
+              <PreviewImg src={previewUrl} />
+            </InfoColumn>
+            <InfoColumn>
+              <InfoUsername>{userData?.me?.username}</InfoUsername>
+              <Label htmlFor="avatar">Change Profile Photo</Label>
+              <ChooseAvatar
+                type="file"
+                name="avatar"
+                id="avatar"
+                accept="image/jpg, image/png, image/jpeg"
+                onChange={onChange}
+                ref={register}
+              />
+            </InfoColumn>
+          </Info>
+
           <Row>
             <Title>First Name</Title>
             <Content>

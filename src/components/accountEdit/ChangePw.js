@@ -129,10 +129,6 @@ function ChangePw() {
     }
   };
 
-  useEffect(() => {
-    register("password");
-  }, [register]);
-
   const [editProfileMutation, { loading }] = useMutation(
     EDIT_PROFILE_MUTATION,
     {
@@ -156,12 +152,17 @@ function ChangePw() {
       setDisplay(false);
     }, 2000);
   };
+
+  useEffect(() => {
+    register("password");
+  }, [register]);
+
   return (
     <>
       <Wrapper>
         <Info>
           <InfoColumn>
-            <Avatar lg src={userData?.me?.avatar} />
+            <Avatar lg url={userData?.me?.avatar} />
           </InfoColumn>
           <InfoColumn>
             <InfoUsername>{userData?.me?.username}</InfoUsername>
