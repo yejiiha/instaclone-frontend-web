@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Overlay } from "../feed/PhotoUtilModal";
 import FollowModalList from "./FollowModalList";
 
-const Modal = styled.div`
+export const Modal = styled.div`
   width: 400px;
   height: 400px;
   display: flex;
@@ -16,9 +16,9 @@ const Modal = styled.div`
   z-index: 5;
 `;
 
-const ModalContainer = styled.div``;
+export const ModalContainer = styled.div``;
 
-const ModalHeader = styled.div`
+export const ModalHeader = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -28,7 +28,7 @@ const ModalHeader = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
 
-const HeaderColumn = styled.div`
+export const HeaderColumn = styled.div`
   width: 100%;
   &:nth-child(3) {
     display: flex;
@@ -36,7 +36,7 @@ const HeaderColumn = styled.div`
   }
 `;
 
-const HeaderTitle = styled.h1`
+export const HeaderTitle = styled.h1`
   font-weight: 600;
 `;
 

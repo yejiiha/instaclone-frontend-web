@@ -7,6 +7,8 @@ import RoomList from "../components/dm/RoomList";
 import useUser from "../hooks/useUser";
 import Loader from "../components/Loader";
 import { SEE_ROOMS_QUERY } from "../components/dm/DMQueries";
+import { useState } from "react";
+import CreateRoomModal from "../components/dm/CreateRoomModal";
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,8 +81,11 @@ const RoomLists = styled.ul`
 `;
 
 function DM({ children }) {
+  const [createRoomModal, setCreateRoomModal] = useState(false);
   const { data: userData } = useUser();
   const { data, loading } = useQuery(SEE_ROOMS_QUERY);
+  const seeRoomsArray = [...(data?.seeRooms ?? [])];
+  seeRoomsArray.reverse();
   return (
     <Wrapper>
       <Column>
@@ -88,14 +93,21 @@ function DM({ children }) {
           <ListHeaderColumn></ListHeaderColumn>
           <ListHeaderColumn>{userData?.me?.username}</ListHeaderColumn>
           <ListHeaderColumn>
-            <FontAwesomeIcon icon={faEdit} />
+            <FontAwesomeIcon
+              icon={faEdit}
+              onClick={() => setCreateRoomModal(!createRoomModal)}
+            />
+            <CreateRoomModal
+              createRoomModal={createRoomModal}
+              setCreateRoomModal={setCreateRoomModal}
+            />
           </ListHeaderColumn>
         </ListHeader>
         {loading ? (
           <Loader />
         ) : (
           <RoomLists>
-            {data?.seeRooms.map((room) => (
+            {seeRoomsArray.map((room) => (
               <Link to={`/direct/t/${room.id}`} key={room.id}>
                 <RoomList key={room.id} {...room} />
               </Link>

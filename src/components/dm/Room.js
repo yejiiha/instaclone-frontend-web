@@ -152,7 +152,7 @@ function Room() {
 
     if (ok && userData) {
       const messageObj = {
-        id: id,
+        id,
         payload,
         user: {
           username: userData?.me?.username,

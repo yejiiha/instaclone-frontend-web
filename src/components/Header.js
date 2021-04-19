@@ -112,7 +112,7 @@ function Header({ history }) {
         <Column>
           <form onSubmit={handleSubmit(onSubmitValid)}>
             <HeaderInput
-              ref={register}
+              ref={register({ validate: (value) => value !== "#" })}
               name="search"
               type="text"
               placeholder="Search"
