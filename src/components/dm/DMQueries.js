@@ -53,3 +53,13 @@ export const ROOM_UPDATES = gql`
     }
   }
 `;
+
+export const SEE_ALL_USERS_QUERY = gql`
+  query seeAllUsers {
+    seeAllUsers {
+      id
+      avatar
+      username
+    }
+  }
+`;

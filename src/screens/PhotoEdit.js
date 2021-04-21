@@ -37,6 +37,10 @@ const EditForm = styled.form`
   display: flex;
 `;
 
+const SCaptionContainer = styled(CaptionContainer)`
+  width: 100%;
+`;
+
 function PhotoEdit() {
   const history = useHistory();
   const [message, setMessage] = useState("");
@@ -111,10 +115,10 @@ function PhotoEdit() {
             </Link>
           </PostHeader>
           <EditForm onSubmit={handleSubmit(onPhotoEditValid)}>
-            <CaptionContainer>
+            <SCaptionContainer>
               <Avatar url={photoData?.seePhoto.user.avatar} />
               <Caption type="text" name="caption" ref={register} />
-            </CaptionContainer>
+            </SCaptionContainer>
 
             <SubmitContainer>
               <Submit

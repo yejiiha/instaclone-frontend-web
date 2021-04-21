@@ -38,6 +38,10 @@ const FollowBtn = styled(UnfollowBtn)`
   border: none;
 `;
 
+const FLink = styled(Link)`
+  margin-top: 10px;
+`;
+
 function UserCard({ avatar, username }) {
   const { data: userData } = useUser();
   const client = useApolloClient();
@@ -124,9 +128,9 @@ function UserCard({ avatar, username }) {
     const { isMe, isFollowing } = seeProfile;
     if (isMe) {
       return (
-        <Link to="/accounts/edit">
+        <FLink to="/accounts/edit">
           <UnfollowBtn>Edit Profile</UnfollowBtn>
-        </Link>
+        </FLink>
       );
     }
     if (isFollowing) {
