@@ -63,3 +63,13 @@ export const SEE_ALL_USERS_QUERY = gql`
     }
   }
 `;
+
+export const CREATE_ROOM_MUTATION = gql`
+  mutation createRoom($userId: Int!) {
+    createRoom(userId: $userId) {
+      ok
+      id
+      error
+    }
+  }
+`;

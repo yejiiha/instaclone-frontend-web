@@ -2,7 +2,7 @@ import styled from "styled-components";
 import useAutocomplete from "@material-ui/lab/useAutocomplete";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
-import { useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Overlay } from "../feed/PhotoUtilModal";
 import {
   CloseBtn,
@@ -13,7 +13,9 @@ import {
   ModalHeader,
 } from "../profile/FollowersModal";
 import Avatar from "../Avatar";
-import { SEE_ALL_USERS_QUERY } from "./DMQueries";
+import { CREATE_ROOM_MUTATION, SEE_ALL_USERS_QUERY } from "./DMQueries";
+import useUser from "../../hooks/useUser";
+import { useHistory } from "react-router";
 
 const SModal = styled(Modal)`
   height: 480px;
@@ -22,6 +24,7 @@ const SModal = styled(Modal)`
 const NextBtn = styled.input`
   color: ${(props) => props.theme.blue};
   opacity: ${(props) => (props.disabled ? "0.3" : "1")};
+  cursor: pointer;
 `;
 
 const InputContainer = styled.div`
@@ -134,6 +137,7 @@ const UserRow = styled.li`
 `;
 
 function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
+  const { data: meData } = useUser();
   const { data } = useQuery(SEE_ALL_USERS_QUERY);
   const userData = data?.seeAllUsers;
   const {
@@ -153,7 +157,57 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
     options: userData,
     getOptionLabel: (option) => option.username,
   });
-  console.log(value[0]);
+  const history = useHistory();
+
+  const createRoomUpdate = (cache, result) => {
+    const {
+      data: {
+        createRoom: { ok, id },
+      },
+    } = result;
+
+    if (ok && value[0].id) {
+      const newRoom = {
+        id,
+        users: [value[0], meData?.me],
+        unreadTotal: 0,
+        __typename: "Room",
+      };
+
+      const roomFragment = cache.writeFragment({
+        data: newRoom,
+        fragment: gql`
+          fragment NewRoom on Room {
+            id
+            users
+            unreadTotal
+          }
+        `,
+      });
+
+      cache.modify({
+        id: "ROOT_QUERY",
+        fields: {
+          seeRooms(prev) {
+            return [...prev, roomFragment];
+          },
+        },
+      });
+    }
+    setCreateRoomModal(!createRoomModal);
+    history.push(`/direct/t/${id}`);
+  };
+
+  const [createRoomMutation, { loading }] = useMutation(CREATE_ROOM_MUTATION, {
+    update: createRoomUpdate,
+  });
+
+  const onValid = () => {
+    createRoomMutation({
+      variables: { userId: value[0].id },
+    });
+  };
+
   return (
     <Overlay active={createRoomModal}>
       <SModal>
@@ -168,7 +222,7 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
               <HeaderTitle>New Message</HeaderTitle>
             </HeaderColumn>
             <HeaderColumn>
-              <NextBtn type="submit" value={"Next"} />
+              <NextBtn type="submit" value="Next" onClick={onValid} />
             </HeaderColumn>
           </ModalHeader>
 
@@ -181,7 +235,6 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
               {value.map((option, index) => (
                 <Tag label={option?.username} {...getTagProps({ index })} />
               ))}
-
               <input {...getInputProps()} placeholder="Search..." />
             </InputWrapper>
           </InputContainer>
