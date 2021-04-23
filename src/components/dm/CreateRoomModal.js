@@ -154,7 +154,7 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
   } = useAutocomplete({
     id: "customized-hook-demo",
     multiple: true,
-    options: userData,
+    options: userData ? userData : "",
     getOptionLabel: (option) => option.username,
   });
   const history = useHistory();

@@ -53,6 +53,13 @@ const ChatContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   border-top: 1px solid ${(props) => props.theme.borderColor};
+  &::-webkit-scrollbar {
+    border-bottom-right-radius: 12px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background: ${(props) => props.theme.borderColor};
+  }
 `;
 
 const RoomFooter = styled.div`

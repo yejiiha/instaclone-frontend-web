@@ -1,11 +1,12 @@
 import { useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import { EDIT_PROFILE_MUTATION } from "./accountEditQueries";
 import ErrorMessage from "../auth/ErrorMessage";
 import { CopyAlarm } from "../feed/PhotoUtilModal";
+import { ME_QUERY } from "../../hooks/useUser";
 
 const Wrapper = styled.div`
   margin-top: 40px;
@@ -142,7 +143,6 @@ function EditProfile() {
   const editProfileUpdate = (cache, result) => {
     const { avatar, firstName, lastName, username, bio, email } = getValues();
     const newAvatar = `${avatar[0]}`;
-    console.log(newAvatar);
     const {
       data: {
         editProfile: { ok },
@@ -184,6 +184,7 @@ function EditProfile() {
     EDIT_PROFILE_MUTATION,
     {
       update: editProfileUpdate,
+      refetchQueries: [{ query: ME_QUERY }],
     }
   );
 
@@ -214,10 +215,6 @@ function EditProfile() {
       setDisplay(false);
     }, 2000);
   };
-
-  useEffect(() => {
-    register("avatar", "firstName", "lastName", "username", "bio", "email");
-  }, []);
 
   return (
     <>
