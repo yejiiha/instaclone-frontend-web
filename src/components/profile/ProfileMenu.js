@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { faTag, faTh, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProfilePhotos from "./ProfilePhotos";
+import NoPhotos from "./NoPhotos";
 
 const Tabs = styled.div`
   overflow: hidden;
@@ -62,13 +63,17 @@ function ProfileMenu({ photos }) {
         </Tab>
       </Tabs>
       <Content active={tab === 0}>
-        <ProfilePhotos photos={photos} tab={tab} />
+        {photos?.length === 0 ? (
+          <NoPhotos />
+        ) : (
+          <ProfilePhotos photos={photos} />
+        )}
       </Content>
       <Content active={tab === 1}>
-        <ProfilePhotos tab={tab} />
+        <NoPhotos />
       </Content>
       <Content active={tab === 2}>
-        <ProfilePhotos tab={tab} />
+        <NoPhotos />
       </Content>
     </div>
   );
