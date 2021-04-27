@@ -65,14 +65,14 @@ const ModalContents = styled.div``;
 const ModalOverlay = styled(Overlay)``;
 
 function FollowersModal({
-  followersModal,
-  setFollowersModal,
+  followModal,
+  setFollowModal,
   followers,
   unfollowUser,
   followUser,
 }) {
   return (
-    <ModalOverlay active={followersModal}>
+    <ModalOverlay active={followModal}>
       <Modal>
         <ModalContainer>
           <ModalHeader>
@@ -81,7 +81,7 @@ function FollowersModal({
               <HeaderTitle>Followers</HeaderTitle>
             </HeaderColumn>
             <HeaderColumn>
-              <CloseBtn onClick={() => setFollowersModal(!followersModal)}>
+              <CloseBtn onClick={() => setFollowModal(!followModal)}>
                 X
               </CloseBtn>
             </HeaderColumn>
@@ -96,6 +96,8 @@ function FollowersModal({
                     followers={followers}
                     unfollowUser={unfollowUser}
                     followUser={followUser}
+                    setFollowModal={setFollowModal}
+                    followModal={followModal}
                   />
                 ))}
               {followers && followers.username}

@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
@@ -40,6 +40,7 @@ const PreviewImg = styled.img`
   height: 35px;
   width: 35px;
   border-radius: 50%;
+  background-color: black;
 `;
 
 const InfoUsername = styled.span`
@@ -215,6 +216,15 @@ function EditProfile() {
       setDisplay(false);
     }, 2000);
   };
+
+  useEffect(() => {
+    register("avatar");
+    register("firstName");
+    register("lastName");
+    register("username");
+    register("bio");
+    register("email");
+  }, [register]);
 
   return (
     <>

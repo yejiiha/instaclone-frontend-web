@@ -123,11 +123,10 @@ function ProfileHeader({
       return <FollowButton onClick={followUser}>Follow</FollowButton>;
     }
   };
-  const [followersModal, setFollowersModal] = useState(false);
+  const [followModal, setFollowModal] = useState(false);
   const { data, loading } = useQuery(SEE_FOLLOWERS, {
     variables: { username: String(username), page: 1 },
   });
-  const [followingModal, setFollowingModal] = useState(false);
   const { data: whoFollowing } = useQuery(SEE_FOLLOWING, {
     variables: { username: String(username) },
   });
@@ -153,14 +152,14 @@ function ProfileHeader({
                   onClick={
                     totalFollowers === 0
                       ? null
-                      : () => setFollowersModal(!followersModal)
+                      : () => setFollowModal(!followModal)
                   }
                 >
                   <Value>{totalFollowers}</Value> Followers
                 </ItemText>
                 <FollowersModal
-                  followersModal={followersModal}
-                  setFollowersModal={setFollowersModal}
+                  followModal={followModal}
+                  setFollowModal={setFollowModal}
                   username={username}
                   followers={data?.seeFollowers?.followers}
                   unfollowUser={unfollowUser}
@@ -172,14 +171,14 @@ function ProfileHeader({
                   onClick={
                     totalFollowing === 0
                       ? null
-                      : () => setFollowingModal(!followingModal)
+                      : () => setFollowModal(!followModal)
                   }
                 >
                   <Value>{totalFollowing}</Value> Following
                 </ItemText>
                 <FollowingModal
-                  followingModal={followingModal}
-                  setFollowingModal={setFollowingModal}
+                  followModal={followModal}
+                  setFollowModal={setFollowModal}
                   username={username}
                   following={whoFollowing?.seeFollowing?.following}
                   unfollowUser={unfollowUser}

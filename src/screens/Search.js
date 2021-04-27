@@ -60,7 +60,7 @@ const NotFoundText = styled(FatText)`
   text-align: left;
 `;
 
-function Search({ location: { search } }) {
+function Search({ location: { search, hash } }) {
   const location = useLocation();
   const [tab, setTab] = useState(0);
   const handleClick = (e) => {
@@ -73,7 +73,7 @@ function Search({ location: { search } }) {
   const { data, loading } = useQuery(SEARCH, {
     skip: keyword === undefined,
     variables: {
-      keyword,
+      keyword: keyword.length === 0 ? hash : keyword,
     },
   });
   if (keyword === undefined) {
@@ -103,7 +103,7 @@ function Search({ location: { search } }) {
           </Tabs>
           <Content active={tab === 0}>
             <Section>
-              {data.searchUsers.length === 0 ? (
+              {data?.searchUsers?.length === 0 ? (
                 <NotFoundText>No results found</NotFoundText>
               ) : (
                 data.searchUsers.map((user) => (
@@ -114,7 +114,7 @@ function Search({ location: { search } }) {
           </Content>
           <Content active={tab === 1}>
             <PostSection>
-              {data.searchPhotos.length === 0 ? (
+              {data?.searchPhotos?.length === 0 ? (
                 <NotFoundText>No results found</NotFoundText>
               ) : (
                 data.searchPhotos.map((post) => (

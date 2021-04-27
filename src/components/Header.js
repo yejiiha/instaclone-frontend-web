@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
@@ -101,6 +101,15 @@ function Header({ history }) {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useUser();
   const [profileModal, setProfileModal] = useState(false);
+
+  useEffect(() => {
+    register("search", {
+      required: true,
+      minLength: 2,
+      validate: (value) => value !== "#",
+    });
+  }, []);
+
   return (
     <SHeader>
       <Wrapper>
@@ -112,7 +121,7 @@ function Header({ history }) {
         <Column>
           <form onSubmit={handleSubmit(onSubmitValid)}>
             <HeaderInput
-              ref={register({ validate: (value) => value !== "#" })}
+              ref={register}
               name="search"
               type="text"
               placeholder="Search"

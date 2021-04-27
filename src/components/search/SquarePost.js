@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const Overlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: ${(props) => props.theme.overlayColor};
   width: 100%;
   height: 100%;
   display: flex;

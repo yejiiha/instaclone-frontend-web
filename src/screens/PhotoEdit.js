@@ -51,7 +51,9 @@ function PhotoEdit() {
   });
   const { register, handleSubmit, formState, getValues } = useForm({
     mode: "onChange",
-    defaultValues: { caption: photoData?.seePhoto?.caption || "" },
+    defaultValues: {
+      caption: photoData?.seePhoto?.caption || "",
+    },
   });
 
   const editPhotoUpdate = (cache, result) => {
@@ -68,7 +70,7 @@ function PhotoEdit() {
 
     if (ok && photoData?.seePhoto) {
       cache.modify({
-        id: `Photo:${photoData.seePhoto.id}`,
+        id: `Photo:${photoData?.seePhoto?.id}`,
         fields: {
           caption(prev) {
             return caption;
