@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import useUser from "../../hooks/useUser";
 import { feedDateConverter } from "../shared";
@@ -29,6 +30,10 @@ const CommentCount = styled.span`
   margin: 10px 0 7px 0;
   opacity: 0.7;
   font-size: 12px;
+  cursor: pointer;
+  &:active {
+    opacity: 0.4;
+  }
 `;
 
 const Timestamp = styled.span`
@@ -148,22 +153,33 @@ function Comments({
     <CommentsContainer>
       <Comment author={author} caption={caption} />
       <CommentCount>
-        {commentNumber === 0
-          ? ""
-          : commentNumber === 1
-          ? "1 comment"
-          : `${commentNumber} comments`}
+        <Link to={`/posts/${photoId}`}>
+          {commentNumber > 3 ? `View all ${commentNumber} comments` : ""}
+        </Link>
       </CommentCount>
-      {comments?.map((comment) => (
-        <Comment
-          key={comment.id}
-          id={comment.id}
-          author={comment.user.username}
-          caption={comment.payload}
-          isMine={comment.isMine}
-          photoId={photoId}
-        />
-      ))}
+      {commentNumber > 3
+        ? comments
+            ?.map((comment) => (
+              <Comment
+                key={comment.id}
+                id={comment.id}
+                author={comment.user.username}
+                caption={comment.payload}
+                isMine={comment.isMine}
+                photoId={photoId}
+              />
+            ))
+            .slice(0, 2)
+        : comments?.map((comment) => (
+            <Comment
+              key={comment.id}
+              id={comment.id}
+              author={comment.user.username}
+              caption={comment.payload}
+              isMine={comment.isMine}
+              photoId={photoId}
+            />
+          ))}
       <Timestamp>{feedDateConverter(createdAt)}</Timestamp>
       <PostCommentContainer>
         <CommentForm onSubmit={handleSubmit(onValid)}>

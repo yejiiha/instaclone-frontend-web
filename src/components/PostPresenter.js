@@ -86,8 +86,15 @@ export const Username = styled(FatText)`
   }
 `;
 
-export const PhotoData = styled.div`
+export const PhotoData = styled.div``;
+
+export const Content = styled.div`
   padding: 15px;
+  overflow: auto;
+  height: 375px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const PhotoActions = styled.div`
@@ -101,7 +108,7 @@ export const PhotoActions = styled.div`
   }
 `;
 
-const LikeAction = styled.div`
+export const LikeAction = styled.div`
   position: absolute;
   width: 100%;
   bottom: 55px;
@@ -110,17 +117,17 @@ const LikeAction = styled.div`
   border-top: 1px solid ${(props) => props.theme.borderColor};
 `;
 
-const PhotoAction = styled.div`
+export const PhotoAction = styled.div`
   margin-right: 15px;
   cursor: pointer;
 `;
 
-const Likes = styled(FatText)`
+export const Likes = styled(FatText)`
   margin: 10px 0;
   display: block;
 `;
 
-const Timestamp = styled.span`
+export const Timestamp = styled.span`
   font-size: 10px;
   color: ${(props) => props.theme.darkGray};
 `;
@@ -169,6 +176,7 @@ function PostPresenter({
 
   const [photoUtilModal, setPhotoUtilModal] = useState(false);
   const [photoLikesModal, setPhotoLikesModal] = useState(false);
+  const isPost = true;
 
   return (
     <Modal>
@@ -195,27 +203,30 @@ function PostPresenter({
               photoUtilModal={photoUtilModal}
               setPhotoUtilModal={setPhotoUtilModal}
               isMine={isMine}
+              isPost={isPost}
             />
           </Column>
         </PhotoHeader>
         <PhotoData>
-          <ProfileModalComment
-            id={id}
-            avatar={user.avatar}
-            author={user.username}
-            caption={caption}
-          />
-          {comments?.map((comment) => (
+          <Content>
             <ProfileModalComment
-              key={comment.id}
-              id={comment.id}
-              avatar={comment.user.avatar}
-              author={comment.user.username}
-              caption={comment.payload}
-              isMine={comment.isMine}
-              createdAt={comment.createAt}
+              id={id}
+              avatar={user.avatar}
+              author={user.username}
+              caption={caption}
             />
-          ))}
+            {comments?.map((comment) => (
+              <ProfileModalComment
+                key={comment.id}
+                id={comment.id}
+                avatar={comment.user.avatar}
+                author={comment.user.username}
+                caption={comment.payload}
+                isMine={comment.isMine}
+                createdAt={comment.createAt}
+              />
+            ))}
+          </Content>
           <LikeAction>
             <PhotoActions>
               <div>

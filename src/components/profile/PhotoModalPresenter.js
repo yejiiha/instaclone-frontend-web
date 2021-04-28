@@ -22,6 +22,20 @@ import { TOGGLE_LIKE_MUTATION } from "../feed/FeedQueries";
 import { useState } from "react";
 import PhotoUtilModal from "../feed/PhotoUtilModal";
 import PhotoLikesModal from "../feed/PhotoLikesModal";
+import {
+  ModalColumn,
+  PhotoFile,
+  PhotoHeader,
+  Column,
+  Username,
+  PhotoActions,
+  PhotoData,
+  Content,
+  LikeAction,
+  PhotoAction,
+  Likes,
+  Timestamp,
+} from "../PostPresenter";
 
 const Overlay = styled.div`
   position: fixed;
@@ -49,96 +63,6 @@ const Modal = styled.div`
   box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
   z-index: 10;
   cursor: auto;
-`;
-
-const ModalColumn = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  &:first-child {
-    left: 0;
-    width: 600px;
-    height: 600px;
-  }
-  &:last-child {
-    position: relative;
-    left: 0;
-    width: 335px;
-    height: 600px;
-  }
-`;
-
-const PhotoFile = styled.img`
-  max-width: 100%;
-  height: 600px;
-`;
-
-const PhotoHeader = styled.div`
-  padding: 20px 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
-`;
-
-const Column = styled.div`
-  display: flex;
-  align-items: center;
-  &:last-child {
-    width: 100%;
-    right: 0;
-    justify-content: flex-end;
-    svg {
-      cursor: pointer;
-    }
-  }
-`;
-
-const Username = styled(FatText)`
-  margin-left: 10px;
-  font-size: 13px;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const PhotoData = styled.div`
-  padding: 15px;
-`;
-
-const PhotoActions = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  div {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-const LikeAction = styled.div`
-  position: absolute;
-  width: 100%;
-  bottom: 55px;
-  right: 0;
-  padding: 13px 15px 10px 15px;
-  border-top: 1px solid ${(props) => props.theme.borderColor};
-`;
-
-const PhotoAction = styled.div`
-  margin-right: 15px;
-  cursor: pointer;
-`;
-
-const Likes = styled(FatText)`
-  margin: 10px 0;
-  display: block;
-`;
-
-const Timestamp = styled.span`
-  font-size: 10px;
-  color: ${(props) => props.theme.darkGray};
 `;
 
 const Close = styled.button`
@@ -238,23 +162,25 @@ function PhotoModalPresenter({
             </Column>
           </PhotoHeader>
           <PhotoData>
-            <ProfileModalComment
-              id={id}
-              avatar={user.avatar}
-              author={user.username}
-              caption={caption}
-            />
-            {comments?.map((comment) => (
+            <Content>
               <ProfileModalComment
-                key={comment.id}
-                id={comment.id}
-                avatar={comment.user.avatar}
-                author={comment.user.username}
-                caption={comment.payload}
-                isMine={comment.isMine}
-                createdAt={comment.createAt}
+                id={id}
+                avatar={user.avatar}
+                author={user.username}
+                caption={caption}
               />
-            ))}
+              {comments?.map((comment) => (
+                <ProfileModalComment
+                  key={comment.id}
+                  id={comment.id}
+                  avatar={comment.user.avatar}
+                  author={comment.user.username}
+                  caption={comment.payload}
+                  isMine={comment.isMine}
+                  createdAt={comment.createAt}
+                />
+              ))}
+            </Content>
             <LikeAction>
               <PhotoActions>
                 <div>

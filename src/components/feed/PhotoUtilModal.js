@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FatText } from "../shared";
@@ -95,7 +95,14 @@ export const CopyAlarm = styled.div`
   ${({ active }) => (active ? CopyAlarmShow : "")};
 `;
 
-function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
+function PhotoUtilModal({
+  id,
+  photoUtilModal,
+  setPhotoUtilModal,
+  isMine,
+  isPost,
+}) {
+  const history = useHistory();
   const [deleteModal, setDeleteModal] = useState(false);
   const updateDeletePhoto = (cache, result) => {
     const {
@@ -116,6 +123,11 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
   });
   const onDeleteClick = () => {
     deletePhotoMutation();
+    setDisplay(true);
+    setTimeout(() => {
+      setDisplay(false);
+    }, 2000);
+    history.go(-2);
   };
 
   const text = `http://localhost:3000/posts/${id}?utm_source=ig_web_copy_link`;
@@ -132,7 +144,7 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
     <Overlay active={photoUtilModal}>
       <UtilModal>
         <Container>
-          {isMine ? (
+          {isMine && isPost ? (
             <>
               <Row onClick={() => setDeleteModal(!deleteModal)}>
                 <SFatText>Delete</SFatText>
@@ -141,15 +153,18 @@ function PhotoUtilModal({ id, photoUtilModal, setPhotoUtilModal, isMine }) {
                 deleteModal={deleteModal}
                 setDeleteModal={setDeleteModal}
                 onDeleteClick={onDeleteClick}
+                display={display}
               />
               <Row>
                 <Link to={`/posts/${id}/edit`}>Edit</Link>
               </Row>
             </>
           ) : null}
-          <Row>
-            <Link to={`/posts/${id}`}>Go to post</Link>
-          </Row>
+          {!isPost && (
+            <Row>
+              <Link to={`/posts/${id}`}>Go to post</Link>
+            </Row>
+          )}
           <CopyToClipboard text={text}>
             <div>
               <Row onClick={setCopyAlarm}>Copy Link</Row>

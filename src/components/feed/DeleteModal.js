@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { CopyAlarm } from "./PhotoUtilModal";
 
 const Modal = styled.div`
   position: absolute;
@@ -74,7 +75,7 @@ const Overlay = styled.div`
   ${({ active }) => (active ? OverlayShow : "")};
 `;
 
-function DeleteModal({ deleteModal, setDeleteModal, onDeleteClick }) {
+function DeleteModal({ deleteModal, setDeleteModal, onDeleteClick, display }) {
   return (
     <Overlay active={deleteModal}>
       <Modal>
@@ -89,7 +90,10 @@ function DeleteModal({ deleteModal, setDeleteModal, onDeleteClick }) {
           <CancelBtn onClick={() => setDeleteModal(!deleteModal)}>
             Cancel
           </CancelBtn>
-          <DeleteBtn onClick={onDeleteClick}>Yes, delete this post</DeleteBtn>
+          <DeleteBtn onClick={onDeleteClick}>
+            Yes, delete this post
+            <CopyAlarm active={display}>Post is deleted.</CopyAlarm>
+          </DeleteBtn>
         </Buttons>
       </Modal>
     </Overlay>

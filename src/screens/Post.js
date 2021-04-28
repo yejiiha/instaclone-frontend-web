@@ -20,6 +20,7 @@ function Post() {
           likes={data.seePhoto.likes}
           comments={data.seePhoto.comments}
           createdAt={data.seePhoto.createdAt}
+          isMine={data.seePhoto.isMine}
         />
       )}
     </>

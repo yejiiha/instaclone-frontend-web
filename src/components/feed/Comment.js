@@ -15,7 +15,7 @@ const DELETE_COMMENT_MUTATION = gql`
 
 const CommentContainer = styled.div`
   padding: 0 15px;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   display: flex;
   align-items: center;
   justify-content: space-between;
