@@ -32,6 +32,8 @@ const CommentUsername = styled(FatText)`
 
 const CommentCaption = styled.span`
   margin-left: 5px;
+  width: 540px;
+  overflow-wrap: break-word;
   a {
     background-color: inherit;
     color: ${(props) => props.theme.hashtagColor};
