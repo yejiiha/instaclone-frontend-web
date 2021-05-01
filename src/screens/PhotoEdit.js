@@ -119,7 +119,7 @@ function PhotoEdit() {
           <EditForm onSubmit={handleSubmit(onPhotoEditValid)}>
             <SCaptionContainer>
               <Avatar url={photoData?.seePhoto.user.avatar} />
-              <Caption type="text" name="caption" ref={register} />
+              <Caption cols="20" rows="28" name="caption" ref={register} />
             </SCaptionContainer>
 
             <SubmitContainer>

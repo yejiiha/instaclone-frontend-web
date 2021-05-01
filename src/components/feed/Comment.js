@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
@@ -52,6 +52,14 @@ const CommentDeleteBtn = styled.button`
   }
 `;
 
+const More = styled.span`
+  cursor: pointer;
+  color: ${(props) => props.theme.darkGray};
+  &:active {
+    color: ${(props) => props.theme.borderColor};
+  }
+`;
+
 function Comment({ id, author, caption, isMine, photoId }) {
   const updateDeleteComment = (cache, result) => {
     const {
@@ -82,6 +90,20 @@ function Comment({ id, author, caption, isMine, photoId }) {
     deleteCommentMutation();
   };
 
+  const refinedCaption =
+    caption !== null &&
+    caption.split(" ").map((word, index) =>
+      /#[\w]+/.test(word) ? (
+        <React.Fragment key={index}>
+          <Link to={`/search?term=${word}`}>{word}</Link>{" "}
+        </React.Fragment>
+      ) : (
+        <React.Fragment key={index}>{word} </React.Fragment>
+      )
+    );
+
+  const [showMore, setShowMore] = useState(false);
+
   return (
     <CommentContainer>
       <Column>
@@ -89,16 +111,12 @@ function Comment({ id, author, caption, isMine, photoId }) {
           <CommentUsername>{author}</CommentUsername>
         </Link>
         <CommentCaption>
-          {caption !== null &&
-            caption.split(" ").map((word, index) =>
-              /#[\w]+/.test(word) ? (
-                <React.Fragment key={index}>
-                  <Link to={`/search?term=${word}`}>{word}</Link>{" "}
-                </React.Fragment>
-              ) : (
-                <React.Fragment key={index}>{word} </React.Fragment>
-              )
-            )}
+          {!showMore && caption?.length > 50
+            ? refinedCaption.slice(0, 11)
+            : refinedCaption}
+          {!showMore && caption?.length > 50 ? (
+            <More onClick={() => setShowMore(!showMore)}>... more</More>
+          ) : null}
         </CommentCaption>
       </Column>
       <Column>

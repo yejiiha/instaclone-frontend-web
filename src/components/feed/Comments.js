@@ -149,6 +149,17 @@ function Comments({
     register("payload");
   }, [register]);
 
+  const refinedComments = comments?.map((comment) => (
+    <Comment
+      key={comment.id}
+      id={comment.id}
+      author={comment.user.username}
+      caption={comment.payload}
+      isMine={comment.isMine}
+      photoId={photoId}
+    />
+  ));
+
   return (
     <CommentsContainer>
       <Comment author={author} caption={caption} />
@@ -157,29 +168,7 @@ function Comments({
           {commentNumber > 3 ? `View all ${commentNumber} comments` : ""}
         </Link>
       </CommentCount>
-      {commentNumber > 3
-        ? comments
-            ?.map((comment) => (
-              <Comment
-                key={comment.id}
-                id={comment.id}
-                author={comment.user.username}
-                caption={comment.payload}
-                isMine={comment.isMine}
-                photoId={photoId}
-              />
-            ))
-            .slice(0, 2)
-        : comments?.map((comment) => (
-            <Comment
-              key={comment.id}
-              id={comment.id}
-              author={comment.user.username}
-              caption={comment.payload}
-              isMine={comment.isMine}
-              photoId={photoId}
-            />
-          ))}
+      {commentNumber > 3 ? refinedComments.slice(0, 2) : refinedComments}
       <Timestamp>{feedDateConverter(createdAt)}</Timestamp>
       <PostCommentContainer>
         <CommentForm onSubmit={handleSubmit(onValid)}>

@@ -53,4 +53,15 @@ export const GlobalStyles = createGlobalStyle`
       text-decoration: none;
       color: inherit;
     }
+    &::-webkit-scrollbar {
+      border-bottom-right-radius: 12px;
+      width: 15px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 12px;
+      background: ${(props) => props.theme.borderColor};
+      &:active{
+        background: ${(props) => props.theme.darkGray};
+      }
+    }
 `;

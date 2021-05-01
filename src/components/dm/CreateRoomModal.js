@@ -41,13 +41,6 @@ const ModalContents = styled.div`
     padding: 16px;
     font-size: 14px;
   }
-  &::-webkit-scrollbar {
-    border-bottom-right-radius: 12px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 12px;
-    background: ${(props) => props.theme.borderColor};
-  }
 `;
 
 const Label = styled("label")`

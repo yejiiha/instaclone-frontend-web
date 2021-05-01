@@ -96,9 +96,14 @@ export const CaptionContainer = styled.div`
   display: flex;
 `;
 
-export const Caption = styled.input`
+export const Caption = styled.textarea`
   margin-left: 10px;
   width: 85%;
+  resize: none;
+  border: none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const SubmitContainer = styled.div`
@@ -202,7 +207,8 @@ function Create() {
           <CaptionContainer>
             <Avatar url={data?.me?.avatar} />
             <Caption
-              type="text"
+              cols="20"
+              rows="28"
               name="caption"
               ref={register}
               placeholder="Write a caption..."
