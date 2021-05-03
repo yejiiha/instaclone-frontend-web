@@ -2,7 +2,10 @@ import { ApolloClient, InMemoryCache, makeVar, split } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 import { WebSocketLink } from "@apollo/client/link/ws";
-import { getMainDefinition } from "@apollo/client/utilities";
+import {
+  getMainDefinition,
+  offsetLimitPagination,
+} from "@apollo/client/utilities";
 
 const TOKEN = "token";
 const DARK_MODE = "DARK_MODE";
@@ -74,6 +77,11 @@ export const client = new ApolloClient({
     typePolicies: {
       User: {
         keyFields: (obj) => `User:${obj.username}`,
+      },
+      Query: {
+        fields: {
+          seeFeed: offsetLimitPagination(),
+        },
       },
     },
   }),

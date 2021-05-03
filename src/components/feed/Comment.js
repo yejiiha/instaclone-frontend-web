@@ -116,6 +116,8 @@ function Comment({ id, author, caption, isMine, photoId }) {
             : refinedCaption}
           {!showMore && caption?.length > 50 ? (
             <More onClick={() => setShowMore(!showMore)}>... more</More>
+          ) : showMore ? (
+            <More onClick={() => setShowMore(!showMore)}>... less</More>
           ) : null}
         </CommentCaption>
       </Column>
