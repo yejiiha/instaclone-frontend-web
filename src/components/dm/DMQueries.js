@@ -73,3 +73,12 @@ export const CREATE_ROOM_MUTATION = gql`
     }
   }
 `;
+
+export const READ_MESSAGE_MUTATION = gql`
+  mutation readMessage($id: Int!) {
+    readMessage(id: $id) {
+      ok
+      id
+    }
+  }
+`;
