@@ -3,6 +3,7 @@ import Layout from "./components/auth/Layout";
 import DefaultRoom from "./components/dm/DefaultRoom";
 import DmLayout from "./components/dm/DmLayout";
 import Room from "./components/dm/Room";
+import HomeLayout from "./components/HomeLayout";
 import PhotoModalContainer from "./components/profile/PhotoModalContainer";
 import routes from "./routes";
 import AccountEdit from "./screens/AccountEdit";
@@ -24,9 +25,9 @@ function RouterSwitch({ isLoggedIn }) {
       <Switch location={background || location}>
         <Route exact path={routes.home}>
           {isLoggedIn ? (
-            <Layout>
+            <HomeLayout>
               <Home />
-            </Layout>
+            </HomeLayout>
           ) : (
             <Login />
           )}

@@ -1,6 +1,9 @@
+import { useApolloClient, useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import useUser from "../../hooks/useUser";
 import Avatar from "../Avatar";
+import { FOLLOW_USER_MUTATION, UNFOLLOW_USER_MUTATION } from "./ProfileQueries";
 
 export const Lists = styled.div`
   width: 100%;
@@ -66,8 +69,6 @@ function FollowModalList({
   avatar,
   isMe,
   isFollowing,
-  unfollowUser,
-  followUser,
   followers,
   following,
   setFollowingModal,
@@ -75,6 +76,80 @@ function FollowModalList({
   followersModal,
   setFollowersModal,
 }) {
+  const { data: userData } = useUser();
+  const client = useApolloClient();
+  const unfollowUserUpdate = (cache, result) => {
+    const {
+      data: {
+        unfollowUser: { ok },
+      },
+    } = result;
+    if (!ok) {
+      return;
+    }
+    cache.modify({
+      id: `User:${username}`,
+      fields: {
+        isFollowing(prev) {
+          return false;
+        },
+        totalFollowers(prev) {
+          return prev - 1;
+        },
+      },
+    });
+    const { me } = userData;
+    cache.modify({
+      id: `User:${me.username}`,
+      fields: {
+        totalFollowing(prev) {
+          return prev - 1;
+        },
+      },
+    });
+  };
+  const [unfollowUser] = useMutation(UNFOLLOW_USER_MUTATION, {
+    variables: {
+      username,
+    },
+    update: unfollowUserUpdate,
+  });
+
+  const followUserCompleted = (data) => {
+    const {
+      followUser: { ok },
+    } = data;
+    if (!ok) {
+      return;
+    }
+    const { cache } = client;
+    cache.modify({
+      id: `User:${username}`,
+      fields: {
+        isFollowing(prev) {
+          return true;
+        },
+        totalFollowers(prev) {
+          return prev + 1;
+        },
+      },
+    });
+    const { me } = userData;
+    cache.modify({
+      id: `User:${me.username}`,
+      fields: {
+        totalFollowing(prev) {
+          return prev + 1;
+        },
+      },
+    });
+  };
+  const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
+    variables: {
+      username,
+    },
+    onCompleted: followUserCompleted,
+  });
   const getButton = (isMe, isFollowing) => {
     if (isMe) {
       return null;

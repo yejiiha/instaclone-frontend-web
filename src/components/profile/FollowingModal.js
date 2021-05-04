@@ -17,8 +17,6 @@ function FollowingModal({
   followingModal,
   setFollowingModal,
   following,
-  unfollowUser,
-  followUser,
   onFollowingLoadMore,
   followingLoading,
 }) {
@@ -58,8 +56,6 @@ function FollowingModal({
                       key={f.id}
                       {...f}
                       following={following}
-                      unfollowUser={unfollowUser}
-                      followUser={followUser}
                       setFollowingModal={setFollowingModal}
                       followingModal={followingModal}
                     />

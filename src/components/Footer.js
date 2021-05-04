@@ -20,7 +20,7 @@ const ListItem = styled.li`
   }
 `;
 
-const Link = styled.a`
+export const Link = styled.a`
   color: ${(props) => props.theme.darkGray};
   cursor: pointer;
   &:active {
@@ -28,7 +28,7 @@ const Link = styled.a`
   }
 `;
 
-const Copyright = styled.span`
+export const Copyright = styled.span`
   color: ${(props) => props.theme.darkGray};
 `;
 

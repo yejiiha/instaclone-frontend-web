@@ -22,7 +22,7 @@ const CommentContainer = styled.div`
 
 const Column = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: ${(props) => (props.long ? "flex-start" : "center")};
   &:last-child {
     opacity: 0;
     &:hover {
@@ -106,7 +106,7 @@ function ProfileModalComment({
 
   return (
     <CommentContainer>
-      <Column>
+      <Column long={caption?.length > 50}>
         <Caption>
           <Link to={`/users/${author}`}>
             <Avatar url={avatar} />

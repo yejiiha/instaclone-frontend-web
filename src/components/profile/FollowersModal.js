@@ -72,8 +72,6 @@ export const ModalOverlay = styled(Overlay)``;
 
 function FollowersModal({
   followers,
-  unfollowUser,
-  followUser,
   followersModal,
   setFollowersModal,
   onFollowersLoadMore,
@@ -115,8 +113,6 @@ function FollowersModal({
                       key={f.id}
                       {...f}
                       followers={followers}
-                      unfollowUser={unfollowUser}
-                      followUser={followUser}
                       followersModal={followersModal}
                       setFollowersModal={setFollowersModal}
                     />
