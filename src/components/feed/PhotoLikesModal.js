@@ -54,8 +54,6 @@ const HeaderTitle = styled.h1`
   font-weight: 600;
 `;
 
-const Close = styled(CloseBtn)``;
-
 const ModalContents = styled.div``;
 
 const ModalOverlay = styled(Overlay)``;
@@ -78,9 +76,9 @@ function PhotoLikesModal({ id, photoLikesModal, setPhotoLikesModal }) {
               <HeaderTitle>Likes</HeaderTitle>
             </HeaderColumn>
             <HeaderColumn>
-              <Close onClick={() => setPhotoLikesModal(!photoLikesModal)}>
+              <CloseBtn onClick={() => setPhotoLikesModal(!photoLikesModal)}>
                 X
-              </Close>
+              </CloseBtn>
             </HeaderColumn>
           </ModalHeader>
           <ModalContents>

@@ -70,8 +70,10 @@ function FollowModalList({
   followUser,
   followers,
   following,
-  setFollowModal,
-  followModal,
+  setFollowingModal,
+  followingModal,
+  followersModal,
+  setFollowersModal,
 }) {
   const getButton = (isMe, isFollowing) => {
     if (isMe) {
@@ -95,7 +97,11 @@ function FollowModalList({
           <Column>
             <Link
               to={`/users/${username}`}
-              onClick={() => setFollowModal(!followModal)}
+              onClick={
+                followersModal
+                  ? () => setFollowersModal(!followersModal)
+                  : () => setFollowingModal(!followingModal)
+              }
             >
               <Username>{username}</Username>
             </Link>

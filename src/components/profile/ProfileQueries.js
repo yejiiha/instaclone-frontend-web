@@ -59,10 +59,9 @@ export const SEE_PHOTO_QUERY = gql`
 `;
 
 export const SEE_FOLLOWERS = gql`
-  query seeFollowers($page: Int, $username: String!) {
-    seeFollowers(page: $page, username: $username) {
+  query seeFollowers($username: String!, $offset: Int!) {
+    seeFollowers(username: $username, offset: $offset) {
       ok
-      totalPages
       followers {
         id
         username
@@ -75,8 +74,8 @@ export const SEE_FOLLOWERS = gql`
 `;
 
 export const SEE_FOLLOWING = gql`
-  query seeFollowing($username: String!) {
-    seeFollowing(username: $username) {
+  query seeFollowing($username: String!, $offset: Int!) {
+    seeFollowing(username: $username, offset: $offset) {
       ok
       following {
         id

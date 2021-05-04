@@ -77,7 +77,8 @@ const ListHeaderColumn = styled.div`
 `;
 
 const RoomLists = styled.ul`
-  margin-top: 8px;
+  height: 740px;
+  overflow: auto;
 `;
 
 function DM({ children }) {

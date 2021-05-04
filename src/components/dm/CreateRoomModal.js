@@ -191,7 +191,7 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
     history.push(`/direct/t/${id}`);
   };
 
-  const [createRoomMutation, { loading }] = useMutation(CREATE_ROOM_MUTATION, {
+  const [createRoomMutation] = useMutation(CREATE_ROOM_MUTATION, {
     update: createRoomUpdate,
   });
 

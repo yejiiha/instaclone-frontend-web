@@ -1,6 +1,8 @@
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 import styled from "styled-components";
+import CreateRoomModal from "./CreateRoomModal";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -49,6 +51,7 @@ const SendBtn = styled.button`
 `;
 
 function DefaultRoom() {
+  const [createRoomModal, setCreateRoomModal] = useState(false);
   return (
     <Wrapper>
       <PlaneContainer>
@@ -56,7 +59,13 @@ function DefaultRoom() {
       </PlaneContainer>
       <TitleText>Your Messages</TitleText>
       <Text>Send private photos and messages to a friend or group.</Text>
-      <SendBtn>Send Message</SendBtn>
+      <SendBtn onClick={() => setCreateRoomModal(!createRoomModal)}>
+        Send Message
+      </SendBtn>
+      <CreateRoomModal
+        createRoomModal={createRoomModal}
+        setCreateRoomModal={setCreateRoomModal}
+      />
     </Wrapper>
   );
 }

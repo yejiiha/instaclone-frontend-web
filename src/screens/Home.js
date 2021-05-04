@@ -27,7 +27,7 @@ const FEED_QUERY = gql`
   ${COMMENT_FRAGMENT}
 `;
 
-const override = css`
+export const override = css`
   display: block;
   margin: 0 auto;
 `;

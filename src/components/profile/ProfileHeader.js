@@ -123,13 +123,64 @@ function ProfileHeader({
       return <FollowButton onClick={followUser}>Follow</FollowButton>;
     }
   };
-  const [followModal, setFollowModal] = useState(false);
-  const { data, loading } = useQuery(SEE_FOLLOWERS, {
-    variables: { username: String(username), page: 1 },
-  });
-  const { data: whoFollowing } = useQuery(SEE_FOLLOWING, {
-    variables: { username: String(username) },
-  });
+  const [followingModal, setFollowingModal] = useState(false);
+  const [followersModal, setFollowersModal] = useState(false);
+  const { data, loading, fetchMore: followersFetMore } = useQuery(
+    SEE_FOLLOWERS,
+    {
+      variables: { username: String(username), offset: 0 },
+    }
+  );
+  const { data: whoFollowing, loading: followingLoading, fetchMore } = useQuery(
+    SEE_FOLLOWING,
+    {
+      variables: { username: String(username), offset: 0 },
+    }
+  );
+
+  const onFollowersLoadMore = () => {
+    followersFetMore({
+      variables: {
+        offset: data?.seeFollowers?.followers?.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        const newData = {
+          ...prev,
+          seeFollowers: {
+            ...prev.seeFollowers,
+            followers: [
+              ...prev.seeFollowers.followers,
+              ...fetchMoreResult.seeFollowers.followers,
+            ],
+          },
+        };
+        return newData;
+      },
+    });
+  };
+
+  const onFollowingLoadMore = () => {
+    fetchMore({
+      variables: {
+        offset: whoFollowing?.seeFollowing?.following?.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        const newData = {
+          ...prev,
+          seeFollowing: {
+            ...prev.seeFollowing,
+            following: [
+              ...prev.seeFollowing.following,
+              ...fetchMoreResult.seeFollowing.following,
+            ],
+          },
+        };
+        return newData;
+      },
+    });
+  };
 
   if (!loading && data && data.seeFollowers) {
     return (
@@ -152,18 +203,20 @@ function ProfileHeader({
                   onClick={
                     totalFollowers === 0
                       ? null
-                      : () => setFollowModal(!followModal)
+                      : () => setFollowersModal(!followersModal)
                   }
                 >
                   <Value>{totalFollowers}</Value> Followers
                 </ItemText>
                 <FollowersModal
-                  followModal={followModal}
-                  setFollowModal={setFollowModal}
+                  followersModal={followersModal}
+                  setFollowersModal={setFollowersModal}
                   username={username}
                   followers={data?.seeFollowers?.followers}
                   unfollowUser={unfollowUser}
                   followUser={followUser}
+                  onFollowersLoadMore={onFollowersLoadMore}
+                  loading={loading}
                 />
               </Item>
               <Item>
@@ -171,18 +224,20 @@ function ProfileHeader({
                   onClick={
                     totalFollowing === 0
                       ? null
-                      : () => setFollowModal(!followModal)
+                      : () => setFollowingModal(!followingModal)
                   }
                 >
                   <Value>{totalFollowing}</Value> Following
                 </ItemText>
                 <FollowingModal
-                  followModal={followModal}
-                  setFollowModal={setFollowModal}
+                  followingModal={followingModal}
+                  setFollowingModal={setFollowingModal}
                   username={username}
                   following={whoFollowing?.seeFollowing?.following}
                   unfollowUser={unfollowUser}
                   followUser={followUser}
+                  onFollowingLoadMore={onFollowingLoadMore}
+                  followingLoading={followingLoading}
                 />
               </Item>
             </List>

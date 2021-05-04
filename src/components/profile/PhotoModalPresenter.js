@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../Avatar";
-import { dateConverter, FatText } from "../shared";
+import { dateConverter } from "../shared";
 import ProfileModalComment from "./ProfileModalComment";
 import ProfileModalComments from "./ProfileModalComments";
 import { TOGGLE_LIKE_MUTATION } from "../feed/FeedQueries";

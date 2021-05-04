@@ -1,6 +1,9 @@
+import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
+import { override } from "../../screens/Home";
 import { Overlay } from "../feed/PhotoUtilModal";
 import FollowModalList from "./FollowModalList";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export const Modal = styled.div`
   width: 400px;
@@ -60,19 +63,24 @@ export const CloseBtn = styled.button`
   }
 `;
 
-const ModalContents = styled.div``;
+export const ModalContents = styled.div`
+  height: 350px;
+  overflow: auto;
+`;
 
-const ModalOverlay = styled(Overlay)``;
+export const ModalOverlay = styled(Overlay)``;
 
 function FollowersModal({
-  followModal,
-  setFollowModal,
   followers,
   unfollowUser,
   followUser,
+  followersModal,
+  setFollowersModal,
+  onFollowersLoadMore,
+  loading,
 }) {
   return (
-    <ModalOverlay active={followModal}>
+    <ModalOverlay active={followersModal}>
       <Modal>
         <ModalContainer>
           <ModalHeader>
@@ -81,27 +89,42 @@ function FollowersModal({
               <HeaderTitle>Followers</HeaderTitle>
             </HeaderColumn>
             <HeaderColumn>
-              <CloseBtn onClick={() => setFollowModal(!followModal)}>
+              <CloseBtn onClick={() => setFollowersModal(!followersModal)}>
                 X
               </CloseBtn>
             </HeaderColumn>
           </ModalHeader>
           <ModalContents>
-            <ul>
-              {followers &&
-                followers.map((f) => (
-                  <FollowModalList
-                    key={f.id}
-                    {...f}
-                    followers={followers}
-                    unfollowUser={unfollowUser}
-                    followUser={followUser}
-                    setFollowModal={setFollowModal}
-                    followModal={followModal}
-                  />
-                ))}
+            <div>
+              {followers && (
+                <InfiniteScroll
+                  dataLength={followers?.length}
+                  next={onFollowersLoadMore}
+                  hasMore={true}
+                  loader={
+                    <ClipLoader
+                      css={override}
+                      loading={loading}
+                      size={35}
+                      color={"#999999"}
+                    />
+                  }
+                >
+                  {followers.map((f) => (
+                    <FollowModalList
+                      key={f.id}
+                      {...f}
+                      followers={followers}
+                      unfollowUser={unfollowUser}
+                      followUser={followUser}
+                      followersModal={followersModal}
+                      setFollowersModal={setFollowersModal}
+                    />
+                  ))}
+                </InfiniteScroll>
+              )}
               {followers && followers.username}
-            </ul>
+            </div>
           </ModalContents>
         </ModalContainer>
       </Modal>
