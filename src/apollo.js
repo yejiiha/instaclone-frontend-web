@@ -37,14 +37,14 @@ export const disableDarkMode = () => {
 const httpLink = new createUploadLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? "https://jistaclone-backend.herokuapp.com/graphql"
+      ? "http://jistaclone-backend.herokuapp.com/graphql"
       : "http://localhost:4000/graphql",
 });
 
 const wsLink = new WebSocketLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? "https://jistaclone-backend.herokuapp.com/graphql"
+      ? "http://jistaclone-backend.herokuapp.com/graphql"
       : "ws://localhost:4000/graphql",
   options: {
     reconnect: true,
