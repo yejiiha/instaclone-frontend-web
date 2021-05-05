@@ -14,10 +14,6 @@ const DELETE_PHOTO_MUTATION = gql`
   }
 `;
 
-const ModalShow = css`
-  opacity: 1;
-`;
-
 const UtilModal = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,8 +26,6 @@ const UtilModal = styled.div`
   z-index: 10;
   cursor: auto;
   border-radius: 12px;
-  opacity: 1;
-  /* ${({ active }) => (active ? ModalShow : "")} */
 `;
 
 const Container = styled.ul``;

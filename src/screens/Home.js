@@ -74,6 +74,9 @@ const SideBarColumn = styled.div`
 
 const Username = styled.span`
   font-weight: 600;
+  &:active {
+    color: ${(props) => props.theme.darkGray};
+  }
 `;
 
 const FullName = styled.span`
