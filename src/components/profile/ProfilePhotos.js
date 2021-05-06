@@ -10,6 +10,14 @@ const Grid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   margin-top: 20px;
+  @media ${(props) => props.theme.mobileM} {
+    gap: 3px;
+    grid-auto-rows: 200px;
+  }
+  @media ${(props) => props.theme.mobileS} {
+    gap: 3px;
+    grid-auto-rows: 130px;
+  }
 `;
 
 function ProfilePhotos({ photos }) {

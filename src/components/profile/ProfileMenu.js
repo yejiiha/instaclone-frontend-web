@@ -8,12 +8,12 @@ import NoPhotos from "./NoPhotos";
 const Tabs = styled.div`
   overflow: hidden;
   height: 3em;
+  max-width: 930px;
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
   margin-top: 45px;
-  background-color: yellowgreen;
 `;
 
 const Tab = styled.button`

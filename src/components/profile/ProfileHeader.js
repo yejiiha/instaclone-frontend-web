@@ -19,9 +19,16 @@ const Avatar = styled.img`
   margin-right: 150px;
   border: 1px solid ${(props) => props.theme.borderColor};
   background-color: black;
+  @media ${(props) => props.theme.mobileM} {
+    height: 77px;
+    width: 77px;
+    margin-right: 28px;
+  }
 `;
 
-const Column = styled.div``;
+const Column = styled.div`
+  width: 100%;
+`;
 
 const Row = styled.div`
   margin-bottom: 20px;

@@ -17,7 +17,7 @@ import { CREATE_ROOM_MUTATION, SEE_ALL_USERS_QUERY } from "./DMQueries";
 import useUser from "../../hooks/useUser";
 import { useHistory } from "react-router";
 
-const SModal = styled(Modal)`
+const SModalContainer = styled(ModalContainer)`
   height: 480px;
 `;
 
@@ -203,8 +203,8 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
 
   return (
     <Overlay active={createRoomModal}>
-      <SModal>
-        <ModalContainer>
+      <Modal>
+        <SModalContainer>
           <ModalHeader>
             <HeaderColumn>
               <CloseBtn onClick={() => setCreateRoomModal(!createRoomModal)}>
@@ -243,8 +243,8 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
               ))}
             </Box>
           </ModalContents>
-        </ModalContainer>
-      </SModal>
+        </SModalContainer>
+      </Modal>
     </Overlay>
   );
 }

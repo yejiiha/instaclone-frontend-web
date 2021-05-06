@@ -38,6 +38,15 @@ const CreateColumn = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
+    @media ${(props) => props.theme.tabletS} {
+      width: 500px;
+    }
+    @media ${(props) => props.theme.mobileM} {
+      width: 400px;
+    }
+    @media ${(props) => props.theme.mobileS} {
+      width: 300px;
+    }
   }
   &:last-child {
     position: relative;

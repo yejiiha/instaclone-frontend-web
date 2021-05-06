@@ -59,6 +59,9 @@ const HeaderInput = styled.input`
     text-align: left;
     border-color: rgb(38, 38, 38);
   }
+  @media ${(props) => props.theme.mobileS} {
+    display: none;
+  }
 `;
 
 const IconContainer = styled.div`

@@ -17,18 +17,20 @@ const DELETE_PHOTO_MUTATION = gql`
 const UtilModal = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 40%;
-  left: 45%;
-  background-color: ${(props) => props.theme.formColor};
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Container = styled.ul`
   width: 280px;
+  background-color: ${(props) => props.theme.formColor};
   box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
   z-index: 10;
   cursor: auto;
   border-radius: 12px;
 `;
-
-const Container = styled.ul``;
 
 const Row = styled.li`
   text-align: center;
@@ -124,7 +126,7 @@ function PhotoUtilModal({
     history.go(-2);
   };
 
-  const text = `http://localhost:3000/posts/${id}?utm_source=ig_web_copy_link`;
+  const text = `http://jistagram.netlify.app/posts/${id}?utm_source=ig_web_copy_link`;
   const [display, setDisplay] = useState(false);
 
   const setCopyAlarm = () => {

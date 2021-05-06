@@ -16,6 +16,9 @@ export const lightTheme = {
   overlayColor: "rgba(0, 0, 0, 0.45)",
   shadowColor: "rgba(0, 0, 0, 0.07)",
   lightGray: "#EFEFEF",
+  mobileS: `(max-width: 540px)`,
+  mobileM: `(max-width: 735px)`,
+  tabletS: `(max-width: 1000px)`,
 };
 
 export const darkTheme = {
@@ -33,6 +36,9 @@ export const darkTheme = {
   overlayColor: "rgba(66, 70, 66, 0.5)",
   shadowColor: "rgba(187,187, 187, 0.07)",
   lightGray: "#EFEFEF",
+  mobileS: `(max-width: 540px)`,
+  mobileM: `(max-width: 735px)`,
+  tabletS: `(max-width: 1000px)`,
 };
 
 export const GlobalStyles = createGlobalStyle`

@@ -46,6 +46,14 @@ const Section = styled.div`
   grid-template-columns: repeat(5, 160px);
   grid-template-rows: 160px;
   grid-auto-rows: 160px;
+  @media ${(props) => props.theme.mobileM} {
+    grid-template-columns: repeat(4, 160px);
+    grid-gap: 20px;
+  }
+  @media ${(props) => props.theme.mobileS} {
+    grid-template-columns: repeat(3, 160px);
+    grid-gap: 10px;
+  }
 `;
 
 const PostSection = styled(Section)`
@@ -53,6 +61,14 @@ const PostSection = styled(Section)`
   grid-template-rows: 290px;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
+  @media ${(props) => props.theme.mobileM} {
+    grid-gap: 3px;
+    grid-template-rows: 200px;
+  }
+  @media ${(props) => props.theme.mobileS} {
+    grid-gap: 3px;
+    grid-template-rows: 130px;
+  }
 `;
 
 const NotFoundText = styled(FatText)`

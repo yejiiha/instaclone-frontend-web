@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   padding: 50px 0 18em 0;
 `;
 
-const CameraWrapper = styled.div`
+export const CameraWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +23,7 @@ const CameraWrapper = styled.div`
   }
 `;
 
-const Text = styled.span`
+export const Text = styled.span`
   margin-top: 20px;
   font-size: 25px;
 `;

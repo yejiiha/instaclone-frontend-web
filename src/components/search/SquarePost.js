@@ -18,9 +18,10 @@ const Overlay = styled.div`
 
 const Photo = styled.div`
   background-image: url(${(props) => props.bg});
-  background-size: 290px 290px;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   width: 100%;
+  max-height: 290px;
   height: 100%;
   position: relative;
   cursor: pointer;

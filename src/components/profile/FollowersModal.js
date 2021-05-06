@@ -6,20 +6,22 @@ import FollowModalList from "./FollowModalList";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export const Modal = styled.div`
-  width: 400px;
-  height: 400px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 25%;
-  left: 35%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+export const ModalContainer = styled.div`
+  width: 400px;
+  height: 400px;
   background-color: ${(props) => props.theme.formColor};
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 12px;
   z-index: 5;
 `;
-
-export const ModalContainer = styled.div``;
 
 export const ModalHeader = styled.div`
   width: 100%;

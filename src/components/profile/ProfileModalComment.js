@@ -18,11 +18,16 @@ const CommentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const Column = styled.div`
+  width: 95%;
   display: flex;
   align-items: ${(props) => (props.long ? "flex-start" : "center")};
+  @media ${(props) => props.theme.mobileM} {
+    flex-direction: ${(props) => (props.long ? "column" : "row")};
+  }
   &:last-child {
     opacity: 0;
     &:hover {

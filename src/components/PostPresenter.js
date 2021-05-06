@@ -49,6 +49,9 @@ export const ModalColumn = styled.div`
     left: 0;
     width: 335px;
     height: 600px;
+    @media ${(props) => props.theme.mobileM} {
+      width: 250px;
+    }
   }
 `;
 
