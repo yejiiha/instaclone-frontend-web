@@ -11,6 +11,16 @@ const Header = styled.div`
   display: flex;
 `;
 
+const Column = styled.div`
+  width: 100%;
+  &:first-child {
+    width: 30%;
+  }
+  &:last-child {
+    width: 70%;
+  }
+`;
+
 const Avatar = styled.img`
   margin-left: 50px;
   height: 150px;
@@ -23,11 +33,8 @@ const Avatar = styled.img`
     height: 77px;
     width: 77px;
     margin-right: 28px;
+    margin-left: 28px;
   }
-`;
-
-const Column = styled.div`
-  width: 100%;
 `;
 
 const Row = styled.div`
@@ -192,7 +199,9 @@ function ProfileHeader({
   if (!loading && data && data.seeFollowers) {
     return (
       <Header>
-        <Avatar src={avatar} />
+        <Column>
+          <Avatar src={avatar} />
+        </Column>
         <Column>
           <Row>
             <Username>{username}</Username>

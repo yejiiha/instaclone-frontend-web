@@ -155,7 +155,7 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
   const createRoomUpdate = (cache, result) => {
     const {
       data: {
-        createRoom: { ok, id },
+        createRoom: { ok, id, error },
       },
     } = result;
 
@@ -186,9 +186,13 @@ function CreateRoomModal({ createRoomModal, setCreateRoomModal }) {
           },
         },
       });
+      history.push(`/direct/t/${id}`);
+    }
+
+    if (!ok && error) {
+      alert(error);
     }
     setCreateRoomModal(!createRoomModal);
-    history.push(`/direct/t/${id}`);
   };
 
   const [createRoomMutation] = useMutation(CREATE_ROOM_MUTATION, {
